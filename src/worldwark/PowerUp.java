@@ -1,5 +1,5 @@
 package worldwark;
 
-public class PowerUp {
+public abstract class PowerUp extends GameObject {
     
 }

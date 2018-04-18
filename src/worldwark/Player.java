@@ -1,5 +1,5 @@
 package worldwark;
 
-public class Player {
+public abstract class Player extends GameObject {
     
 }
