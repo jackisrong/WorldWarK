@@ -1,9 +1,10 @@
 package worldwark;
 
-public class WorldWarK {
+import javax.swing.JPanel;
+
+public class WorldWarK extends JPanel {
 
     public static void main(String[] args) {
-	// i like penis
+
     }
-    
 }

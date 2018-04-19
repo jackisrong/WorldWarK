@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package worldwark;
 
-/**
- *
- * @author justi
- */
-public class Biplane {
+public class Biplane extends Enemy {
     
+    public int health() {
+	return 0;
+    }
+    
+    public int damage() {
+	return 0;
+    }
 }
