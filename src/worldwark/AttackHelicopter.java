@@ -2,11 +2,12 @@ package worldwark;
 
 public class AttackHelicopter extends Enemy {
 
-    public int health() {
-	return 0;
-    }
-
-    public int damage() {
-	return 0;
+    private int health;
+    private int damage;
+    
+    public AttackHelicopter(int xPos, int yPos, int health, int damage) {
+	super(xPos, yPos);
+	this.health = health;
+	this.damage = damage;
     }
 }

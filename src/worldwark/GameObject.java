@@ -2,13 +2,11 @@ package worldwark;
 
 public abstract class GameObject {
 
-    public int xPos() {
+    private int xPos;
+    private int yPos;
 
-	return 0;
-    }
-
-    public int yPos() {
-
-	return 0;
+    public GameObject(int xPos, int yPos) {
+	this.xPos = xPos;
+	this.yPos = yPos;
     }
 }
