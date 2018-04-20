@@ -3,13 +3,73 @@ package worldwark;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
-public class WorldWarK extends JPanel {
+public class WorldWarK extends JPanel implements Runnable {
+
+    private ArrayList<GameObject> objects = new ArrayList<GameObject>();
+    private boolean run = false;
+
+    public WorldWarK() {
+	JFrame frame = new JFrame("World War K");
+	objects.add(new Player(450, 350, 30, 20, 5, 100, 3));
+
+	setBackground(Color.black);
+	setPreferredSize(new Dimension(500, 500));
+	addKeyListener(new KeyboardControls());
+	addMouseListener(new MouseControls());
+	setFocusable(true);
+	frame.setSize(500, 500);
+	frame.setResizable(false);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+	frame.add(this);
+	frame.pack();
+	start();
+    }
+
+    public void start() {
+	Thread thread = new Thread(this);
+	run = true;
+	thread.start();
+    }
+
+    public void stop() {
+	run = false;
+    }
+
+    public void run() {
+	while (run) {
+	    // Check for collision, draw objects and sleep
+	    for (GameObject i : objects) {
+		i.update(this);
+	    }
+	    repaint();
+	    try {
+		Thread.sleep(17);
+	    } catch (Exception e) {
+	    }
+	}
+    }
+
+    public void paintComponent(Graphics g) {
+	super.paintComponent(g);
+	Graphics2D g2 = (Graphics2D) g;
+	for (GameObject i : objects) {
+	    i.paintComponent(g2);
+	}
+    }
+
+    public static void main(String[] args) {
+	WorldWarK panel = new WorldWarK();
+    }
 
     private class KeyboardControls implements KeyListener {
 
@@ -53,25 +113,5 @@ public class WorldWarK extends JPanel {
 
 	public void mouseExited(MouseEvent event) {
 	}
-    }
-
-    public WorldWarK() {
-	JFrame frame = new JFrame("World War K");
-
-	setBackground(Color.black);
-	setPreferredSize(new Dimension(500, 500));
-	addKeyListener(new KeyboardControls());
-	addMouseListener(new MouseControls());
-	setFocusable(true);
-	frame.setSize(500, 500);
-	frame.setResizable(false);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
-	frame.add(this);
-	frame.pack();
-    }
-
-    public static void main(String[] args) {
-	WorldWarK panel = new WorldWarK();
     }
 }
