@@ -14,19 +14,22 @@ import javax.swing.JPanel;
 
 public class WorldWarK extends JPanel implements Runnable {
 
+    public static WorldWarK panel;
+    private Player player;
     private ArrayList<GameObject> objects = new ArrayList<GameObject>();
     private boolean run = false;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
-	objects.add(new Player(450, 350, 30, 20, 5, 100, 3));
+	player = new Player(450, 350, 30, 20, 5, 100, 3);
+	// the player needs to get painted
 
 	setBackground(Color.black);
-	setPreferredSize(new Dimension(500, 500));
+	setPreferredSize(new Dimension(500, 800));
 	addKeyListener(new KeyboardControls());
 	addMouseListener(new MouseControls());
 	setFocusable(true);
-	frame.setSize(500, 500);
+	frame.setSize(500, 800);
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setVisible(true);
@@ -68,7 +71,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public static void main(String[] args) {
-	WorldWarK panel = new WorldWarK();
+	panel = new WorldWarK();
     }
 
     private class KeyboardControls implements KeyListener {
@@ -76,6 +79,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void keyPressed(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 		System.out.println("LEFT");
+		// MOVE THE PLAYER LEFT
+		player.update(panel);
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 		System.out.println("RIGHT");
 	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
