@@ -2,27 +2,22 @@ package worldwark;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import javafx.scene.input.MouseEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 public class WorldWarK extends JPanel {
 
-    private abstract class ControlPlayer implements KeyListener, MouseListener {
+    private class KeyboardControls implements KeyListener {
 
 	public void keyPressed(KeyEvent event) {
-	    switch (event.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-		    System.out.println("LEFT");
-		    break;
-		case KeyEvent.VK_RIGHT:
-		    System.out.println("RIGHT");
-		    break;
+	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+		System.out.println("LEFT");
+	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+		System.out.println("RIGHT");
 	    }
 	}
 
@@ -31,10 +26,16 @@ public class WorldWarK extends JPanel {
 
 	public void keyTyped(KeyEvent event) {
 	}
+    }
+
+    private class MouseControls implements MouseListener {
 
 	public void mouseClicked(MouseEvent event) {
-	    System.out.println("MOUSE CLICK");
-	    //balls.add(new Ball(event.getX(), event.getY(), 40, Color.WHITE, 0, 0, 1, 1, 15, .2));
+	    if (event.getButton() == MouseEvent.BUTTON1) {
+		System.out.println("LEFT CLICK");
+	    } else if (event.getButton() == MouseEvent.BUTTON3) {
+		System.out.println("RIGHT CLICK");
+	    }
 	}
 
 	public void mousePressed(MouseEvent event) {
@@ -50,24 +51,23 @@ public class WorldWarK extends JPanel {
 	}
     }
 
-    public static void main(String[] args) {
-        
-        JFrame frame = new JFrame("World War K");
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("YEEEEEEEEEEEEEEEEEEEEEEEEEEET");
-        JMenuBar menu = new JMenuBar();
-        
-        panel.setSize(3000, 3000);
-        panel.add(label);
-        panel.add(menu);
-        
-        frame.add(panel);
-        frame.setPreferredSize(new Dimension(500, 500));
-        frame.setContentPane(panel);
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+    public WorldWarK() {
+	JFrame frame = new JFrame("World War K");
 
+	setBackground(Color.black);
+	setPreferredSize(new Dimension(500, 500));
+	addKeyListener(new KeyboardControls());
+	addMouseListener(new MouseControls());
+	setFocusable(true);
+	frame.setSize(500, 500);
+	frame.setResizable(false);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+	frame.add(this);
+	frame.pack();
+    }
+
+    public static void main(String[] args) {
+	WorldWarK panel = new WorldWarK();
     }
 }
