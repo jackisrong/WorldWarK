@@ -7,8 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 public class WorldWarK extends JPanel {
@@ -20,6 +18,10 @@ public class WorldWarK extends JPanel {
 		System.out.println("LEFT");
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 		System.out.println("RIGHT");
+	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
+		System.out.println("SPACE");
+	    } else if (event.getKeyCode() == KeyEvent.VK_B) {
+		System.out.println("B");
 	    }
 	}
 
