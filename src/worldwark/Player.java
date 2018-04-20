@@ -19,9 +19,14 @@ public class Player extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, 15, 10);
     }
 
+    public void setXPosition(int xPos) {
+        this.xPos = xPos;
+    }
+    
     public int useBomb() {
 	return numberOfBombs--;
     }
+    
 
     public int pickUpBomb() {
 	return numberOfBombs++;
@@ -29,17 +34,6 @@ public class Player extends GameObject {
 
     public void update(WorldWarK panel) {
 	// Left wall impact
-	if (xPos + xSpeed < 0) {
-	    xPos = 0;
-	    xSpeed = -xSpeed;
-	} // Right wall impact
-	else if (xPos + xSpeed > panel.getWidth() - width - 1) {
-	    xPos = panel.getWidth() - width - 1;
-	    xSpeed = -xSpeed;
-	} // No horizontal impact
-	else {
-	    xPos += xSpeed;
-	}
     }
 
     public void paintComponent(Graphics2D g2) {
