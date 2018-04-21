@@ -25,11 +25,11 @@ public class Enemy extends GameObject {
 	// Left wall impact
         if (xPos + xSpeed < 0) {
 	    xPos = 0;
-	    xSpeed = -xSpeed;
+	    panel.deleteObject(this);
 	} // Right wall impact
 	else if (xPos + xSpeed > panel.getWidth() - width - 1) {
 	    xPos = panel.getWidth() - width - 1;
-	    xSpeed = -xSpeed;
+	    panel.deleteObject(this);
 	} else {
             xPos += xSpeed;
         }

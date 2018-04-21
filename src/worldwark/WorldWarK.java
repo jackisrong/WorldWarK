@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -22,6 +24,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
+    private Image img = Toolkit.getDefaultToolkit().createImage("background.jpg");
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");        
