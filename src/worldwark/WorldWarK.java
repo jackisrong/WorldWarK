@@ -39,11 +39,11 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.pack();
         
         player = new Player(this.getWidth() / 2, this.getHeight() - 40, 30, 20, 5, 100, 3);
-	// the player needs to get painted
         objects.add(player);
 	start();
     }
     
+    /*
     public ArrayList<GameObject> getObjects() {
         return objects;
     }
@@ -51,6 +51,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public void setObjects(ArrayList<GameObject> objects) {
         this.objects = objects;
     }
+*/
     
     public void deleteObject(GameObject gameObject) {
         finishedObjects.add(gameObject);
