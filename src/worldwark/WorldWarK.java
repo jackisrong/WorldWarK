@@ -43,16 +43,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	start();
     }
     
-    /*
-    public ArrayList<GameObject> getObjects() {
-        return objects;
-    }
-    
-    public void setObjects(ArrayList<GameObject> objects) {
-        this.objects = objects;
-    }
-*/
-    
     public void deleteObject(GameObject gameObject) {
         finishedObjects.add(gameObject);
     }
