@@ -41,7 +41,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
         
-        player = new Player(this.getWidth() / 2, this.getHeight() - 40, 30, 20, 5, 100, 3);
+        player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 3);
         objects.add(player);
 	start();
     }
@@ -109,8 +109,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void keyPressed(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 		System.out.println("LEFT");
-		// MOVE THE PLAYER LEFT
-		player.update(panel);
+		// TO-DO: MAKE SURE THE PLAYER CAN'T EXIT THE FRAME
+		player.moveLeft();
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 		System.out.println("RIGHT");
 	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -151,14 +151,14 @@ public class WorldWarK extends JPanel implements Runnable {
         
         // Sets x position of player when mouse is moved
         public void mouseMoved(MouseEvent event) {
-            System.out.println("Trigged");
+            ///System.out.println("Trigged");
             player.setXPosition(event.getX());
         }
         
         // Sets x position of player when mouse is clicked and dragged
         // Don't know if this is necessary but just in case
         public void mouseDragged(MouseEvent event) {
-            System.out.println("Trigged");
+            //System.out.println("Trigged");
             player.setXPosition(event.getX());
         }
     }
