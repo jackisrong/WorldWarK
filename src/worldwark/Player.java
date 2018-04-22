@@ -28,6 +28,12 @@ public class Player extends GameObject {
 	    xPos -= 10;
 	}	
     }
+    
+    public void moveRight() {
+	if (xPos < 500 - width) {
+	    xPos += 10;
+	}	
+    }
 
     public void setXPosition(int xPos) {
 	this.xPos = xPos;
@@ -51,7 +57,7 @@ public class Player extends GameObject {
 	// This accidently adds the background image LOL
 	BufferedImage image;
 	try {
-	    image = ImageIO.read(new File("background.jpg"));
+	    image = ImageIO.read(new File("assets/img/background.jpg"));
 	} catch (IOException e) {
 	    image = null;
 	}
@@ -66,7 +72,7 @@ public class Player extends GameObject {
 	// Puts the player image on the player
 	BufferedImage playerImage;
 	try {
-	    playerImage = ImageIO.read(new File("player.png"));
+	    playerImage = ImageIO.read(new File("assets/img/player.png"));
 	} catch (IOException e) {
 	    System.out.println("ERROR: player.png cannot be read.");
 	    playerImage = null;

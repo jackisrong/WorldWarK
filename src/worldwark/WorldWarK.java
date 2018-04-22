@@ -113,6 +113,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		player.moveLeft();
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 		System.out.println("RIGHT");
+		player.moveRight();
 	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 		System.out.println("SPACE");
 	    } else if (event.getKeyCode() == KeyEvent.VK_B) {
