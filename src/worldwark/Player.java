@@ -23,16 +23,16 @@ public class Player extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public void moveLeft() {
+    public void keyboardMoveLeft() {
 	if (xPos > 0) {
 	    xPos -= 10;
-	}	
+	}
     }
-    
-    public void moveRight() {
+
+    public void keyboardMoveRight() {
 	if (xPos < 500 - width) {
 	    xPos += 10;
-	}	
+	}
     }
 
     public void setXPosition(int xPos) {
@@ -48,21 +48,10 @@ public class Player extends GameObject {
     }
 
     public void update(WorldWarK panel) {
-	// Left wall impact
     }
 
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
-
-	// This accidently adds the background image LOL
-	BufferedImage image;
-	try {
-	    image = ImageIO.read(new File("assets/img/background.jpg"));
-	} catch (IOException e) {
-	    System.out.println("ERROR: background.jpg cannot be read.");
-	    image = null;
-	}
-	g2.drawImage(image, 0, 0, null);
 
 	// Draw player rectangle/hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);

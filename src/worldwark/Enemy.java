@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Enemy extends GameObject {
@@ -18,7 +17,7 @@ public class Enemy extends GameObject {
     private Rectangle2D rectangle;
     private int typeOfEnemy;
 
-    public Enemy(int xPos, int yPos, int width, int height, int ySpeed, int xSpeed, int health, int typeOfEnemy) {
+    public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy) {
 	super(xPos, yPos, width, height);
         this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;

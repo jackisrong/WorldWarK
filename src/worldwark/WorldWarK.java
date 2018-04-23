@@ -12,9 +12,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -28,7 +31,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
-    private Image img = Toolkit.getDefaultToolkit().createImage("background.jpg");
+    //private Image img = Toolkit.getDefaultToolkit().createImage("background.jpg");
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -75,16 +78,16 @@ public class WorldWarK extends JPanel implements Runnable {
 		int health = rand.nextInt(60) + 40;
 		int xSpeed = rand.nextInt(20) - 10;
 		xSpeed = xSpeed == 0 ? 1 : xSpeed;
-		Enemy enemy = new Enemy(xPos, 0, 15, 15, ySpeed, xSpeed, health, 0);
+		Enemy enemy = new Enemy(xPos, 0, 64, 64, xSpeed, ySpeed, health, 0);
 		objects.add(enemy);
 		spawnTimer = 0;
 	    }
-	    
+
 	    // Check for collision, draw objects and sleep
 	    for (GameObject i : objects) {
 		i.update(this);
 	    }
-	    
+
 	    // Removes objects from list so there wont be a wack exception!!
 	    for (GameObject i : finishedObjects) {
 		objects.remove(i);
@@ -98,9 +101,21 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {	
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
+	
+	// Add background image
+	BufferedImage image;
+	try {
+	    image = ImageIO.read(new File("assets/img/background.jpg"));
+	} catch (IOException e) {
+	    System.out.println("ERROR: background.jpg cannot be read.");
+	    image = null;
+	}
+	g2.drawImage(image, 0, 0, null);
+	
+	// Paint all GameObjects
 	for (GameObject i : objects) {
 	    i.paintComponent(g2);
 	}
@@ -108,7 +123,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void playSound(int sound) {
 	String file = "";
-	
+
 	// Choose sound to play based on parameter
 	switch (sound) {
 	    case 0:
@@ -121,7 +136,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		file = "Death";
 		break;
 	}
-	
+
 	// Play sound file
 	try {
 	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/sounds/" + file + ".wav"));
@@ -142,10 +157,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void keyPressed(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
 		//System.out.println("LEFT");
-		player.moveLeft();
+		player.keyboardMoveLeft();
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
 		//System.out.println("RIGHT");
-		player.moveRight();
+		player.keyboardMoveRight();
 	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 		System.out.println("SPACE");
 		//playSound(0);
