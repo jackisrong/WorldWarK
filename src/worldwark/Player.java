@@ -59,6 +59,7 @@ public class Player extends GameObject {
 	try {
 	    image = ImageIO.read(new File("assets/img/background.jpg"));
 	} catch (IOException e) {
+	    System.out.println("ERROR: background.jpg cannot be read.");
 	    image = null;
 	}
 	g2.drawImage(image, 0, 0, null);
