@@ -75,7 +75,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		int health = rand.nextInt(60) + 40;
 		int xSpeed = rand.nextInt(20) - 10;
 		xSpeed = xSpeed == 0 ? 1 : xSpeed;
-		Enemy enemy = new Enemy(xPos, 0, 15, 15, ySpeed, xSpeed, health);
+		Enemy enemy = new Enemy(xPos, 0, 15, 15, ySpeed, xSpeed, health, 0);
 		objects.add(enemy);
 		spawnTimer = 0;
 	    }

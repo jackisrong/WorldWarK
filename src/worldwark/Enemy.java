@@ -3,7 +3,11 @@ package worldwark;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 public class Enemy extends GameObject {
     
@@ -12,13 +16,15 @@ public class Enemy extends GameObject {
     private int health;
     private int numberOfBombs;
     private Rectangle2D rectangle;
+    private int typeOfEnemy;
 
-    public Enemy(int xPos, int yPos, int width, int height, int ySpeed, int xSpeed, int health) {
+    public Enemy(int xPos, int yPos, int width, int height, int ySpeed, int xSpeed, int health, int typeOfEnemy) {
 	super(xPos, yPos, width, height);
         this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
 	this.health = health;
-	rectangle = new Rectangle2D.Double(xPos, yPos, 15, 10);
+	this.typeOfEnemy = typeOfEnemy;
+	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
     
      public void update(WorldWarK panel) {
@@ -41,12 +47,30 @@ public class Enemy extends GameObject {
             yPos += ySpeed;
         }
     }
-     
-     // Paints the enemy
+
      public void paintComponent(Graphics2D g2) {
-	rectangle.setFrame(xPos, yPos, 15, 10);
-	g2.setColor(Color.WHITE);
+	rectangle.setFrame(xPos, yPos, width, height);
+	
+	// Draw player rectangle/hitbox
+	Color transparentColor = new Color(0, 0, 0, 0);
+	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
+
+	// Puts the player image on the player
+	BufferedImage enemyImage;
+	try {
+	    if (typeOfEnemy == 0) {
+		enemyImage = ImageIO.read(new File("assets/img/helicopter.png"));
+	    } else {
+		System.out.println("ERROR: Specified enemy type doesn't have an image.");
+		enemyImage = null;
+	    }
+	} catch (IOException e) {
+	    System.out.println("ERROR: Enemy image cannot be read.");
+	    enemyImage = null;
+	}
+	g2.setClip(rectangle);
+	g2.drawImage(enemyImage, xPos, yPos, null);
     }
 }
