@@ -108,11 +108,10 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	public void keyPressed(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-		System.out.println("LEFT");
-		// TO-DO: MAKE SURE THE PLAYER CAN'T EXIT THE FRAME
+		//System.out.println("LEFT");
 		player.moveLeft();
 	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-		System.out.println("RIGHT");
+		//System.out.println("RIGHT");
 		player.moveRight();
 	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 		System.out.println("SPACE");
