@@ -74,15 +74,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	while (run) {
 	    // Spawns enemies every 2 seconds at random speeds, health, and positions
 	    if (spawnTimer >= 2000) {
-		Random rand = new Random();
-		int xPos = 50;
-		int ySpeed = rand.nextInt(10) + 1;
-		int health = rand.nextInt(60) + 40;
-		int xSpeed = 0;
-		xSpeed = xSpeed == 0 ? 1 : xSpeed;
-		Enemy enemy = new Enemy(xPos, 0, 64, 64, xSpeed, ySpeed, health, 0);
-		objects.add(enemy);
-		spawnTimer = 0;
+                spawnEnemy(this);
 	    }
 
 	    // Check for collision, draw objects and sleep
@@ -221,6 +213,89 @@ public class WorldWarK extends JPanel implements Runnable {
 	} else {
 	    System.out.println("ERROR: Specified audio file does not exist.");
 	}
+    }
+        public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
+        int xPos;
+        int ySpeed;
+        int health;
+        int xSpeed;
+        Random rand = new Random();
+        int choose = rand.nextInt(5) + 1;
+        if (score <= 2500) { //First Tier of enemies
+            switch (choose) {
+                case 1:
+                    Enemy enemyLeft = new Enemy(50, 0, 64, 64, 0, 10, 50, 0);
+                    Enemy enemyRight = new Enemy(385, 0, 64, 64, 0, 10, 50, 0);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
+                    break;
+                case 2:
+                    enemyLeft = new Enemy(100, 0, 64, 64, 0, 25, 15, 0);
+                    enemyRight = new Enemy(300, 0, 64, 64, 0, 25, 15, 0);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
+                    break;
+                case 3:
+                    enemyLeft = new Enemy(250, 0, 64, 64, 0, 5, 50, 0);
+                    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
+                    break;
+                case 4:
+                    enemyLeft = new Enemy(25, 0, 64, 64, 0, 30, 50, 0);
+                    enemyRight = new Enemy(150, 0, 64, 64, 0, 30, 50, 0);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
+                    break;
+                case 5:
+                    enemyLeft = new Enemy(250, 0, 64, 64, 0, 25, 50, 0);
+                    enemyRight = new Enemy(250, 0, 64, 64, 0, 25, 50, 0);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
+                    break;
+            }
+        } else if (score > 2500 && score <= 5000) { //Second Tier of Enemies
+            switch (choose) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score > 5000 && score <= 7500) { // Third Tier of Enemies
+            switch (choose) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score >= 10000) { // Boss summoned as well as the fifth tier of enemies
+            switch (choose) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        spawnTimer = 0;
     }
 
     public static void main(String[] args) {
