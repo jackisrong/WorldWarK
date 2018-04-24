@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -31,7 +29,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
-    //private Image img = Toolkit.getDefaultToolkit().createImage("background.jpg");
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -48,7 +45,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
 
-	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 3);
+	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
 	objects.add(player);
 	start();
     }
@@ -67,10 +64,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	run = false;
     }
 
+    @Override
     public void run() {
 	while (run) {
 	    // Spawns enemies every 2 seconds at random speeds, health, and positions
-	    // If you want, you can set your own set health but i just made it random for now
 	    if (spawnTimer >= 2000) {
 		Random rand = new Random();
 		int xPos = rand.nextInt(this.getWidth()) + 1;
@@ -96,15 +93,17 @@ public class WorldWarK extends JPanel implements Runnable {
 	    try {
 		Thread.sleep(17);
 		spawnTimer += 17;
-	    } catch (Exception e) {
+	    } catch (InterruptedException e) {
+		System.out.println("ERROR: Thread.sleep(17) has been interrupted.");
 	    }
 	}
     }
 
-    public void paintComponent(Graphics g) {	
+    @Override
+    public void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
-	
+
 	// Add background image
 	BufferedImage image;
 	try {
@@ -114,7 +113,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    image = null;
 	}
 	g2.drawImage(image, 0, 0, null);
-	
+
 	// Paint all GameObjects
 	for (GameObject i : objects) {
 	    i.paintComponent(g2);
@@ -122,29 +121,36 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void playSound(int sound) {
-	String file = "";
+	String file;
 
 	// Choose sound to play based on parameter
 	switch (sound) {
 	    case 0:
-		file = "GoGoGo";
+		file = "shoot";
 		break;
 	    case 1:
-		file = "RockAndRoll";
+		file = "bomb";
 		break;
 	    case 2:
-		file = "Death";
+		file = "death";
+		break;
+	    default:
+		file = null;
 		break;
 	}
 
 	// Play sound file
-	try {
-	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/sounds/" + file + ".wav"));
-	    Clip clip = AudioSystem.getClip();
-	    clip.open(audioIn);
-	    clip.start();
-	} catch (Exception e) {
-	    System.out.println("ERROR: " + file + ".wav cannot be played.");
+	if (file != null) {
+	    try {
+		AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/sounds/" + file + ".wav"));
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioIn);
+		clip.start();
+	    } catch (Exception e) {
+		System.out.println("ERROR: " + file + ".wav cannot be played.");
+	    }
+	} else {
+	    System.out.println("ERROR: Specified audio file does not exist.");
 	}
     }
 
@@ -155,17 +161,23 @@ public class WorldWarK extends JPanel implements Runnable {
     private class KeyboardControls implements KeyListener {
 
 	public void keyPressed(KeyEvent event) {
-	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-		//System.out.println("LEFT");
-		player.keyboardMoveLeft();
-	    } else if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-		//System.out.println("RIGHT");
-		player.keyboardMoveRight();
-	    } else if (event.getKeyCode() == KeyEvent.VK_SPACE) {
-		System.out.println("SPACE");
-		//playSound(0);
-	    } else if (event.getKeyCode() == KeyEvent.VK_B) {
-		System.out.println("B");
+	    // Keyboard controls
+	    switch (event.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+		    player.keyboardMoveLeft();
+		    break;
+		case KeyEvent.VK_RIGHT:
+		    player.keyboardMoveRight();
+		    break;
+		case KeyEvent.VK_SPACE:
+		    System.out.println("SPACE");
+		    playSound(0);
+		    break;
+		case KeyEvent.VK_B:
+		    System.out.println("B");
+		    break;
+		default:
+		    break;
 	    }
 	}
 
@@ -179,6 +191,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private class MouseControls implements MouseListener, MouseMotionListener {
 
 	public void mouseClicked(MouseEvent event) {
+	    // Mouse click controls
 	    if (event.getButton() == MouseEvent.BUTTON1) {
 		System.out.println("LEFT CLICK");
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {
@@ -198,16 +211,13 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void mouseExited(MouseEvent event) {
 	}
 
-	// Sets x position of player when mouse is moved
 	public void mouseMoved(MouseEvent event) {
-	    ///System.out.println("Trigged");
+	    // Sets x position of player when mouse is moved
 	    player.setXPosition(event.getX());
 	}
 
-	// Sets x position of player when mouse is clicked and dragged
-	// Don't know if this is necessary but just in case
 	public void mouseDragged(MouseEvent event) {
-	    //System.out.println("Trigged");
+	    // Sets x position of player when mouse is clicked and dragged
 	    player.setXPosition(event.getX());
 	}
     }

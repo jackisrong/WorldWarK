@@ -12,35 +12,52 @@ public class Player extends GameObject {
 
     private int xSpeed;
     private int health;
+    private int weapon;
     private int numberOfBombs;
-    private Rectangle2D rectangle;
+    private Rectangle2D playerBox;
 
-    public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int numberOfBombs) {
+    public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int weapon, int numberOfBombs) {
 	super(xPos, yPos, width, height);
 	this.xSpeed = xSpeed;
 	this.health = health;
+	this.weapon = weapon;
 	this.numberOfBombs = numberOfBombs;
-	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+	playerBox = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
     public void keyboardMoveLeft() {
-	if (xPos > 0) {
+	if (xPos > -width / 2) {
 	    xPos -= 10;
+	    if (xPos < -width / 2) {
+		xPos = -width / 2;
+	    }
 	}
     }
 
     public void keyboardMoveRight() {
-	if (xPos < 500 - width) {
+	if (xPos < 500 - width / 2) {
 	    xPos += 10;
+	    if (xPos > 500 - width / 2) {
+		xPos = 500 - width / 2;
+	    }
 	}
     }
 
     public void setXPosition(int xPos) {
-	this.xPos = xPos;
+	this.xPos = xPos - width / 2;
+    }
+
+    public void weaponUpgraded() {
+	if (weapon < 5) {
+	    weapon++;
+	}
     }
 
     public int useBomb() {
-	return numberOfBombs--;
+	if (numberOfBombs > 0) {
+	    return numberOfBombs--;
+	}
+	return numberOfBombs;
     }
 
     public int pickUpBomb() {
@@ -51,13 +68,13 @@ public class Player extends GameObject {
     }
 
     public void paintComponent(Graphics2D g2) {
-	rectangle.setFrame(xPos, yPos, width, height);
+	playerBox.setFrame(xPos, yPos, width, height);
 
-	// Draw player rectangle/hitbox
+	// Draw player playerBox/hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
-	g2.draw(rectangle);
+	g2.fill(playerBox);
+	g2.draw(playerBox);
 
 	// Puts the player image on the player
 	BufferedImage playerImage;
@@ -67,7 +84,7 @@ public class Player extends GameObject {
 	    System.out.println("ERROR: player.png cannot be read.");
 	    playerImage = null;
 	}
-	g2.setClip(rectangle);
+	g2.setClip(playerBox);
 	g2.drawImage(playerImage, xPos, yPos, null);
     }
 }
