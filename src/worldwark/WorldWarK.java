@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public static WorldWarK panel;
     private static int spawnTimer = 0;
     private Player player;
+    private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
@@ -112,6 +114,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Graphics2D g2 = (Graphics2D) g;
 
 	if (run == false) {
+	    // Paint start screen
 	    BufferedImage image;
 	    try {
 		image = ImageIO.read(new File("assets/img/background.jpg"));
@@ -131,9 +134,13 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.drawString("Artistic Envisionist: Justin Tran", 25, 600);
 
 	    g2.setColor(Color.RED);
-	    g2.drawRect(380, 750, 100, 40);
-	    g2.drawString("CREDITS", 400, 750);
+	    Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
+	    startScreenButtons.add(creditsBox);
+	    g2.draw(creditsBox);
+	    //g2.drawRect(380, 750, 100, 40);
+	    g2.drawString("CREDITS", 386, 778);
 	} else {
+	    // Paint game
 	    // Add background image
 	    BufferedImage image;
 	    try {
@@ -229,6 +236,17 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void mouseClicked(MouseEvent event) {
 	    // Mouse click controls
 	    if (event.getButton() == MouseEvent.BUTTON1) {
+		if (run == false) {
+		    // check x and y coords
+		    // see if it is contained in a button area
+		    for (Rectangle2D i : startScreenButtons) {
+			if (i.contains(event.getPoint())) {
+			    System.out.println("Clicked a " + i);
+			}
+		    }
+		} else {
+		    // shoot
+		}
 		System.out.println("LEFT CLICK");
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {
 		System.out.println("RIGHT CLICK");
