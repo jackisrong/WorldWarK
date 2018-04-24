@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -131,9 +132,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.setFont(font1);
 	    g2.drawString("World War K", 25, 100);
 	    g2.drawString("Press SPACE to start", 25, 525);
-	    g2.drawString("Credits", 25, 550);
-	    g2.drawString("In loving memory of JPlays... RIP. Long live DapperQuokka.", 25, 575);
-	    g2.drawString("Artistic Envisionist: Justin Tran", 25, 600);
 
 	    g2.setColor(Color.RED);
 	    Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
@@ -144,19 +142,37 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	    if (clickedStartScreenButton != null) {
 		if (clickedStartScreenButton.equals(creditsBox)) {
-		    System.out.println("hu");
+		    // Draw background rectangle
 		    g2.setColor(new Color(0, 0, 0, 250));
-		    Rectangle2D creditsBackground = new Rectangle2D.Double(50, 80, 400, 700);
-		    g2.fill(creditsBackground);
-		    g2.draw(creditsBackground);
+		    g2.fillRect(50, 80, 400, 700);
+		    //g2.fill(creditsBackground);
+		    //g2.draw(creditsBackground);
 
+		    // Draw close button
+		    // THIS IS IN TESTING PHASE
+		    g2.setColor(Color.RED);
+		    g2.fillRect(370, 80, 80, 30);
+		    g2.setColor(Color.WHITE);
+		    g2.drawString("CLOSE", 378, 102);
+		    
+		    // Draw text
 		    Font font2 = new Font("Comic Sans MS", Font.BOLD, 40);
 		    g2.setColor(Color.CYAN);
+
 		    g2.setFont(font2);
 		    g2.drawString("CREDITS", 150, 130);
-		    
 		    g2.setFont(font1);
-		    //g2.drawString("I CLICKED A BUTTON", 100, 100);
+		    g2.drawString("In loving memory of JPlays.", 120, 170);
+		    g2.setColor(Color.PINK);
+		    g2.drawString("Lead Programmer: LORD Omar Qayum", 70, 230);
+		    g2.drawString("Programming Team: Jack Rong", 70, 260);
+		    g2.drawString("Justin Tran", 260, 280);
+		    g2.drawString("Krista Tian", 260, 300);
+		    g2.drawString("Artistic Envisionist: Justin Tran", 70, 330);
+		    g2.drawString("Original Artwork: Justin Tran", 70, 360);
+		    g2.drawString("Testing Team: Brian Wu", 70, 390);
+
+		    g2.drawString("Currently there's no way to close this window LOL", 30, 500);
 		}
 	    }
 	} else {
@@ -229,7 +245,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    break;
 		case KeyEvent.VK_SPACE:
 		    System.out.println("SPACE");
-		    if (run == false) {
+		    if (run == false && clickedStartScreenButton == null) {
 			start();
 		    } else {
 			// shoot
