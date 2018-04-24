@@ -30,6 +30,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
+    private int score;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -77,10 +78,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Spawns enemies every 2 seconds at random speeds, health, and positions
 	    if (spawnTimer >= 2000) {
 		Random rand = new Random();
-		int xPos = rand.nextInt(this.getWidth()) + 1;
+		int xPos = 50;
 		int ySpeed = rand.nextInt(10) + 1;
 		int health = rand.nextInt(60) + 40;
-		int xSpeed = rand.nextInt(20) - 10;
+		int xSpeed = 0;
 		xSpeed = xSpeed == 0 ? 1 : xSpeed;
 		Enemy enemy = new Enemy(xPos, 0, 64, 64, xSpeed, ySpeed, health, 0);
 		objects.add(enemy);

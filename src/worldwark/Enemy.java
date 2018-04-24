@@ -16,65 +16,123 @@ public class Enemy extends GameObject {
     private int numberOfBombs;
     private Rectangle2D rectangle;
     private int typeOfEnemy;
+    private int rnd;
+    private int score;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy) {
-	super(xPos, yPos, width, height);
-	this.xSpeed = xSpeed;
-	this.ySpeed = ySpeed;
-	this.health = health;
-	this.typeOfEnemy = typeOfEnemy;
-	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+        super(xPos, yPos, width, height);
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+        this.health = health;
+        this.typeOfEnemy = typeOfEnemy;
+        rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public void update(WorldWarK panel) {
-	// Left wall impact
-	if (xPos + xSpeed < 0) {
-	    xPos = 0;
-	    panel.deleteObject(this);
-	} // Right wall impact
-	else if (xPos + xSpeed > panel.getWidth() - width - 1) {
-	    xPos = panel.getWidth() - width - 1;
-	    panel.deleteObject(this);
-	} else {
-	    xPos += xSpeed;
-	}
+    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
+        if (score <= 2500) { //First Tier of enemies
+            switch (rnd) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score <= 5000 && score > 2500) { //Second Tier of Enemies
+            switch (rnd) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score <= 7500 && score > 5000) { // Third Tier of Enemies
+            switch (rnd) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score >= 10000) { // Boss summoned as well as the fifth tier of enemies
+                       switch (rnd) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        }
+    } 
 
-	// Deletes the object once it has passed the bottom of the frame
-	if (yPos > panel.getHeight() - height - 1) {
-	    panel.deleteObject(this);
-	} else {
-	    yPos += ySpeed;
-	}
+    public void update(WorldWarK panel) {
+        // Left wall impact
+        if (xPos + xSpeed < 0) {
+            xPos = 0;
+            panel.deleteObject(this);
+        } // Right wall impact
+        else if (xPos + xSpeed > panel.getWidth() - width - 1) {
+            xPos = panel.getWidth() - width - 1;
+            panel.deleteObject(this);
+        } else {
+            xPos += xSpeed;
+        }
+
+        // Deletes the object once it has passed the bottom of the frame
+        if (yPos > panel.getHeight() - height - 1) {
+            panel.deleteObject(this);
+        } else {
+            yPos += ySpeed;
+        }
     }
 
     public void paintComponent(Graphics2D g2) {
-	rectangle.setFrame(xPos, yPos, width, height);
+        rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw enemy rectangle/hitbox
-	Color transparentColor = new Color(0, 0, 0, 0);
-	g2.setColor(transparentColor);
-	g2.fill(rectangle);
-	g2.draw(rectangle);
+        // Draw enemy rectangle/hitbox
+        Color transparentColor = new Color(0, 0, 0, 0);
+        g2.setColor(transparentColor);
+        g2.fill(rectangle);
+        g2.draw(rectangle);
 
-	// Puts appropriate enemy image on the enemy
-	BufferedImage enemyImage;
-	String fileName;
-	if (typeOfEnemy == 0) {
-	    fileName = "helicopter";
-	} else {
-	    System.out.println("ERROR: Specified enemy type doesn't have an image.");
-	    fileName = null;
-	}
+        // Puts appropriate enemy image on the enemy
+        BufferedImage enemyImage;
+        String fileName;
+        if (typeOfEnemy == 0) {
+            fileName = "helicopter";
+        } else {
+            System.out.println("ERROR: Specified enemy type doesn't have an image.");
+            fileName = null;
+        }
 
-	if (fileName != null) {
-	    try {
-		enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
-	    } catch (IOException e) {
-		System.out.println("ERROR: " + fileName + ".png cannot be read.");
-		enemyImage = null;
-	    }
-	    g2.setClip(rectangle);
-	    g2.drawImage(enemyImage, xPos, yPos, null);
-	}
+        if (fileName != null) {
+            try {
+                enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+            } catch (IOException e) {
+                System.out.println("ERROR: " + fileName + ".png cannot be read.");
+                enemyImage = null;
+            }
+            g2.setClip(rectangle);
+            g2.drawImage(enemyImage, xPos, yPos, null);
+        }
     }
 }
