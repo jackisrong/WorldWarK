@@ -53,17 +53,10 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
 	objects.add(player);
-	//start();
     }
 
     public void deleteObject(GameObject gameObject) {
 	finishedObjects.add(gameObject);
-    }
-
-    public void startScreen() {
-	Graphics2D g2 = null;
-	g2.drawRect(0, 0, 100, 100);
-	g2.setColor(Color.BLUE);
     }
 
     public void start() {
@@ -117,7 +110,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Graphics2D g2 = (Graphics2D) g;
 
 	if (run == false) {
-	    // Paint start screen
+	    // Paint start screen background
 	    BufferedImage image;
 	    try {
 		image = ImageIO.read(new File("assets/img/background.jpg"));
@@ -127,42 +120,41 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	    g2.drawImage(image, 0, 0, null);
 
+	    // Paint start instructions
 	    Font font1 = new Font("Comic Sans MS", Font.PLAIN, 20);
 	    g2.setColor(new Color(255, 215, 0));
 	    g2.setFont(font1);
 	    g2.drawString("World War K", 25, 100);
 	    g2.drawString("Press SPACE to start", 25, 525);
 
+	    // Paint credits button
 	    g2.setColor(Color.RED);
 	    Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
 	    startScreenButtons.add(creditsBox);
 	    g2.draw(creditsBox);
-	    //g2.drawRect(380, 750, 100, 40);
 	    g2.drawString("CREDITS", 386, 778);
 
 	    if (clickedStartScreenButton != null) {
 		if (clickedStartScreenButton.equals(creditsBox)) {
-		    // Draw background rectangle
+		    // Draw window background rectangle
 		    g2.setColor(new Color(0, 0, 0, 250));
 		    g2.fillRect(50, 80, 400, 700);
-		    //g2.fill(creditsBackground);
-		    //g2.draw(creditsBackground);
 
 		    // Draw close button
-		    // THIS IS IN TESTING PHASE
 		    g2.setColor(Color.RED);
-		    g2.fillRect(370, 80, 80, 30);
+		    Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+		    g2.fill(closeButton);
+		    startScreenButtons.add(closeButton);
 		    g2.setColor(Color.WHITE);
 		    g2.drawString("CLOSE", 378, 102);
-		    
+
 		    // Draw text
 		    Font font2 = new Font("Comic Sans MS", Font.BOLD, 40);
 		    g2.setColor(Color.CYAN);
-
 		    g2.setFont(font2);
-		    g2.drawString("CREDITS", 150, 130);
+		    g2.drawString("CREDITS", 150, 150);
 		    g2.setFont(font1);
-		    g2.drawString("In loving memory of JPlays.", 120, 170);
+		    g2.drawString("In loving memory of JPlays.", 120, 180);
 		    g2.setColor(Color.PINK);
 		    g2.drawString("Lead Programmer: LORD Omar Qayum", 70, 230);
 		    g2.drawString("Programming Team: Jack Rong", 70, 260);
@@ -171,13 +163,16 @@ public class WorldWarK extends JPanel implements Runnable {
 		    g2.drawString("Artistic Envisionist: Justin Tran", 70, 330);
 		    g2.drawString("Original Artwork: Justin Tran", 70, 360);
 		    g2.drawString("Testing Team: Brian Wu", 70, 390);
-
-		    g2.drawString("Currently there's no way to close this window LOL", 30, 500);
+		    g2.drawString("Justin Reiter", 205, 410);
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+		    // Clear credits window if close button is pressed
+		    clickedStartScreenButton = null;
+		    startScreenButtons.clear();
+		    repaint();
 		}
 	    }
 	} else {
-	    // Paint game
-	    // Add background image
+	    // Paint game background image
 	    BufferedImage image;
 	    try {
 		image = ImageIO.read(new File("assets/img/background.jpg"));
@@ -244,7 +239,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    player.keyboardMoveRight();
 		    break;
 		case KeyEvent.VK_SPACE:
-		    System.out.println("SPACE");
+		    //System.out.println("SPACE");
 		    if (run == false && clickedStartScreenButton == null) {
 			start();
 		    } else {
@@ -253,7 +248,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 		    break;
 		case KeyEvent.VK_B:
-		    System.out.println("B");
+		    // launch bomb
 		    break;
 		default:
 		    break;
@@ -277,7 +272,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    // see if it is contained in a button area
 		    for (Rectangle2D i : startScreenButtons) {
 			if (i.contains(event.getPoint())) {
-			    System.out.println("Clicked a " + i);
+			    //System.out.println("Clicked a " + i);
 			    clickedStartScreenButton = i;
 			    repaint();
 			}
@@ -285,9 +280,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		} else {
 		    // shoot
 		}
-		System.out.println("LEFT CLICK");
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {
-		System.out.println("RIGHT CLICK");
+		// launch bomb
 	    }
 	}
 
