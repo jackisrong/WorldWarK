@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Enemy extends GameObject {
@@ -28,8 +29,57 @@ public class Enemy extends GameObject {
         rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
-        if (score <= 2500) { //First Tier of enemies
+/*    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
+        int xPos;
+        int ySpeed;
+        int health;
+        int xSpeed;
+
+         if (score <= 2500) { //First Tier of enemies
+            switch (rnd) {
+                case 1:
+                    if (spawnTimer >= 2000) {
+                        xPos = 150;
+                        ySpeed = 20;
+                        health = 50;
+                        xSpeed = 0;
+                        Enemy enemy = new Enemy(xPos, 0, 64, 64, xSpeed, ySpeed, health, 0);
+                        objects.add(enemy);
+                        xPos = 350;
+                        ySpeed = 20;
+                        health = 50;
+                        xSpeed = 0;
+                        Enemy enemy = new Enemy(xPos, 0, 64, 64, xSpeed, ySpeed, health, 0);
+                        objects.add(enemy);
+                        spawnTimer = 0;
+
+                    }
+                    // Check for collision, draw objects and sleep
+                    for (GameObject i : objects) {
+                        i.update(this);
+                    }
+                    // Removes objects from list so there wont be a wack exception!!
+                    for (GameObject i : finishedObjects) {
+                        objects.remove(i);
+                    }
+                    repaint();
+                    try {
+                        Thread.sleep(17);
+                        spawnTimer += 17;
+                    } catch (InterruptedException e) {
+                        System.out.println("ERROR: Thread.sleep(17) has been interrupted.");
+                    }
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }
+        } else if (score > 2500 && score <= 5000) { //Second Tier of Enemies
             switch (rnd) {
                 case 1:
                     break;
@@ -42,20 +92,7 @@ public class Enemy extends GameObject {
                 case 5:
                     break;
             }
-        } else if (score <= 5000 && score > 2500) { //Second Tier of Enemies
-            switch (rnd) {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-            }
-        } else if (score <= 7500 && score > 5000) { // Third Tier of Enemies
+        } else if (score > 5000 && score <= 7500) { // Third Tier of Enemies
             switch (rnd) {
                 case 1:
                     break;
@@ -69,7 +106,7 @@ public class Enemy extends GameObject {
                     break;
             }
         } else if (score >= 10000) { // Boss summoned as well as the fifth tier of enemies
-                       switch (rnd) {
+            switch (rnd) {
                 case 1:
                     break;
                 case 2:
@@ -82,8 +119,8 @@ public class Enemy extends GameObject {
                     break;
             }
         }
-    } 
-
+    }
+*/
     public void update(WorldWarK panel) {
         // Left wall impact
         if (xPos + xSpeed < 0) {
