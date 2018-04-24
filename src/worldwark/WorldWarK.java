@@ -3,6 +3,7 @@ package worldwark;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -47,11 +48,17 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
 	objects.add(player);
-	start();
+	//start();
     }
 
     public void deleteObject(GameObject gameObject) {
 	finishedObjects.add(gameObject);
+    }
+
+    public void startScreen() {
+	Graphics2D g2 = null;
+	g2.drawRect(0, 0, 100, 100);
+	g2.setColor(Color.BLUE);
     }
 
     public void start() {
@@ -104,19 +111,43 @@ public class WorldWarK extends JPanel implements Runnable {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 
-	// Add background image
-	BufferedImage image;
-	try {
-	    image = ImageIO.read(new File("assets/img/background.jpg"));
-	} catch (IOException e) {
-	    System.out.println("ERROR: background.jpg cannot be read.");
-	    image = null;
-	}
-	g2.drawImage(image, 0, 0, null);
+	if (run == false) {
+	    BufferedImage image;
+	    try {
+		image = ImageIO.read(new File("assets/img/background.jpg"));
+	    } catch (IOException e) {
+		System.out.println("ERROR: background.jpg cannot be read.");
+		image = null;
+	    }
+	    g2.drawImage(image, 0, 0, null);
 
-	// Paint all GameObjects
-	for (GameObject i : objects) {
-	    i.paintComponent(g2);
+	    Font font1 = new Font("Comic Sans MS", Font.PLAIN, 20);
+	    g2.setColor(new Color(255, 215, 0));
+	    g2.setFont(font1);
+	    g2.drawString("World War K", 25, 100);
+	    g2.drawString("Press SPACE to start", 25, 525);
+	    g2.drawString("Credits", 25, 550);
+	    g2.drawString("In loving memory of JPlays... RIP. Long live DapperQuokka.", 25, 575);
+	    g2.drawString("Artistic Envisionist: Justin Tran", 25, 600);
+
+	    g2.setColor(Color.RED);
+	    g2.drawRect(380, 750, 100, 40);
+	    g2.drawString("CREDITS", 400, 750);
+	} else {
+	    // Add background image
+	    BufferedImage image;
+	    try {
+		image = ImageIO.read(new File("assets/img/background.jpg"));
+	    } catch (IOException e) {
+		System.out.println("ERROR: background.jpg cannot be read.");
+		image = null;
+	    }
+	    g2.drawImage(image, 0, 0, null);
+
+	    // Paint all GameObjects
+	    for (GameObject i : objects) {
+		i.paintComponent(g2);
+	    }
 	}
     }
 
@@ -171,7 +202,12 @@ public class WorldWarK extends JPanel implements Runnable {
 		    break;
 		case KeyEvent.VK_SPACE:
 		    System.out.println("SPACE");
-		    playSound(0);
+		    if (run == false) {
+			start();
+		    } else {
+			// shoot
+			playSound(0);
+		    }
 		    break;
 		case KeyEvent.VK_B:
 		    System.out.println("B");
