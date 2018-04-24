@@ -33,6 +33,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private boolean run = false;
     private int score;
+    private Rectangle2D clickedStartScreenButton;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -140,6 +141,24 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.draw(creditsBox);
 	    //g2.drawRect(380, 750, 100, 40);
 	    g2.drawString("CREDITS", 386, 778);
+
+	    if (clickedStartScreenButton != null) {
+		if (clickedStartScreenButton.equals(creditsBox)) {
+		    System.out.println("hu");
+		    g2.setColor(new Color(0, 0, 0, 250));
+		    Rectangle2D creditsBackground = new Rectangle2D.Double(50, 80, 400, 700);
+		    g2.fill(creditsBackground);
+		    g2.draw(creditsBackground);
+
+		    Font font2 = new Font("Comic Sans MS", Font.BOLD, 40);
+		    g2.setColor(Color.CYAN);
+		    g2.setFont(font2);
+		    g2.drawString("CREDITS", 150, 130);
+		    
+		    g2.setFont(font1);
+		    //g2.drawString("I CLICKED A BUTTON", 100, 100);
+		}
+	    }
 	} else {
 	    // Paint game
 	    // Add background image
@@ -243,6 +262,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		    for (Rectangle2D i : startScreenButtons) {
 			if (i.contains(event.getPoint())) {
 			    System.out.println("Clicked a " + i);
+			    clickedStartScreenButton = i;
+			    repaint();
 			}
 		    }
 		} else {
