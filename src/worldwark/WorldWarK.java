@@ -13,10 +13,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -86,7 +92,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		objects.remove(i);
 	    }
 	    repaint();
-	    
+
 	    // Sleep the thread
 	    try {
 		Thread.sleep(17);
@@ -141,22 +147,56 @@ public class WorldWarK extends JPanel implements Runnable {
 		    g2.setColor(Color.WHITE);
 		    g2.drawString("CLOSE", 378, 102);
 
-		    // Draw text
-		    Font font2 = new Font("Comic Sans MS", Font.BOLD, 40);
+		    // Read and print credits.txt file
+		    ArrayList<String> credits = new ArrayList<>();
+		    BufferedReader inputStream = null;
+		    String line;
+		    try {
+			inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
+			do {
+			    line = inputStream.readLine();
+			    if (line != null) {
+				credits.add(line);
+			    }
+			} while (line != null);
+		    } catch (IOException e) {
+			System.out.println("ERROR: Cannot open credits.txt.");
+		    } finally {
+			if (inputStream != null) {
+			    try {
+				inputStream.close();
+			    } catch (IOException e) {
+				System.out.println("ERROR: Cannot close inputStream.");
+			    }
+			}
+		    }
+		    Font creditsTitleFont = new Font("Comic Sans MS", Font.BOLD, 40);
 		    g2.setColor(Color.CYAN);
-		    g2.setFont(font2);
-		    g2.drawString("CREDITS", 150, 150);
-		    g2.setFont(font1);
-		    g2.drawString("In loving memory of JPlays.", 120, 180);
+		    g2.setFont(creditsTitleFont);
+		    g2.drawString(credits.get(0).substring(1), 150, 150);
+		    Font creditsSubtitleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
+		    g2.setFont(creditsSubtitleFont);
+		    g2.drawString(credits.get(1).substring(1), 120, 180);
 		    g2.setColor(Color.PINK);
-		    g2.drawString("Lead Programmer: LORD Omar Qayum", 70, 230);
-		    g2.drawString("Programming Team: Jack Rong", 70, 260);
-		    g2.drawString("Justin Tran", 260, 280);
-		    g2.drawString("Krista Tian", 260, 300);
-		    g2.drawString("Artistic Envisionist: Justin Tran", 70, 330);
-		    g2.drawString("Original Artwork: Justin Tran", 70, 360);
-		    g2.drawString("Testing Team: Brian Wu", 70, 390);
-		    g2.drawString("Justin Reiter", 205, 410);
+
+		    final int headingXPos = 90;
+		    final int nameXPos = 130;
+		    int creditsYPos = 230;
+		    Font creditsHeadingFont = new Font("Comic Sans MS", Font.BOLD, 20);
+		    for (int i = 2; i < credits.size(); i++) {
+			if (credits.get(i).charAt(0) == '$') {
+			    g2.setFont(creditsHeadingFont);
+			    g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
+			} else if (credits.get(i).charAt(0) == '%') {
+			    g2.setFont(creditsSubtitleFont);
+			    g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
+			}
+
+			if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
+			    creditsYPos += 10;
+			}
+			creditsYPos += 30;
+		    }
 		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
 		    // Clear credits window if close button is pressed
 		    clickedStartScreenButton = null;
@@ -330,7 +370,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		case KeyEvent.VK_SPACE:
 		    if (run == false && clickedStartScreenButton == null) {
 			start();
-		    } else {
+		    } else if (run == true) {
 			shootBullet();
 		    }
 		    break;

@@ -1,0 +1,15 @@
+^CREDITS
+*In loving memory of JPlays
+$Lead Programmer
+%LORD Qayum
+$Programming Team
+%Jack Rong
+%Justin Tran
+%Krista Tian
+$Artistic Envisionist
+%Justin Tran
+$Original Artwork
+%Justin Tran
+$Testing Team
+%Brian Wu
+%Justin Reiter
