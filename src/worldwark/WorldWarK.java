@@ -71,21 +71,23 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
-	    // Spawns enemies every 2 seconds at random speeds, health, and positions
+	    // Spawn enemies every 2 seconds
 	    if (spawnTimer >= 2000) {
 		spawnEnemy(this);
 	    }
 
-	    // Check for collision, draw objects and sleep
+	    // Update objects' motion
 	    for (GameObject i : objects) {
 		i.update(this);
 	    }
 
-	    // Removes objects from list so there wont be a wack exception!!
+	    // Remove finished objects from object list
 	    for (GameObject i : finishedObjects) {
 		objects.remove(i);
 	    }
 	    repaint();
+	    
+	    // Sleep the thread
 	    try {
 		Thread.sleep(17);
 		spawnTimer += 17;
@@ -298,6 +300,18 @@ public class WorldWarK extends JPanel implements Runnable {
 	spawnTimer = 0;
     }
 
+    public void shootBullet() {
+	Bullet bullet = new Bullet(player.getXPos() + 32, player.getYPos(), 10, 10);
+	objects.add(bullet);
+	playSound(0);
+    }
+
+    public void launchBomb() {
+	Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
+	objects.add(bomb);
+	playSound(1);
+    }
+
     public static void main(String[] args) {
 	panel = new WorldWarK();
     }
@@ -314,16 +328,14 @@ public class WorldWarK extends JPanel implements Runnable {
 		    player.keyboardMoveRight();
 		    break;
 		case KeyEvent.VK_SPACE:
-		    //System.out.println("SPACE");
 		    if (run == false && clickedStartScreenButton == null) {
 			start();
 		    } else {
-			// shoot
-			playSound(0);
+			shootBullet();
 		    }
 		    break;
 		case KeyEvent.VK_B:
-		    // launch bomb
+		    launchBomb();
 		    break;
 		default:
 		    break;
@@ -343,20 +355,18 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Mouse click controls
 	    if (event.getButton() == MouseEvent.BUTTON1) {
 		if (run == false) {
-		    // check x and y coords
-		    // see if it is contained in a button area
+		    // Check if x and y coords of mouse click is within a button area
 		    for (Rectangle2D i : startScreenButtons) {
 			if (i.contains(event.getPoint())) {
-			    //System.out.println("Clicked a " + i);
 			    clickedStartScreenButton = i;
 			    repaint();
 			}
 		    }
 		} else {
-		    // shoot
+		    shootBullet();
 		}
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {
-		// launch bomb
+		launchBomb();
 	    }
 	}
 
