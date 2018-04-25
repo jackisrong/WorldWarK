@@ -28,20 +28,20 @@ public class Bullet extends GameObject {
 	bulletBox.setFrame(xPos, yPos, width, height);
 
 	// Draw bullet bulletBox/hitbox
-	//Color transparentColor = new Color(0, 0, 0, 0);
-	g2.setColor(Color.WHITE);
+	Color transparentColor = new Color(0, 0, 0, 0);
+	g2.setColor(transparentColor);
 	g2.fill(bulletBox);
 	g2.draw(bulletBox);
 
 	// Puts the bullet image on the player
-	BufferedImage playerImage;
+	BufferedImage bulletImage;
 	try {
-	    playerImage = ImageIO.read(new File("assets/img/bullet.png"));
+	    bulletImage = ImageIO.read(new File("assets/img/bullet.png"));
 	} catch (IOException e) {
 	    System.out.println("ERROR: bullet.png cannot be read.");
-	    playerImage = null;
+	    bulletImage = null;
 	}
 	g2.setClip(bulletBox);
-	g2.drawImage(playerImage, xPos, yPos, null);
+	g2.drawImage(bulletImage, xPos, yPos, null);
     }
 }

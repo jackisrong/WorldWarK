@@ -24,21 +24,21 @@ public class Bomb extends PowerUp {
     public void paintComponent(Graphics2D g2) {
 	bombBox.setFrame(xPos, yPos, width, height);
 
-	// Draw bullet bulletBox/hitbox
-	//Color transparentColor = new Color(0, 0, 0, 0);
-	g2.setColor(Color.WHITE);
+	// Draw bomb bombBox/hitbox
+	Color transparentColor = new Color(0, 0, 0, 0);
+	g2.setColor(transparentColor);
 	g2.fill(bombBox);
 	g2.draw(bombBox);
 
 	// Puts the bullet image on the player
-	BufferedImage playerImage;
+	BufferedImage bombImage;
 	try {
-	    playerImage = ImageIO.read(new File("assets/img/bomb.png"));
+	    bombImage = ImageIO.read(new File("assets/img/bomb.png"));
 	} catch (IOException e) {
 	    System.out.println("ERROR: bomb.png cannot be read.");
-	    playerImage = null;
+	    bombImage = null;
 	}
 	g2.setClip(bombBox);
-	g2.drawImage(playerImage, xPos, yPos, null);
+	g2.drawImage(bombImage, xPos, yPos, null);
     }
 }
