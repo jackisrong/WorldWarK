@@ -123,12 +123,10 @@ public class Enemy extends GameObject {
 */
     public void update(WorldWarK panel) {
         // Left wall impact
-        if (xPos + xSpeed < 0) {
-            xPos = 0;
+        if (xPos == -200) {
             panel.deleteObject(this);
         } // Right wall impact
-        else if (xPos + xSpeed > panel.getWidth() - width - 1) {
-            xPos = panel.getWidth() - width - 1;
+        else if (xPos == 600) {
             panel.deleteObject(this);
         } else {
             xPos += xSpeed;
