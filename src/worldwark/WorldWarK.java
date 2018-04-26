@@ -346,7 +346,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void shootBullet() {
-        Bullet bullet = new Bullet(player.getXPos() + 32, player.getYPos(), 10, 10);
+        Bullet bullet = new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10);
         objects.add(bullet);
         playSound(0);
     }
