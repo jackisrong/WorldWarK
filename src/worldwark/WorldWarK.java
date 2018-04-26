@@ -77,7 +77,11 @@ public class WorldWarK extends JPanel implements Runnable {
     public void run() {
         while (run) {
             // Spawn enemies every 2 seconds
-            if (spawnTimer >= 2000) {
+            if (spawnTimer >= 2000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
+                spawnEnemy(this);           
+            } else if (spawnTimer >= 4000 && score > 2500 && score <= 5000) {
+                spawnEnemy(this); 
+            } else if (spawnTimer >= 4000 && score > 5000 && score <= 7500) {
                 spawnEnemy(this);
             }
 
