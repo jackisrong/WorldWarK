@@ -408,13 +408,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	playSound(1);
     }
 
-    public void checkBulletHit(Rectangle2D bulletBox) {
+    public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
 		// If bullet intersects Enemy object, check if bulletBox intersects rectangle of the enemy
-		if (bulletBox.intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    // either delete object or lower health of enemy but it's just deleting for now
 		    deleteObject(i);
+		    deleteObject(bullet);
 		    // increase score (based on enemy type?)
 		}
 	    }

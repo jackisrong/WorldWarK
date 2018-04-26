@@ -17,8 +17,12 @@ public class Bullet extends GameObject {
 	bulletBox = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
+    public Rectangle2D getRectangle() {
+	return bulletBox;
+    }
+    
     public void update(WorldWarK panel) {
-	panel.checkBulletHit(bulletBox);
+	panel.checkBulletHit(this);
 	
 	yPos -= 10;
 	if (yPos < 0) {
