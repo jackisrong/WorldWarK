@@ -123,6 +123,24 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.drawImage(image, 0, 0, null);
 
 	    // Paint start instructions
+	    Font gameTitleFont = null;
+	    try {
+		gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	    }
+	    g2.setColor(new Color(255, 215, 0));
+	    g2.setFont(gameTitleFont);
+	    g2.drawString("World", 25, 100);
+	    g2.drawString("War", 50, 200);
+	    try {
+		gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(120f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	    }
+	    g2.setFont(gameTitleFont);
+	    g2.drawString("K", 280, 240);
+
 	    Font font1 = null;
 	    try {
 		font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
@@ -131,7 +149,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	    g2.setColor(new Color(255, 215, 0));
 	    g2.setFont(font1);
-	    g2.drawString("World War K", 25, 100);
 	    g2.drawString("Press SPACE to start", 25, 525);
 
 	    // Paint credits button
