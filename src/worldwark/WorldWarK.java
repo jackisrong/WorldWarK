@@ -101,7 +101,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		Thread.sleep(15);
 		spawnTimer += 5;
 	    } catch (InterruptedException e) {
-		System.out.println("ERROR: Thread.sleep(17) has been interrupted.");
+		System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
 	    }
 	}
     }
@@ -125,9 +125,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Paint start instructions
 	    Font font1 = null;
 	    try {
-		font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/LiberationSansBold.ttf")).deriveFont(20f);
+		font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
 	    } catch (Exception e) {
-		System.out.println("ERROR: Font file LiberationSansBold.ttf cannot be opened.");
+		System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	    }
 	    g2.setColor(new Color(255, 215, 0));
 	    g2.setFont(font1);
@@ -193,9 +193,9 @@ public class WorldWarK extends JPanel implements Runnable {
 		    // Print credits subheading
 		    Font creditsRegularFont = null;
 		    try {
-			creditsRegularFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/LiberationSansRegular.ttf")).deriveFont(20f);
+			creditsRegularFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
 		    } catch (Exception e) {
-			System.out.println("ERROR: Font file LiberationSansRegular.ttf cannot be opened.");
+			System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
 		    }
 		    g2.setFont(creditsRegularFont);
 		    g2.drawString(credits.get(1).substring(1), 140, 210);
@@ -207,9 +207,9 @@ public class WorldWarK extends JPanel implements Runnable {
 		    int creditsYPos = 260;
 		    Font creditsHeadingFont = null;
 		    try {
-			creditsHeadingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/LiberationSansBold.ttf")).deriveFont(20f);
+			creditsHeadingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
 		    } catch (Exception e) {
-			System.out.println("ERROR: Font file LiberationSansBold.ttf cannot be opened.");
+			System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 		    }
 		    for (int i = 2; i < credits.size(); i++) {
 			if (credits.get(i).charAt(0) == '$') {
