@@ -29,7 +29,7 @@ public class Enemy extends GameObject {
         rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-/*    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
+    /*    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
         int xPos;
         int ySpeed;
         int health;
@@ -120,13 +120,13 @@ public class Enemy extends GameObject {
             }
         }
     }
-*/
+     */
     public void update(WorldWarK panel) {
         // Left wall impact
-        if (xPos == -200) {
+        if (xPos == -201) {
             panel.deleteObject(this);
         } // Right wall impact
-        else if (xPos == 600) {
+        else if (xPos == 701) {
             panel.deleteObject(this);
         } else {
             xPos += xSpeed;
@@ -138,6 +138,30 @@ public class Enemy extends GameObject {
         } else {
             yPos += ySpeed;
         }
+    }
+
+    public int getXPos() {
+        return xPos;
+    }
+
+    public int getYPos() {
+        return yPos;
+    }
+
+    public int getXSpeed() {
+        return xSpeed;
+    }
+
+    public int getYSpeed() {
+        return ySpeed;
+    }
+
+    public void setXSpeed(int speed) {
+        xSpeed = speed;
+    }
+
+    public void setYSpeed(int speed) {
+        ySpeed = speed;
     }
 
     public void paintComponent(Graphics2D g2) {
