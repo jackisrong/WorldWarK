@@ -16,6 +16,22 @@ public abstract class GameObject {
 	this.height = height;
     }
 
+    public int getXPos() {
+	return xPos;
+    }
+    
+    public int getYPos() {
+	return yPos;
+    }
+    
+    public int getWidth() {
+	return width;
+    }
+    
+    public int getHeight() {
+	return height;
+    }
+    
     public abstract void update(WorldWarK panel);
 
     public abstract void paintComponent(Graphics2D g2);

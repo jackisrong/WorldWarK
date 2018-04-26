@@ -18,6 +18,8 @@ public class Bullet extends GameObject {
     }
 
     public void update(WorldWarK panel) {
+	panel.checkBulletHit(bulletBox);
+	
 	yPos -= 10;
 	if (yPos < 0) {
 	    panel.deleteObject(this);

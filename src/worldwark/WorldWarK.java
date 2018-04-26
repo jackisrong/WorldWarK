@@ -15,13 +15,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -302,12 +299,13 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void spawnEnemy(WorldWarK panel) {
-	// Just the basis of the spawn enemy algorithm shit fuck
+	// Just the basis of the spawn enemy algorithm
 	Enemy enemyLeft = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
 	Enemy enemyRight = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
 	Random rand = new Random();
 	int choose = rand.nextInt(5) + 1;
-	if (score <= 2500) { //First Tier of enemies
+	if (score <= 2500) {
+	    //First Tier of enemies
 	    switch (choose) {
 		case 1:
 		    for (int i = 0; i <= 150; i++) {
@@ -353,7 +351,8 @@ public class WorldWarK extends JPanel implements Runnable {
 			}
 		    }
 	    }
-	} else if (score > 2500 && score <= 5000) { //Second Tier of Enemies
+	} else if (score > 2500 && score <= 5000) {
+	    //Second Tier of Enemies
 	    switch (choose) {
 		case 1:
 		    break;
@@ -366,7 +365,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		case 5:
 		    break;
 	    }
-	} else if (score > 5000 && score <= 7500) { // Third Tier of Enemies
+	} else if (score > 5000 && score <= 7500) {
+	    // Third Tier of Enemies
 	    switch (choose) {
 		case 1:
 		    break;
@@ -379,7 +379,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		case 5:
 		    break;
 	    }
-	} else if (score >= 10000) { // Boss summoned as well as the fifth tier of enemies
+	} else if (score >= 10000) {
+	    // Boss summoned as well as the fifth tier of enemies
 	    switch (choose) {
 		case 1:
 		    break;
@@ -388,7 +389,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		case 3:
 		    break;
 		case 4:
-
 		    break;
 		case 5:
 		    break;
@@ -407,6 +407,20 @@ public class WorldWarK extends JPanel implements Runnable {
 	Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
 	objects.add(bomb);
 	playSound(1);
+    }
+
+    public void checkBulletHit(Rectangle2D bulletBox) {
+	for (GameObject i : objects) {
+	    //System.out.println(i.getClass().getName());
+	    if (i.getClass().getName() == "worldwark.Enemy") {
+		// If bullet intersects Enemy object, check if bulletBox intersects rectangle of the enemy
+		if (bulletBox.intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		    // either delete object or lower health of enemy but it's just deleting for now
+		    deleteObject(i);
+		    // increase score (based on enemy type?)
+		}
+	    }
+	}
     }
 
     public static void main(String[] args) {
