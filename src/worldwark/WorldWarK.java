@@ -54,6 +54,15 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
 	objects.add(player);
+
+	try {
+	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
+	    Clip clip = AudioSystem.getClip();
+	    clip.open(audioIn);
+	    clip.start();
+	} catch (Exception e) {
+	    System.out.println("ERROR: myjam.wav cannot be played.");
+	}
     }
 
     public void deleteObject(GameObject gameObject) {
@@ -411,12 +420,24 @@ public class WorldWarK extends JPanel implements Runnable {
     public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
-		// If bullet intersects Enemy object, check if bulletBox intersects rectangle of the enemy
+		// If GameObject is enemy, check if bulletBox intersects rectangle of the enemy
 		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    // either delete object or lower health of enemy but it's just deleting for now
 		    deleteObject(i);
 		    deleteObject(bullet);
 		    // increase score (based on enemy type?)
+		}
+	    }
+	}
+    }
+
+    public void checkEnemyCollision(Enemy enemy) {
+	for (GameObject i : objects) {
+	    if (i.getClass().getName().equals("worldwark.Enemy")) {
+		// If GameObject is enemy, check if enemy intersects rectangle of the player
+		if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+		    // either delete player or lower health of player but it's just deleting for now
+		    deleteObject(player);
 		}
 	    }
 	}

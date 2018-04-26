@@ -25,14 +25,6 @@ public class Player extends GameObject {
 	playerBox = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public int getXPos() {
-	return xPos;
-    }
-
-    public int getYPos() {
-	return yPos;
-    }
-
     public int getWeaponLevel() {
 	return weapon;
     }
