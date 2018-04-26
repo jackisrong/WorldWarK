@@ -164,6 +164,19 @@ public class Enemy extends GameObject {
         ySpeed = speed;
     }
 
+    public void revereDirection(int definedPosition, int definedSpeed) {
+        if (this.getXSpeed() == 0) {
+            if (this.getYPos() == definedPosition) {
+                this.setYSpeed(definedSpeed);
+            }
+        } else if (this.getYSpeed() == 0) {
+            if (this.getXPos() == definedPosition) {
+                this.setYSpeed(definedSpeed);
+            }
+
+        }
+    }
+
     public void paintComponent(Graphics2D g2) {
         rectangle.setFrame(xPos, yPos, width, height);
 
