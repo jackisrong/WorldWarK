@@ -78,9 +78,9 @@ public class WorldWarK extends JPanel implements Runnable {
         while (run) {
             // Spawn enemies every 2 seconds
             if (spawnTimer >= 2000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
-                spawnEnemy(this);           
+                spawnEnemy(this);
             } else if (spawnTimer >= 4000 && score > 2500 && score <= 5000) {
-                spawnEnemy(this); 
+                spawnEnemy(this);
             } else if (spawnTimer >= 4000 && score > 5000 && score <= 7500) {
                 spawnEnemy(this);
             }
@@ -98,8 +98,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
             // Sleep the thread
             try {
-                Thread.sleep(17);
-                spawnTimer += 17;
+                Thread.sleep(15);
+                spawnTimer += 5;
             } catch (InterruptedException e) {
                 System.out.println("ERROR: Thread.sleep(17) has been interrupted.");
             }
@@ -150,73 +150,73 @@ public class WorldWarK extends JPanel implements Runnable {
                     g2.setColor(Color.WHITE);
                     g2.drawString("CLOSE", 378, 102);
 
-		    // Read and print credits.txt file
-		    ArrayList<String> credits = new ArrayList<>();
-		    BufferedReader inputStream = null;
-		    String line;
-		    try {
-			inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
-			do {
-			    line = inputStream.readLine();
-			    if (line != null) {
-				credits.add(line);
-			    }
-			} while (line != null);
-		    } catch (IOException e) {
-			System.out.println("ERROR: Cannot open credits.txt.");
-		    } finally {
-			if (inputStream != null) {
-			    try {
-				inputStream.close();
-			    } catch (IOException e) {
-				System.out.println("ERROR: Cannot close inputStream.");
-			    }
-			}
-		    }
-		    Font creditsTitleFont = new Font("Comic Sans MS", Font.BOLD, 40);
-		    g2.setColor(Color.CYAN);
-		    g2.setFont(creditsTitleFont);
-		    g2.drawString(credits.get(0).substring(1), 150, 150);
-		    Font creditsSubtitleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
-		    g2.setFont(creditsSubtitleFont);
-		    g2.drawString(credits.get(1).substring(1), 120, 180);
-		    g2.setColor(Color.PINK);
+                    // Read and print credits.txt file
+                    ArrayList<String> credits = new ArrayList<>();
+                    BufferedReader inputStream = null;
+                    String line;
+                    try {
+                        inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
+                        do {
+                            line = inputStream.readLine();
+                            if (line != null) {
+                                credits.add(line);
+                            }
+                        } while (line != null);
+                    } catch (IOException e) {
+                        System.out.println("ERROR: Cannot open credits.txt.");
+                    } finally {
+                        if (inputStream != null) {
+                            try {
+                                inputStream.close();
+                            } catch (IOException e) {
+                                System.out.println("ERROR: Cannot close inputStream.");
+                            }
+                        }
+                    }
+                    Font creditsTitleFont = new Font("Comic Sans MS", Font.BOLD, 40);
+                    g2.setColor(Color.CYAN);
+                    g2.setFont(creditsTitleFont);
+                    g2.drawString(credits.get(0).substring(1), 150, 150);
+                    Font creditsSubtitleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
+                    g2.setFont(creditsSubtitleFont);
+                    g2.drawString(credits.get(1).substring(1), 120, 180);
+                    g2.setColor(Color.PINK);
 
-		    final int headingXPos = 90;
-		    final int nameXPos = 130;
-		    int creditsYPos = 230;
-		    Font creditsHeadingFont = new Font("Comic Sans MS", Font.BOLD, 20);
-		    for (int i = 2; i < credits.size(); i++) {
-			if (credits.get(i).charAt(0) == '$') {
-			    g2.setFont(creditsHeadingFont);
-			    g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
-			} else if (credits.get(i).charAt(0) == '%') {
-			    g2.setFont(creditsSubtitleFont);
-			    g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
-			}
+                    final int headingXPos = 90;
+                    final int nameXPos = 130;
+                    int creditsYPos = 230;
+                    Font creditsHeadingFont = new Font("Comic Sans MS", Font.BOLD, 20);
+                    for (int i = 2; i < credits.size(); i++) {
+                        if (credits.get(i).charAt(0) == '$') {
+                            g2.setFont(creditsHeadingFont);
+                            g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
+                        } else if (credits.get(i).charAt(0) == '%') {
+                            g2.setFont(creditsSubtitleFont);
+                            g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
+                        }
 
-			if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
-			    creditsYPos += 10;
-			}
-			creditsYPos += 30;
-		    }
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-		    // Clear credits window if close button is pressed
-		    clickedStartScreenButton = null;
-		    startScreenButtons.clear();
-		    repaint();
-		}
-	    }
-	} else {
-	    // Paint game background image
-	    BufferedImage image;
-	    try {
-		image = ImageIO.read(new File("assets/img/background.jpg"));
-	    } catch (IOException e) {
-		System.out.println("ERROR: background.jpg cannot be read.");
-		image = null;
-	    }
-	    g2.drawImage(image, 0, 0, null);
+                        if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
+                            creditsYPos += 10;
+                        }
+                        creditsYPos += 30;
+                    }
+                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+                    // Clear credits window if close button is pressed
+                    clickedStartScreenButton = null;
+                    startScreenButtons.clear();
+                    repaint();
+                }
+            }
+        } else {
+            // Paint game background image
+            BufferedImage image;
+            try {
+                image = ImageIO.read(new File("assets/img/background.jpg"));
+            } catch (IOException e) {
+                System.out.println("ERROR: background.jpg cannot be read.");
+                image = null;
+            }
+            g2.drawImage(image, 0, 0, null);
 
             // Paint all GameObjects
             for (GameObject i : objects) {
@@ -259,17 +259,12 @@ public class WorldWarK extends JPanel implements Runnable {
         }
     }
 
-    public void spawnEnemy(WorldWarK panel) { // Just the basis of the spawn enemy algorithm shit fuck
-        int xPos;
-        int ySpeed;
-        int health;
-        int xSpeed;
-        int groupTimer = 0;
-        ArrayList<Enemy> enemyGroups = new ArrayList<Enemy>();
+    public void spawnEnemy(WorldWarK panel) { 
+        // Just the basis of the spawn enemy algorithm shit fuck
         Enemy enemyLeft = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
         Enemy enemyRight = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
         Random rand = new Random();
-        int choose = rand.nextInt(4) + 1;
+        int choose = rand.nextInt(5) + 1;
         if (score <= 2500) { //First Tier of enemies
             switch (choose) {
                 case 1:
@@ -285,8 +280,8 @@ public class WorldWarK extends JPanel implements Runnable {
                 case 2:
                     for (int i = 0; i <= 100; i++) {
                         if (i == 0 || i == 50 || i == 100) {
-                            enemyLeft = new Enemy(50 - (i+25), 450, 64, 64, 5, 0, 15, 0);
-                           enemyRight = new Enemy(450 + (i+25), 200, 64, 64, -5, 0, 15, 0);
+                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 5, 0, 15, 0);
+                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -5, 0, 15, 0);
                             objects.add(enemyLeft);
                             objects.add(enemyRight);
                         }
@@ -299,11 +294,22 @@ public class WorldWarK extends JPanel implements Runnable {
                     objects.add(enemyRight);
                     break;
                 case 4:
-                    enemyLeft = new Enemy(25, 0, 64, 64, 0, 30, 50, 0);
-                    enemyRight = new Enemy(150, 0, 64, 64, 0, 30, 50, 0);
+                    enemyLeft = new Enemy(25, 0, 64, 64, 0, 5, 50, 0);
+                    enemyRight = new Enemy(150, 0, 64, 64, 0, 5, 50, 0);
                     objects.add(enemyLeft);
                     objects.add(enemyRight);
                     break;
+                case 5:
+                    for (int i = 0; i <= 100; i++) {
+                        if (i == 0 || i == 50 || i == 100) {
+                            enemyLeft = new Enemy(-50 - i, 0 - i, 64, 64, 3, 5, 15, 0);
+                            enemyRight = new Enemy(500 + i, 0 - i, 64, 64, -3, 5, 15, 0);
+                            enemyRight.setXSpeed(0);
+                            enemyLeft.setYSpeed(0);
+                            objects.add(enemyLeft);
+                            objects.add(enemyRight);
+                        }
+                    }
             }
         } else if (score > 2500 && score <= 5000) { //Second Tier of Enemies
             switch (choose) {
