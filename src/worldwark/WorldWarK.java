@@ -299,13 +299,12 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void spawnEnemy(WorldWarK panel) {
-	// Just the basis of the spawn enemy algorithm
 	Enemy enemyLeft = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
 	Enemy enemyRight = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
 	Random rand = new Random();
 	int choose = rand.nextInt(5) + 1;
 	if (score <= 2500) {
-	    //First Tier of enemies
+	    //First tier of enemies
 	    switch (choose) {
 		case 1:
 		    for (int i = 0; i <= 150; i++) {
@@ -352,7 +351,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 	    }
 	} else if (score > 2500 && score <= 5000) {
-	    //Second Tier of Enemies
+	    //Second tier of enemies
 	    switch (choose) {
 		case 1:
 		    break;
@@ -366,7 +365,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    break;
 	    }
 	} else if (score > 5000 && score <= 7500) {
-	    // Third Tier of Enemies
+	    // Third tier of enemies
 	    switch (choose) {
 		case 1:
 		    break;
