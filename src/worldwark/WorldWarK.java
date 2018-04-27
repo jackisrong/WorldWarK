@@ -267,7 +267,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
     }
-    
+
     public void drawControls(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
@@ -281,7 +281,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
     }
-    
+
     public void drawCredits(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
@@ -328,7 +328,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 	g2.setColor(Color.WHITE);
 	g2.setFont(creditsTitleFont);
-	g2.drawString(credits.get(0).substring(1), 100, 170);
+	if (credits.get(0).charAt(0) == '^') {
+	    g2.drawString(credits.get(0).substring(1), 100, 170);
+	}
 
 	// Print credits subheading
 	Font creditsRegularFont = null;
@@ -338,8 +340,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
 	}
 	g2.setFont(creditsRegularFont);
-	g2.drawString(credits.get(1).substring(1), 140, 210);
-	g2.setColor(Color.PINK);
+	if (credits.get(1).charAt(0) == '*') {
+	    g2.drawString(credits.get(1).substring(1), 140, 210);
+	}
 
 	// Print credits
 	final int headingXPos = 90;
@@ -351,6 +354,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	}
+	g2.setColor(Color.PINK);
 	for (int i = 2; i < credits.size(); i++) {
 	    if (credits.get(i).charAt(0) == '$') {
 		g2.setFont(creditsHeadingFont);
