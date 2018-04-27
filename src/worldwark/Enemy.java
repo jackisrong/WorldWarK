@@ -52,6 +52,10 @@ public class Enemy extends GameObject {
 	return (Math.abs(yPos - reverseYPosition) <= 3);
     }
     
+    public boolean readyToTurnAtX(int reverseXPosition) {
+	return (Math.abs(xPos - reverseXPosition) <= 3);
+    }
+    
     public void update(WorldWarK panel) {
 	panel.checkEnemyCollision(this);
         
@@ -61,6 +65,15 @@ public class Enemy extends GameObject {
             if (reverseTimer >= 1000) {
                 reverse = false;
                 ySpeed = -5;
+            }
+        }
+        
+        if (reverse && readyToTurnAtX(panel.getWidth()/2)) {
+            xSpeed = 0;
+            reverseTimer += 15;
+            if (reverseTimer >= 1000) {
+                reverse = false;
+                xSpeed = -5;
             }
         }
         
