@@ -36,9 +36,9 @@ public class Bullet extends GameObject {
 	// Puts the bullet image on the player
 	BufferedImage bulletImage;
 	try {
-	    bulletImage = ImageIO.read(new File("assets/img/bullet.png"));
+	    bulletImage = ImageIO.read(new File("assets/img/bomb.png"));
 	} catch (IOException e) {
-	    System.out.println("ERROR: bullet.png cannot be read.");
+	    System.out.println("ERROR: bomb.png cannot be read.");
 	    bulletImage = null;
 	}
 	g2.setClip(rectangle);
