@@ -1,12 +1,14 @@
 ^CONTROLS
 *Control me daddy
-$Keyboard Controls
-%Move Left: Left Arrow Key
-%Move Right: Right Arrow Key
-%Shoot: Spacebar Key
-%Launch Bomb: B Key
-$Mouse Controls
-%Move Left: Move Mouse Left
-%Move Right: Move Mouse Right
-%Shoot: Left Mouse Click
-%Launch Bomb: Right Mouse Click
+$Move Left
+%Keyboard: Left Arrow Key
+%Mouse: Move Mouse Left
+$Move Right
+%Keyboard: Right Arrow Key
+%Mouse: Move Mouse Right
+$Shoot
+%Keyboard: Spacebar Key
+%Mouse: Left Mouse Click
+$Launch Bomb
+%Keyboard: B Key
+%Mouse: Right Mouse Click

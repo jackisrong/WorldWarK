@@ -266,6 +266,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	startScreenButtons.add(closeButton);
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
+
+	readDrawFile(g2, "instructions", 60, 70);
     }
 
     public void drawControls(Graphics2D g2) {
@@ -280,6 +282,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	startScreenButtons.add(closeButton);
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
+
+	readDrawFile(g2, "controls", 60, 170);
     }
 
     public void drawCredits(Graphics2D g2) {
@@ -295,20 +299,24 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
 
-	// Read credits.txt file
-	ArrayList<String> credits = new ArrayList<>();
+	readDrawFile(g2, "credits", 100, 140);
+    }
+
+    public void readDrawFile(Graphics2D g2, String file, int titleXPos, int subtitleXPos) {
+	// Read file
+	ArrayList<String> content = new ArrayList<>();
 	BufferedReader inputStream = null;
 	String line;
 	try {
-	    inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
+	    inputStream = new BufferedReader(new FileReader("assets/txt/" + file + ".txt"));
 	    do {
 		line = inputStream.readLine();
 		if (line != null) {
-		    credits.add(line);
+		    content.add(line);
 		}
 	    } while (line != null);
 	} catch (IOException e) {
-	    System.out.println("ERROR: Cannot open credits.txt.");
+	    System.out.println("ERROR: Cannot open " + file + ".txt.");
 	} finally {
 	    if (inputStream != null) {
 		try {
@@ -319,55 +327,55 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	}
 
-	// Print credits heading
-	Font creditsTitleFont = null;
+	// Print heading
+	Font titleFont = null;
 	try {
-	    creditsTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
+	    titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
 	}
 	g2.setColor(Color.WHITE);
-	g2.setFont(creditsTitleFont);
-	if (credits.get(0).charAt(0) == '^') {
-	    g2.drawString(credits.get(0).substring(1), 100, 170);
+	g2.setFont(titleFont);
+	if (content.get(0).charAt(0) == '^') {
+	    g2.drawString(content.get(0).substring(1), titleXPos, 170);
 	}
 
 	// Print credits subheading
-	Font creditsRegularFont = null;
+	Font contentFont = null;
 	try {
-	    creditsRegularFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	    contentFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
 	}
-	g2.setFont(creditsRegularFont);
-	if (credits.get(1).charAt(0) == '*') {
-	    g2.drawString(credits.get(1).substring(1), 140, 210);
+	g2.setFont(contentFont);
+	if (content.get(1).charAt(0) == '*') {
+	    g2.drawString(content.get(1).substring(1), subtitleXPos, 210);
 	}
 
-	// Print credits
+	// Print content
 	final int headingXPos = 90;
 	final int nameXPos = 130;
-	int creditsYPos = 260;
-	Font creditsHeadingFont = null;
+	int textYPos = 260;
+	Font headingFont = null;
 	try {
-	    creditsHeadingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
+	    headingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	}
 	g2.setColor(Color.PINK);
-	for (int i = 2; i < credits.size(); i++) {
-	    if (credits.get(i).charAt(0) == '$') {
-		g2.setFont(creditsHeadingFont);
-		g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
-	    } else if (credits.get(i).charAt(0) == '%') {
-		g2.setFont(creditsRegularFont);
-		g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
+	for (int i = 2; i < content.size(); i++) {
+	    if (content.get(i).charAt(0) == '$') {
+		g2.setFont(headingFont);
+		g2.drawString(content.get(i).substring(1), headingXPos, textYPos);
+	    } else if (content.get(i).charAt(0) == '%') {
+		g2.setFont(contentFont);
+		g2.drawString(content.get(i).substring(1), nameXPos, textYPos);
 	    }
 
-	    if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
-		creditsYPos += 10;
+	    if (i + 1 < content.size() && content.get(i + 1).charAt(0) == '$') {
+		textYPos += 10;
 	    }
-	    creditsYPos += 30;
+	    textYPos += 30;
 	}
     }
 
