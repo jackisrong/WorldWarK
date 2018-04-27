@@ -266,6 +266,17 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	    g2.drawImage(image, 0, 0, null);
 
+	    // Paint score
+	    Font scoreHeading = null;
+	    try {
+		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+	    }
+	    g2.setFont(scoreHeading);
+	    g2.setColor(Color.PINK);
+	    g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
+
 	    // Paint all GameObjects
 	    for (GameObject i : objects) {
 		i.paintComponent(g2);
@@ -425,7 +436,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		    // either delete object or lower health of enemy but it's just deleting for now
 		    deleteObject(i);
 		    deleteObject(bullet);
-		    // increase score (based on enemy type?)
+		    // Increases score (based on enemy type in the future?)
+		    score += 100;
 		}
 	    }
 	}
@@ -436,8 +448,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
 		// If GameObject is enemy, check if enemy intersects rectangle of the player
 		if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-		    // either delete player or lower health of player but it's just deleting for now
-		    deleteObject(player);
+		    // THIS SEEMS TO BE VERY BROKEN RIGHT NOW WHEN THE ENEMY CRASHES INTO THE PLAYER
+		    // HITTING ONE OF THE PLANES IN THE V FORMATION SEEMS TO DELETE ALL THE PLANES
+		    // AND DELETE ALL THE POOR PLAYER'S HEALTH EVEN THO THERE'S ONLY 6 PLANES THERE
+		    // IN THE FIRST PLACE DOING 10 DAMAGE PER PLANE
+		    // either delete player or lower health of player but it's just lowering the health for now
+		    //deleteObject(player);
+		    deleteObject(i);
+		    player.loseHealth(10);
 		}
 	    }
 	}

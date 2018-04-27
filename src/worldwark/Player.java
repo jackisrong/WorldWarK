@@ -68,6 +68,14 @@ public class Player extends GameObject {
 	return numberOfBombs++;
     }
 
+    public int getHealth() {
+	return health;
+    }
+
+    public void loseHealth(int healthLost) {
+	health -= healthLost;
+    }
+
     public void update(WorldWarK panel) {
     }
 
@@ -79,6 +87,12 @@ public class Player extends GameObject {
 	g2.setColor(transparentColor);
 	g2.fill(playerBox);
 	g2.draw(playerBox);
+
+	// Draw player health bar
+	g2.setColor(Color.RED);
+	g2.fillRect(xPos - 16, yPos + height, 100, 3);
+	g2.setColor(Color.GREEN);
+	g2.fillRect(xPos - 16, yPos + height, health, 3);
 
 	// Puts the player image on the player
 	BufferedImage playerImage;
