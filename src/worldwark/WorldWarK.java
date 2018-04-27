@@ -74,6 +74,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public void start() {
 	Thread thread = new Thread(this);
 	run = true;
+	score = 0;
 	thread.start();
     }
 
@@ -215,18 +216,37 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setFont(font1);
 	g2.drawString("Press SPACE to start", 25, 525);
 
+	// Paint how to play button
+	g2.setColor(Color.RED);
+	Rectangle2D instructionsButton = new Rectangle2D.Double(80, 550, 145, 40);
+	startScreenButtons.add(instructionsButton);
+	g2.draw(instructionsButton);
+	g2.drawString("HOW TO PLAY", 86, 578);
+
+	// Paint controls button
+	g2.setColor(Color.RED);
+	Rectangle2D controlsButton = new Rectangle2D.Double(280, 550, 116, 40);
+	startScreenButtons.add(controlsButton);
+	g2.draw(controlsButton);
+	g2.drawString("CONTROLS", 286, 578);
+
 	// Paint credits button
 	g2.setColor(Color.RED);
-	Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
-	startScreenButtons.add(creditsBox);
-	g2.draw(creditsBox);
+	Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
+	startScreenButtons.add(creditsButton);
+	g2.draw(creditsButton);
 	g2.drawString("CREDITS", 386, 778);
 
+	// Check if a start screen button has been clicked
 	if (clickedStartScreenButton != null) {
-	    if (clickedStartScreenButton.equals(creditsBox)) {
+	    if (clickedStartScreenButton.equals(instructionsButton)) {
+		drawInstructions(g2);
+	    } else if (clickedStartScreenButton.equals(controlsButton)) {
+		drawControls(g2);
+	    } else if (clickedStartScreenButton.equals(creditsButton)) {
 		drawCredits(g2);
 	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-		// Clear credits window if close button is pressed
+		// Go back to start screen if a close button is pressed
 		clickedStartScreenButton = null;
 		startScreenButtons.clear();
 		repaint();
@@ -234,6 +254,34 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
     }
 
+    public void drawInstructions(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+    }
+    
+    public void drawControls(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+    }
+    
     public void drawCredits(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
@@ -501,7 +549,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	run = false;
 	gameOver = true;
 	player.setHealth(100);
-	score = 0;
 	repaint();
     }
 
