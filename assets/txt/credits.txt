@@ -1,15 +1,15 @@
 ^CREDITS
-*In loving memory of JPlays
-$Lead Programmer
-%LORD Qayum
+*"World War K" by JK Games
 $Programming Team
 %Jack Rong
 %Justin Tran
 %Krista Tian
-$Artistic Envisionist
-%Justin Tran
 $Original Artwork
 %Justin Tran
+$Music
+%TDB
+$Sound Effects
+%Brian Wu
 $Testing Team
 %Brian Wu
 %Justin Reiter
