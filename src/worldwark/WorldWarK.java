@@ -86,7 +86,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public void run() {
 	while (run) {
 	    // Spawn enemies every 2 seconds
-	    if (spawnTimer >= 2000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
+	    if (spawnTimer >= 1000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
 		spawnEnemy(this);
 	    } else if (spawnTimer >= 4000 && score > 2500 && score <= 5000) {
 		spawnEnemy(this);
@@ -108,7 +108,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Sleep the thread
 	    try {
 		Thread.sleep(15);
-		spawnTimer += 5;
+		spawnTimer += 15;
 	    } catch (InterruptedException e) {
 		System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
 	    }
@@ -414,21 +414,19 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void spawnEnemy(WorldWarK panel) {
-	Enemy enemyLeft = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
-	Enemy enemyRight = new Enemy(0, 0, 0, 0, 0, 0, 0, 0);
+	Enemy enemyLeft;
+	Enemy enemyRight;
 	Random rand = new Random();
 	int choose = rand.nextInt(5) + 1;
 	if (score <= 2500) {
 	    //First tier of enemies
 	    switch (choose) {
 		case 1:
-		    for (int i = 0; i <= 150; i++) {
-			if (i == 0 || i == 50 || i == 100) {
-			    enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 0);
-			    enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 0);
-			    objects.add(enemyLeft);
-			    objects.add(enemyRight);
-			}
+		    for (int i = 0; i < 150; i+=50) {
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 0);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 0);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
 		    }
 		    break;
 		case 2:
@@ -444,6 +442,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		case 3:
 		    enemyLeft = new Enemy(250, 0, 64, 64, 0, 5, 50, 0);
 		    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0);
+                    enemyLeft.setReverse(true);
+                    enemyRight.setReverse(true);
 		    objects.add(enemyLeft);
 		    objects.add(enemyRight);
 		    break;
@@ -454,15 +454,11 @@ public class WorldWarK extends JPanel implements Runnable {
 		    objects.add(enemyRight);
 		    break;
 		case 5:
-		    for (int i = 0; i <= 100; i++) {
-			if (i == 0 || i == 50 || i == 100) {
-			    enemyLeft = new Enemy(-50 - i, 0 - i, 64, 64, 3, 5, 15, 0);
-			    enemyRight = new Enemy(500 + i, 0 - i, 64, 64, -3, 5, 15, 0);
-			    enemyRight.setXSpeed(0);
-			    enemyLeft.setYSpeed(0);
-			    objects.add(enemyLeft);
-			    objects.add(enemyRight);
-			}
+		    for (int i = 0; i < 150; i+=50) {
+                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0);
+                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
 		    }
 	    }
 	} else if (score > 2500 && score <= 5000) {
@@ -538,29 +534,23 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void checkEnemyCollision(Enemy enemy) {
-	for (GameObject i : objects) {
-	    if (i.getClass().getName().equals("worldwark.Enemy")) {
-		if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-		    // If enemy intersects rectangle of the player, lose health
-		    // THIS SEEMS TO BE VERY BROKEN RIGHT NOW WHEN THE ENEMY CRASHES INTO THE PLAYER
-		    // HITTING ONE OF THE PLANES IN THE V FORMATION SEEMS TO DELETE ALL THE PLANES
-		    // AND DELETE ALL THE POOR PLAYER'S HEALTH EVEN THO THERE'S ONLY 6 PLANES THERE
-		    // IN THE FIRST PLACE DOING 10 DAMAGE PER PLANE
-		    deleteObject(i);
-		    player.loseHealth(10);
-		    if (player.getHealth() <= 0) {
-			// If player loses all of their health, reset game
-			gameOver();
-		    }
-		}
-	    }
-	}
+        if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+            // Deletes enemy upon collision and player loses health
+            deleteObject(enemy);
+            player.loseHealth(10);
+            if (player.getHealth() <= 0) {
+                // If player loses all of their health, reset game
+                gameOver();
+            }
+        }
     }
 
     public void gameOver() {
 	run = false;
 	gameOver = true;
 	player.setHealth(100);
+        objects.clear();
+        objects.add(player);
 	repaint();
     }
 

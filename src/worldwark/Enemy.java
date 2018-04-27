@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Enemy extends GameObject {
@@ -15,6 +14,8 @@ public class Enemy extends GameObject {
     private int ySpeed;
     private int health;
     private int typeOfEnemy;
+    private boolean reverse;
+    private int reverseTimer;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy) {
 	super(xPos, yPos, width, height);
@@ -22,6 +23,8 @@ public class Enemy extends GameObject {
 	this.ySpeed = ySpeed;
 	this.health = health;
 	this.typeOfEnemy = typeOfEnemy;
+        reverse = false;
+        reverseTimer = 0;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -40,32 +43,34 @@ public class Enemy extends GameObject {
     public void setYSpeed(int speed) {
 	ySpeed = speed;
     }
+    
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
+    }
 
-    public void reverseDirection(int definedPosition, int definedSpeed) {
-	if (xSpeed == 0) {
-	    if (yPos == definedPosition) {
-		ySpeed = definedSpeed;
-	    }
-	} else if (ySpeed == 0) {
-	    if (xPos == definedPosition) {
-		ySpeed = definedSpeed;
-	    }
-	}
+    public boolean readyToTurnAtY(int reverseYPosition) {
+	return (Math.abs(yPos - reverseYPosition) <= 3);
     }
     
     public void update(WorldWarK panel) {
 	panel.checkEnemyCollision(this);
-
-	// Left wall impact
-	if (xPos == -201) {
-	    panel.deleteObject(this);
-	} // Right wall impact
-	else if (xPos == 701) {
-	    panel.deleteObject(this);
-	} else {
-	    xPos += xSpeed;
-	}
-
+        
+        if (reverse && readyToTurnAtY(panel.getHeight()/2)) {
+            ySpeed = 0;
+            reverseTimer += 15;
+            if (reverseTimer >= 1000) {
+                reverse = false;
+                ySpeed = -5;
+            }
+        }
+        
+        // Exits Left/Right wall's threshold
+        if (xPos <= -201 || xPos >= 701) {
+            panel.deleteObject(this);
+        } else {
+            xPos += xSpeed;
+        }
+        
 	// Deletes the object once it has passed the bottom of the frame
 	if (yPos > panel.getHeight() - height - 1) {
 	    panel.deleteObject(this);
