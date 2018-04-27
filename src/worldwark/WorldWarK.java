@@ -118,143 +118,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Graphics2D g2 = (Graphics2D) g;
 
 	if (run == false) {
-	    // Paint start screen background
-	    BufferedImage image;
-	    try {
-		image = ImageIO.read(new File("assets/img/background.jpg"));
-	    } catch (IOException e) {
-		System.out.println("ERROR: background.jpg cannot be read.");
-		image = null;
-	    }
-	    g2.drawImage(image, 0, 0, null);
-
-	    // Paint start instructions
-	    Font gameTitleFont = null;
-	    try {
-		gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
-	    } catch (Exception e) {
-		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
-	    }
-	    g2.setColor(new Color(255, 215, 0));
-	    g2.setFont(gameTitleFont);
-	    g2.drawString("World", 25, 100);
-	    g2.drawString("War", 50, 200);
-	    try {
-		gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(120f);
-	    } catch (Exception e) {
-		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
-	    }
-	    g2.setFont(gameTitleFont);
-	    g2.drawString("K", 280, 240);
-
-	    Font font1 = null;
-	    try {
-		font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
-	    } catch (Exception e) {
-		System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
-	    }
-	    g2.setColor(new Color(255, 215, 0));
-	    g2.setFont(font1);
-	    g2.drawString("Press SPACE to start", 25, 525);
-
-	    // Paint credits button
-	    g2.setColor(Color.RED);
-	    Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
-	    startScreenButtons.add(creditsBox);
-	    g2.draw(creditsBox);
-	    g2.drawString("CREDITS", 386, 778);
-
-	    if (clickedStartScreenButton != null) {
-		if (clickedStartScreenButton.equals(creditsBox)) {
-		    // Draw window background rectangle
-		    g2.setColor(new Color(0, 0, 0, 250));
-		    g2.fillRect(50, 80, 400, 700);
-
-		    // Draw close button
-		    g2.setColor(Color.RED);
-		    Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-		    g2.fill(closeButton);
-		    startScreenButtons.add(closeButton);
-		    g2.setColor(Color.WHITE);
-		    g2.drawString("CLOSE", 377, 102);
-
-		    // Read credits.txt file
-		    ArrayList<String> credits = new ArrayList<>();
-		    BufferedReader inputStream = null;
-		    String line;
-		    try {
-			inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
-			do {
-			    line = inputStream.readLine();
-			    if (line != null) {
-				credits.add(line);
-			    }
-			} while (line != null);
-		    } catch (IOException e) {
-			System.out.println("ERROR: Cannot open credits.txt.");
-		    } finally {
-			if (inputStream != null) {
-			    try {
-				inputStream.close();
-			    } catch (IOException e) {
-				System.out.println("ERROR: Cannot close inputStream.");
-			    }
-			}
-		    }
-
-		    // Print credits heading
-		    Font creditsTitleFont = null;
-		    try {
-			creditsTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
-		    } catch (Exception e) {
-			System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
-		    }
-		    g2.setColor(Color.WHITE);
-		    g2.setFont(creditsTitleFont);
-		    g2.drawString(credits.get(0).substring(1), 100, 170);
-
-		    // Print credits subheading
-		    Font creditsRegularFont = null;
-		    try {
-			creditsRegularFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
-		    } catch (Exception e) {
-			System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
-		    }
-		    g2.setFont(creditsRegularFont);
-		    g2.drawString(credits.get(1).substring(1), 140, 210);
-		    g2.setColor(Color.PINK);
-
-		    // Print credits
-		    final int headingXPos = 90;
-		    final int nameXPos = 130;
-		    int creditsYPos = 260;
-		    Font creditsHeadingFont = null;
-		    try {
-			creditsHeadingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
-		    } catch (Exception e) {
-			System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
-		    }
-		    for (int i = 2; i < credits.size(); i++) {
-			if (credits.get(i).charAt(0) == '$') {
-			    g2.setFont(creditsHeadingFont);
-			    g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
-			} else if (credits.get(i).charAt(0) == '%') {
-			    g2.setFont(creditsRegularFont);
-			    g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
-			}
-
-			if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
-			    creditsYPos += 10;
-			}
-			creditsYPos += 30;
-		    }
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-		    // Clear credits window if close button is pressed
-		    clickedStartScreenButton = null;
-		    startScreenButtons.clear();
-		    repaint();
-		}
-	    }
+	    drawStartScreen(g2);
 	} else {
 	    // Paint game background image
 	    BufferedImage image;
@@ -281,6 +145,150 @@ public class WorldWarK extends JPanel implements Runnable {
 	    for (GameObject i : objects) {
 		i.paintComponent(g2);
 	    }
+	}
+    }
+
+    public void drawStartScreen(Graphics2D g2) {
+	// Paint start screen background
+	BufferedImage image;
+	try {
+	    image = ImageIO.read(new File("assets/img/background.jpg"));
+	} catch (IOException e) {
+	    System.out.println("ERROR: background.jpg cannot be read.");
+	    image = null;
+	}
+	g2.drawImage(image, 0, 0, null);
+
+	// Paint start screen
+	Font gameTitleFont = null;
+	try {
+	    gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	}
+	g2.setColor(new Color(255, 215, 0));
+	g2.setFont(gameTitleFont);
+	g2.drawString("World", 25, 100);
+	g2.drawString("War", 50, 200);
+	try {
+	    gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(120f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	}
+	g2.setFont(gameTitleFont);
+	g2.drawString("K", 280, 240);
+
+	Font font1 = null;
+	try {
+	    font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
+	}
+	g2.setColor(new Color(255, 215, 0));
+	g2.setFont(font1);
+	g2.drawString("Press SPACE to start", 25, 525);
+
+	// Paint credits button
+	g2.setColor(Color.RED);
+	Rectangle2D creditsBox = new Rectangle2D.Double(380, 750, 100, 40);
+	startScreenButtons.add(creditsBox);
+	g2.draw(creditsBox);
+	g2.drawString("CREDITS", 386, 778);
+
+	if (clickedStartScreenButton != null) {
+	    if (clickedStartScreenButton.equals(creditsBox)) {
+		drawCredits(g2);
+	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+		// Clear credits window if close button is pressed
+		clickedStartScreenButton = null;
+		startScreenButtons.clear();
+		repaint();
+	    }
+	}
+    }
+
+    public void drawCredits(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+
+	// Read credits.txt file
+	ArrayList<String> credits = new ArrayList<>();
+	BufferedReader inputStream = null;
+	String line;
+	try {
+	    inputStream = new BufferedReader(new FileReader("assets/txt/credits.txt"));
+	    do {
+		line = inputStream.readLine();
+		if (line != null) {
+		    credits.add(line);
+		}
+	    } while (line != null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: Cannot open credits.txt.");
+	} finally {
+	    if (inputStream != null) {
+		try {
+		    inputStream.close();
+		} catch (IOException e) {
+		    System.out.println("ERROR: Cannot close inputStream.");
+		}
+	    }
+	}
+
+	// Print credits heading
+	Font creditsTitleFont = null;
+	try {
+	    creditsTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	}
+	g2.setColor(Color.WHITE);
+	g2.setFont(creditsTitleFont);
+	g2.drawString(credits.get(0).substring(1), 100, 170);
+
+	// Print credits subheading
+	Font creditsRegularFont = null;
+	try {
+	    creditsRegularFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+	}
+	g2.setFont(creditsRegularFont);
+	g2.drawString(credits.get(1).substring(1), 140, 210);
+	g2.setColor(Color.PINK);
+
+	// Print credits
+	final int headingXPos = 90;
+	final int nameXPos = 130;
+	int creditsYPos = 260;
+	Font creditsHeadingFont = null;
+	try {
+	    creditsHeadingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
+	}
+	for (int i = 2; i < credits.size(); i++) {
+	    if (credits.get(i).charAt(0) == '$') {
+		g2.setFont(creditsHeadingFont);
+		g2.drawString(credits.get(i).substring(1), headingXPos, creditsYPos);
+	    } else if (credits.get(i).charAt(0) == '%') {
+		g2.setFont(creditsRegularFont);
+		g2.drawString(credits.get(i).substring(1), nameXPos, creditsYPos);
+	    }
+
+	    if (i + 1 < credits.size() && credits.get(i + 1).charAt(0) == '$') {
+		creditsYPos += 10;
+	    }
+	    creditsYPos += 30;
 	}
     }
 
