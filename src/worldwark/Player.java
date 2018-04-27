@@ -71,10 +71,14 @@ public class Player extends GameObject {
 	return health;
     }
 
+    public void setHealth(int health) {
+	this.health = health;
+    }
+    
     public void loseHealth(int healthLost) {
 	health -= healthLost;
     }
-
+    
     public void update(WorldWarK panel) {
     }
 

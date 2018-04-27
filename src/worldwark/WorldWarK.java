@@ -36,6 +36,8 @@ public class WorldWarK extends JPanel implements Runnable {
     private boolean run = false;
     private int score;
     private Rectangle2D clickedStartScreenButton;
+    private boolean gamePaused = false;
+    private boolean gameOver = false;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -118,7 +120,32 @@ public class WorldWarK extends JPanel implements Runnable {
 	Graphics2D g2 = (Graphics2D) g;
 
 	if (run == false) {
-	    drawStartScreen(g2);
+	    if (gameOver == true) {
+		// Paint game over text
+		Font gameOverFont = null;
+		try {
+		    gameOverFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
+		} catch (Exception e) {
+		    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+		}
+		g2.setColor(Color.RED);
+		g2.setFont(gameOverFont);
+		g2.drawString("GAME", 100, 370);
+		g2.drawString("OVER", 100, 450);
+
+		// Paint final score
+		Font finalScoreFont = null;
+		try {
+		    finalScoreFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(30f);
+		} catch (Exception e) {
+		    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+		}
+		g2.setFont(finalScoreFont);
+		g2.setColor(Color.PINK);
+		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 50, 530);
+	    } else {
+		drawStartScreen(g2);
+	    }
 	} else {
 	    // Paint game background image
 	    BufferedImage image;
@@ -439,9 +466,8 @@ public class WorldWarK extends JPanel implements Runnable {
     public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
-		// If GameObject is enemy, check if bulletBox intersects rectangle of the enemy
 		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		    // either delete object or lower health of enemy but it's just deleting for now
+		    // If bulletBox intersects rectangle of the enemy, kill the enemy
 		    deleteObject(i);
 		    deleteObject(bullet);
 		    // Increases score (based on enemy type in the future?)
@@ -454,19 +480,29 @@ public class WorldWarK extends JPanel implements Runnable {
     public void checkEnemyCollision(Enemy enemy) {
 	for (GameObject i : objects) {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
-		// If GameObject is enemy, check if enemy intersects rectangle of the player
 		if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+		    // If enemy intersects rectangle of the player, lose health
 		    // THIS SEEMS TO BE VERY BROKEN RIGHT NOW WHEN THE ENEMY CRASHES INTO THE PLAYER
 		    // HITTING ONE OF THE PLANES IN THE V FORMATION SEEMS TO DELETE ALL THE PLANES
 		    // AND DELETE ALL THE POOR PLAYER'S HEALTH EVEN THO THERE'S ONLY 6 PLANES THERE
 		    // IN THE FIRST PLACE DOING 10 DAMAGE PER PLANE
-		    // either delete player or lower health of player but it's just lowering the health for now
-		    //deleteObject(player);
 		    deleteObject(i);
-		    player.loseHealth(10);
+		    player.loseHealth(100);
+		    if (player.getHealth() <= 0) {
+			// If player loses all of their health, reset game
+			gameOver();
+		    }
 		}
 	    }
 	}
+    }
+
+    public void gameOver() {
+	run = false;
+	gameOver = true;
+	player.setHealth(100);
+	score = 0;
+	repaint();
     }
 
     public static void main(String[] args) {
