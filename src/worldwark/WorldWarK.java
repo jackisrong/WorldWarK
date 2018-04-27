@@ -539,7 +539,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    // AND DELETE ALL THE POOR PLAYER'S HEALTH EVEN THO THERE'S ONLY 6 PLANES THERE
 		    // IN THE FIRST PLACE DOING 10 DAMAGE PER PLANE
 		    deleteObject(i);
-		    player.loseHealth(100);
+		    player.loseHealth(10);
 		    if (player.getHealth() <= 0) {
 			// If player loses all of their health, reset game
 			gameOver();
