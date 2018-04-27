@@ -14,11 +14,7 @@ public class Enemy extends GameObject {
     private int xSpeed;
     private int ySpeed;
     private int health;
-    private int numberOfBombs;
-    private Rectangle2D rectangle;
     private int typeOfEnemy;
-    private int rnd;
-    private int score;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy) {
 	super(xPos, yPos, width, height);
@@ -27,10 +23,6 @@ public class Enemy extends GameObject {
 	this.health = health;
 	this.typeOfEnemy = typeOfEnemy;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
-    }
-
-    public Rectangle2D getRectangle() {
-	return rectangle;
     }
 
     public int getXSpeed() {
@@ -49,16 +41,15 @@ public class Enemy extends GameObject {
 	ySpeed = speed;
     }
 
-    public void revereDirection(int definedPosition, int definedSpeed) {
-	if (this.getXSpeed() == 0) {
-	    if (this.getYPos() == definedPosition) {
-		this.setYSpeed(definedSpeed);
+    public void reverseDirection(int definedPosition, int definedSpeed) {
+	if (xSpeed == 0) {
+	    if (yPos == definedPosition) {
+		ySpeed = definedSpeed;
 	    }
-	} else if (this.getYSpeed() == 0) {
-	    if (this.getXPos() == definedPosition) {
-		this.setYSpeed(definedSpeed);
+	} else if (ySpeed == 0) {
+	    if (xPos == definedPosition) {
+		ySpeed = definedSpeed;
 	    }
-
 	}
     }
     

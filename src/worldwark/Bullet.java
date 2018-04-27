@@ -10,15 +10,9 @@ import javax.imageio.ImageIO;
 
 public class Bullet extends GameObject {
 
-    private Rectangle2D bulletBox;
-
     public Bullet(int xPos, int yPos, int width, int height) {
 	super(xPos, yPos, width, height);
-	bulletBox = new Rectangle2D.Double(xPos, yPos, width, height);
-    }
-
-    public Rectangle2D getRectangle() {
-	return bulletBox;
+	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
     
     public void update(WorldWarK panel) {
@@ -31,13 +25,13 @@ public class Bullet extends GameObject {
     }
 
     public void paintComponent(Graphics2D g2) {
-	bulletBox.setFrame(xPos, yPos, width, height);
+	rectangle.setFrame(xPos, yPos, width, height);
 
 	// Draw bullet bulletBox/hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(bulletBox);
-	g2.draw(bulletBox);
+	g2.fill(rectangle);
+	g2.draw(rectangle);
 
 	// Puts the bullet image on the player
 	BufferedImage bulletImage;
@@ -47,7 +41,7 @@ public class Bullet extends GameObject {
 	    System.out.println("ERROR: bullet.png cannot be read.");
 	    bulletImage = null;
 	}
-	g2.setClip(bulletBox);
+	g2.setClip(rectangle);
 	g2.drawImage(bulletImage, xPos, yPos, null);
     }
 }

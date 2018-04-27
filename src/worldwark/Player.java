@@ -14,7 +14,6 @@ public class Player extends GameObject {
     private int health;
     private int weapon;
     private int numberOfBombs;
-    private Rectangle2D playerBox;
 
     public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int weapon, int numberOfBombs) {
 	super(xPos, yPos, width, height);
@@ -22,7 +21,7 @@ public class Player extends GameObject {
 	this.health = health;
 	this.weapon = weapon;
 	this.numberOfBombs = numberOfBombs;
-	playerBox = new Rectangle2D.Double(xPos, yPos, width, height);
+	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
     public int getWeaponLevel() {
@@ -80,13 +79,13 @@ public class Player extends GameObject {
     }
 
     public void paintComponent(Graphics2D g2) {
-	playerBox.setFrame(xPos, yPos, width, height);
+	rectangle.setFrame(xPos, yPos, width, height);
 
 	// Draw player playerBox/hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(playerBox);
-	g2.draw(playerBox);
+	g2.fill(rectangle);
+	g2.draw(rectangle);
 
 	// Draw player health bar
 	g2.setColor(Color.RED);
@@ -102,7 +101,7 @@ public class Player extends GameObject {
 	    System.out.println("ERROR: player.png cannot be read.");
 	    playerImage = null;
 	}
-	g2.setClip(playerBox);
+	g2.setClip(rectangle);
 	g2.drawImage(playerImage, xPos, yPos, null);
     }
 }
