@@ -237,6 +237,12 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.draw(creditsButton);
         g2.drawString("CREDITS", 386, 778);
 
+        g2.setColor(Color.RED);
+        Rectangle2D musicButton = new Rectangle2D.Double(30, 750, 100, 40);
+        startScreenButtons.add(musicButton);
+        g2.draw(musicButton);
+        g2.drawString("MUSIC", 50, 778);
+
         // Check if a start screen button has been clicked
         if (clickedStartScreenButton != null) {
             if (clickedStartScreenButton.equals(instructionsButton)) {
@@ -245,6 +251,8 @@ public class WorldWarK extends JPanel implements Runnable {
                 drawControls(g2);
             } else if (clickedStartScreenButton.equals(creditsButton)) {
                 drawCredits(g2);
+            } else if (clickedStartScreenButton.equals(musicButton)) {
+                drawMusic(g2);
             } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
                 // Go back to start screen if a close button is pressed
                 clickedStartScreenButton = null;
@@ -300,6 +308,22 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.drawString("CLOSE", 377, 102);
 
         readDrawFile(g2, "credits", 100, 140);
+    }
+
+    public void drawMusic(Graphics2D g2) {
+        // Draw window background rectangle
+        g2.setColor(new Color(0, 0, 0, 250));
+        g2.fillRect(50, 80, 400, 700);
+
+        // Draw close button
+        g2.setColor(Color.RED);
+        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+        g2.fill(closeButton);
+        startScreenButtons.add(closeButton);
+        g2.setColor(Color.WHITE);
+        g2.drawString("CLOSE", 377, 102);
+
+        readDrawFile(g2, "music", 145, 145);
     }
 
     public void readDrawFile(Graphics2D g2, String file, int titleXPos, int subtitleXPos) {
