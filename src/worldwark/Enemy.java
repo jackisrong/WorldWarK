@@ -16,7 +16,6 @@ public class Enemy extends GameObject {
     private int typeOfEnemy;
     private boolean reverse;
     private int reverseTimer;
-    private int points;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points) {
         super(xPos, yPos, width, height);

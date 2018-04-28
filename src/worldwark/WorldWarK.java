@@ -89,9 +89,9 @@ public class WorldWarK extends JPanel implements Runnable {
             // Spawn enemies every 2 seconds
             if (spawnTimer >= 2000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
                 spawnEnemy(this);
-            } else if (spawnTimer >= 2000 && score > 2500 && score <= 5000) {
+            } else if (spawnTimer >= 1000 && score > 2500 && score <= 5000) {
                 spawnEnemy(this);
-            } else if (spawnTimer >= 2000 && score > 5000 && score <= 7500) {
+            } else if (spawnTimer >= 500 && score > 5000 && score <= 7500) {
                 spawnEnemy(this);
             }
 
@@ -534,14 +534,54 @@ public class WorldWarK extends JPanel implements Runnable {
             // Third tier of enemies
             switch (choose) {
                 case 1:
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 10, 50, 5, 100);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 10, 50, 5, 100);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
                     break;
                 case 2:
+                    for (int i = 0; i <= 100; i++) {
+                        if (i == 0 || i == 50 || i == 100) {
+                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 10, 0, 15, 2, 100);
+                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -10, 0, 15, 2, 100);
+                            objects.add(enemyLeft);
+                            objects.add(enemyRight);
+                        }
+                    }
                     break;
                 case 3:
+                    enemyLeft = new Enemy(300, 0, 64, 64, 0, 10, 50, 2, 100);
+                    enemyRight = new Enemy(400, 0, 64, 64, 0, 10, 50, 2, 100);
+                    enemyLeft.setReverse(true);
+                    enemyRight.setReverse(true);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
                     break;
                 case 4:
+                    enemyLeft = new Enemy(0, 100, 64, 64, 10, 0, 50, 2, 100);
+                    enemyRight = new Enemy(0, 300, 64, 64, 10, 0, 50, 2, 100);
+                    enemyLeft.setReverse(true);
+                    enemyRight.setReverse(true);
+                    objects.add(enemyLeft);
+                    objects.add(enemyRight);
                     break;
                 case 5:
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 7, 0, 15, 2, 100);
+                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -7, 0, 15, 2, 100);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
+                    break;
+                case 6:
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 7, 10, 15, 2, 50);
+                        enemyRight = new Enemy(700 - i, -i, 64, 64, -7, 10, 15, 2, 50);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
                     break;
             }
         } else if (score >= 10000) {

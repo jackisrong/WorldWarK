@@ -17,7 +17,6 @@ public abstract class GameObject {
 	this.yPos = yPos;
 	this.width = width;
 	this.height = height;
-        this.points = points;
     }
 
     public int getXPos() {
