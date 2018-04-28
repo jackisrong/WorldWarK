@@ -425,7 +425,7 @@ public class WorldWarK extends JPanel implements Runnable {
         Enemy enemyLeft;
         Enemy enemyRight;
         Random rand = new Random();
-        int choose = rand.nextInt(5) + 5;
+        int choose = rand.nextInt(6) + 1;
         if (score <= 2500) {
             //First tier of enemies
             switch (choose) {
@@ -467,6 +467,13 @@ public class WorldWarK extends JPanel implements Runnable {
                     for (int i = 0; i < 150; i += 50) {
                         enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0);
                         enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
+                case 6:
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0);
+                        enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
