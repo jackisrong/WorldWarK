@@ -9,6 +9,7 @@ public abstract class GameObject {
     protected int yPos;
     protected int width;
     protected int height;
+    protected int points;
     protected Rectangle2D rectangle;
 
     public GameObject(int xPos, int yPos, int width, int height) {
@@ -16,6 +17,7 @@ public abstract class GameObject {
 	this.yPos = yPos;
 	this.width = width;
 	this.height = height;
+        this.points = points;
     }
 
     public int getXPos() {
@@ -32,6 +34,9 @@ public abstract class GameObject {
 
     public int getHeight() {
 	return height;
+    }
+    public int getPoints() {
+        return points;
     }
 
     public Rectangle2D getRectangle() {
