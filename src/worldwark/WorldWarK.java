@@ -433,8 +433,8 @@ public class WorldWarK extends JPanel implements Runnable {
             switch (choose) {
                 case 1:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3);
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
@@ -442,24 +442,24 @@ public class WorldWarK extends JPanel implements Runnable {
                 case 2:
                     for (int i = 0; i <= 100; i++) {
                         if (i == 0 || i == 50 || i == 100) {
-                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 5, 0, 15, 0);
-                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -5, 0, 15, 0);
+                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 5, 0, 15, 0, 50);
+                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -5, 0, 15, 0, 50);
                             objects.add(enemyLeft);
                             objects.add(enemyRight);
                         }
                     }
                     break;
                 case 3:
-                    enemyLeft = new Enemy(300, 0, 64, 64, 0, 5, 50, 0);
-                    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0);
+                    enemyLeft = new Enemy(300, 0, 64, 64, 0, 5, 50, 0 , 50);
+                    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0, 50);
                     enemyLeft.setReverse(true);
                     enemyRight.setReverse(true);
                     objects.add(enemyLeft);
                     objects.add(enemyRight);
                     break;
                 case 4:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0);
-                    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0);
+                    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0, 50);
+                    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0, 50);
                     enemyLeft.setReverse(true);
                     enemyRight.setReverse(true);
                     objects.add(enemyLeft);
@@ -467,15 +467,15 @@ public class WorldWarK extends JPanel implements Runnable {
                     break;
                 case 5:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0);
-                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0);
+                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0, 50);
+                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0, 50);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
                 case 6:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0);
-                        enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0);
+                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50);
+                        enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0, 50);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
@@ -546,7 +546,7 @@ public class WorldWarK extends JPanel implements Runnable {
                     deleteObject(i);
                     deleteObject(bullet);
                     // Increases score (based on enemy type in the future?)
-                    score += 100;
+                    score += i.getPoints();
                 }
             }
         }

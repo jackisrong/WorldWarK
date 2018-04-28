@@ -16,13 +16,15 @@ public class Enemy extends GameObject {
     private int typeOfEnemy;
     private boolean reverse;
     private int reverseTimer;
+    private int points;
 
-    public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy) {
+    public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points) {
         super(xPos, yPos, width, height);
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.health = health;
         this.typeOfEnemy = typeOfEnemy;
+        this.points = points;
         reverse = false;
         reverseTimer = 0;
         rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
@@ -34,6 +36,10 @@ public class Enemy extends GameObject {
 
     public int getYSpeed() {
         return ySpeed;
+    }
+    
+    public int getPoints() {
+        return points;
     }
 
     public void setXSpeed(int speed) {
