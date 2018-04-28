@@ -170,6 +170,7 @@ public class WorldWarK extends JPanel implements Runnable {
             g2.setFont(scoreHeading);
             g2.setColor(Color.PINK);
             g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
+	    
             // Remove finished objects
             for (Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext();) {
                 GameObject value = iterator.next();
@@ -177,6 +178,7 @@ public class WorldWarK extends JPanel implements Runnable {
                     iterator.remove();
                 }
             }
+	    
             // Paint all GameObjects
             for (GameObject i : objects) {
                 i.paintComponent(g2);
