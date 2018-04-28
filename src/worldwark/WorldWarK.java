@@ -448,8 +448,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		    objects.add(enemyRight);
 		    break;
 		case 4:
-		    enemyLeft = new Enemy(25, 0, 64, 64, 0, 5, 50, 0);
-		    enemyRight = new Enemy(150, 0, 64, 64, 0, 5, 50, 0);
+		    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0);
+		    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0);
+                    enemyLeft.setReverse(true);
+                    enemyRight.setReverse(true);
 		    objects.add(enemyLeft);
 		    objects.add(enemyRight);
 		    break;
