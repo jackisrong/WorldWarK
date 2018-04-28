@@ -99,14 +99,8 @@ public class WorldWarK extends JPanel implements Runnable {
             for (GameObject i : objects) {
                 i.update(this);
             }
-
-            // Remove finished objects from object list
-            /*for (GameObject i : finishedObjects) {
-		objects.remove(i);
-	    }
-             */
-            repaint();
-
+	    repaint();
+	    
             // Sleep the thread
             try {
                 Thread.sleep(15);
@@ -145,7 +139,7 @@ public class WorldWarK extends JPanel implements Runnable {
                 }
                 g2.setFont(finalScoreFont);
                 g2.setColor(Color.PINK);
-                g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 50, 530);
+                g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 530);
             } else {
                 drawStartScreen(g2);
             }
@@ -171,17 +165,13 @@ public class WorldWarK extends JPanel implements Runnable {
             g2.setColor(Color.PINK);
             g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
 	    
-            // Remove finished objects
+            // Remove finished objects and paint remaining GameObjects
             for (Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext();) {
                 GameObject value = iterator.next();
                 if (finishedObjects.contains(value)) {
                     iterator.remove();
                 }
-            }
-	    
-            // Paint all GameObjects
-            for (GameObject i : objects) {
-                i.paintComponent(g2);
+		value.paintComponent(g2);
             }
         }
     }
@@ -390,9 +380,8 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void playSound(int sound) {
-        String file;
-
         // Choose sound to play based on parameter
+	String file;
         switch (sound) {
             case 0:
                 file = "shoot";
