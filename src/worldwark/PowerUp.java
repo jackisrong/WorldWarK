@@ -10,8 +10,11 @@ import javax.imageio.ImageIO;
 
 public class PowerUp extends GameObject {
 
-    public PowerUp(int xPos, int yPos, int width, int height) {
+    private int powerUpType;
+    
+    public PowerUp(int xPos, int yPos, int width, int height, int powerUpType) {
 	super(xPos, yPos, width, height);
+	this.powerUpType = powerUpType;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
     
@@ -22,13 +25,13 @@ public class PowerUp extends GameObject {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw player playerBox/hitbox
+	// Draw power up hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
 
-	// Puts the player image on the player
+	// Draw power up image
 	BufferedImage powerUpImage;
 	try {
 	    powerUpImage = ImageIO.read(new File("assets/img/powerUp.png"));

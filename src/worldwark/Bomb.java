@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Bomb extends PowerUp {
+public class Bomb extends GameObject {
 
     public Bomb(int xPos, int yPos, int width, int height) {
 	super(xPos, yPos, width, height);
@@ -22,13 +22,13 @@ public class Bomb extends PowerUp {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw bomb bombBox/hitbox
+	// Draw bomb hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
 
-	// Puts the bullet image on the player
+	// Draw bomb image
 	BufferedImage bombImage;
 	try {
 	    bombImage = ImageIO.read(new File("assets/img/bomb.png"));
