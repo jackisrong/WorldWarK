@@ -416,7 +416,14 @@ public class WorldWarK extends JPanel implements Runnable {
         Enemy enemyLeft;
         Enemy enemyRight;
         Random rand = new Random();
-        int choose = rand.nextInt(6) + 1;
+        int choose = 0;
+        if (score <= 2500) {
+            choose = rand.nextInt(6) + 1;
+        } else if (score > 2500 && score <= 5000) {
+            choose = rand.nextInt(6) + 1;
+        } else if (score > 5000 && score <= 7500) {
+            choose = rand.nextInt(6) + 1;
+        }
         if (score <= 2500) {
             //First tier of enemies
             switch (choose) {
