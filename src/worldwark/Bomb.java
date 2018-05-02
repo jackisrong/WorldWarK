@@ -23,21 +23,20 @@ public class Bomb extends GameObject {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw bomb hitbox
+	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
 
-	// Draw bomb image
+	// Draw image
 	BufferedImage bombImage;
 	try {
 	    bombImage = ImageIO.read(new File("assets/img/bomb.png"));
+	    g2.setClip(rectangle);
+	    g2.drawImage(bombImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: bomb.png cannot be read.");
-	    bombImage = null;
 	}
-	g2.setClip(rectangle);
-	g2.drawImage(bombImage, xPos, yPos, null);
     }
 }

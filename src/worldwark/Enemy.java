@@ -18,31 +18,31 @@ public class Enemy extends GameObject {
     private int reverseTimer;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points) {
-        super(xPos, yPos, width, height);
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-        this.health = health;
-        this.typeOfEnemy = typeOfEnemy;
-        this.points = points;
-        reverse = false;
-        reverseTimer = 0;
-        rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+	super(xPos, yPos, width, height);
+	this.xSpeed = xSpeed;
+	this.ySpeed = ySpeed;
+	this.health = health;
+	this.typeOfEnemy = typeOfEnemy;
+	this.points = points;
+	reverse = false;
+	reverseTimer = 0;
+	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
     public int getXSpeed() {
-        return xSpeed;
+	return xSpeed;
     }
 
     public int getYSpeed() {
-        return ySpeed;
+	return ySpeed;
     }
 
     public void setXSpeed(int speed) {
-        xSpeed = speed;
+	xSpeed = speed;
     }
 
     public void setYSpeed(int speed) {
-        ySpeed = speed;
+	ySpeed = speed;
     }
     
     public int getType() {
@@ -50,11 +50,11 @@ public class Enemy extends GameObject {
     }
 
     public void setReverse(boolean reverse) {
-        this.reverse = reverse;
+	this.reverse = reverse;
     }
 
     public boolean readyToTurnAtY(int reverseYPosition) {
-        return (Math.abs(yPos - reverseYPosition) <= 3);
+	return (Math.abs(yPos - reverseYPosition) <= 3);
     }
 
     public boolean readyToTurnAtX(int reverseXPosition) {// hi
@@ -110,60 +110,56 @@ public class Enemy extends GameObject {
             xPos += xSpeed;
         }
 
-        // Deletes the object once it has passed the bottom of the frame
-        if (yPos > panel.getHeight() - height - 1) {
-            panel.deleteObject(this);
-        } else {
-            yPos += ySpeed;
-        }
+	// Deletes the object once it has passed the bottom of the frame
+	if (yPos > panel.getHeight() - height - 1) {
+	    panel.deleteObject(this);
+	} else {
+	    yPos += ySpeed;
+	}
     }
 
     @Override
     public void paintComponent(Graphics2D g2) {
-        rectangle.setFrame(xPos, yPos, width, height);
+	rectangle.setFrame(xPos, yPos, width, height);
 
-        // Draw enemy rectangle/hitbox
-        Color transparentColor = new Color(0, 0, 0, 0);
-        g2.setColor(transparentColor);
-        g2.fill(rectangle);
-        g2.draw(rectangle);
+	// Draw hitbox
+	Color transparentColor = new Color(0, 0, 0, 0);
+	g2.setColor(transparentColor);
+	g2.fill(rectangle);
+	g2.draw(rectangle);
 
-        // Puts appropriate enemy image on the enemy
-        BufferedImage enemyImage;
-        String fileName = null;
-        switch (typeOfEnemy) {
-            case 0:
-                fileName = "helicopterLow";
-                break;
-            case 1:
-                fileName = "helicopterMed";
-                break;
-            case 2:
-                fileName = "helicopterHard";
-                break;
-            case 3:
-                fileName = "fighterPlaneLow";
-                break;
-            case 4:
-                fileName = "fighterPlaneMed";
-                break;
-            case 5:
-                fileName = "fighterPlaneHard";
-                break;
-            default:
-                break;
+	// Draw appropriate enemy image on the enemy
+	BufferedImage enemyImage;
+	String fileName = null;
+	switch (typeOfEnemy) {
+	    case 0:
+		fileName = "helicopterLow";
+		break;
+	    case 1:
+		fileName = "helicopterMed";
+		break;
+	    case 2:
+		fileName = "helicopterHard";
+		break;
+	    case 3:
+		fileName = "fighterPlaneLow";
+		break;
+	    case 4:
+		fileName = "fighterPlaneMed";
+		break;
+	    case 5:
+		fileName = "fighterPlaneHard";
+		break;
+	    default:
+		break;
+	}
 
-        }
-
-        if (fileName != null) {
-            try {
-                enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
-            } catch (IOException e) {
-                System.out.println("ERROR: " + fileName + ".png cannot be read.");
-                enemyImage = null;
-            }
-            g2.setClip(rectangle);
-            g2.drawImage(enemyImage, xPos, yPos, null);
-        }
+	try {
+	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+	    g2.setClip(rectangle);
+	    g2.drawImage(enemyImage, xPos, yPos, null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	}
     }
 }
