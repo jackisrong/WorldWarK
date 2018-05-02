@@ -15,10 +15,11 @@ public class Bomb extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
+    @Override
     public void update(WorldWarK panel) {
-
     }
 
+    @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 

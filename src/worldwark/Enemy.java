@@ -36,10 +36,6 @@ public class Enemy extends GameObject {
     public int getYSpeed() {
         return ySpeed;
     }
-    
-    public int getPoints() {
-        return points;
-    }
 
     public void setXSpeed(int speed) {
         xSpeed = speed;
@@ -61,6 +57,7 @@ public class Enemy extends GameObject {
         return (Math.abs(xPos - reverseXPosition) <= 3);
     }
 
+    @Override
     public void update(WorldWarK panel) {
         panel.checkEnemyCollision(this);
 
@@ -97,6 +94,7 @@ public class Enemy extends GameObject {
         }
     }
 
+    @Override
     public void paintComponent(Graphics2D g2) {
         rectangle.setFrame(xPos, yPos, width, height);
 
@@ -111,22 +109,22 @@ public class Enemy extends GameObject {
         String fileName = null;
         switch (typeOfEnemy) {
             case 0:
-                fileName = "HelicopterLow(64X64)";
+                fileName = "helicopterLow";
                 break;
             case 1:
-                fileName = "HelicopterMed(64X64)";
+                fileName = "helicopterMed";
                 break;
             case 2:
-                fileName = "HelicopterHard(64X64)";
+                fileName = "helicopterHard";
                 break;
             case 3:
-                fileName = "FighterPlaneLow(64X64)";
+                fileName = "fighterPlaneLow";
                 break;
             case 4:
-                fileName = "FighterPlaneMed(64X64)";
+                fileName = "fighterPlaneMed";
                 break;
             case 5:
-                fileName = "FighterPlaneHard(64X64)";
+                fileName = "fighterPlaneHard";
                 break;
             default:
                 break;

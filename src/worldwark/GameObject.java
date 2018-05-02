@@ -34,6 +34,7 @@ public abstract class GameObject {
     public int getHeight() {
 	return height;
     }
+
     public int getPoints() {
         return points;
     }

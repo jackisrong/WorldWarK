@@ -79,9 +79,11 @@ public class Player extends GameObject {
 	health -= healthLost;
     }
     
+    @Override
     public void update(WorldWarK panel) {
     }
 
+    @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 

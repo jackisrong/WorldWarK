@@ -15,6 +15,7 @@ public class Bullet extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
     
+    @Override
     public void update(WorldWarK panel) {
 	panel.checkBulletHit(this);
 	
@@ -24,6 +25,7 @@ public class Bullet extends GameObject {
 	}
     }
 
+    @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 

@@ -34,11 +34,11 @@ public class WorldWarK extends JPanel implements Runnable {
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
-    private boolean run = false;
-    private int score;
     private Rectangle2D clickedStartScreenButton;
+    private boolean run = false;
     private boolean gamePaused = false;
     private boolean gameOver = false;
+    private int score;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -86,8 +86,8 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
-	    // Spawn enemies every 2 seconds
-	    if (spawnTimer >= 3000 && score <= 2500) { // Controls the spawn rates of the stages depending on the score
+	     // Controls the spawn rates of the stages depending on the score
+	    if (spawnTimer >= 3000 && score <= 2500) {
 		spawnEnemy(this);
 	    } else if (spawnTimer >= 2000 && score > 2500 && score <= 5000) {
 		spawnEnemy(this);
@@ -180,7 +180,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	// Paint start screen background
 	BufferedImage image;
 	try {
-	    image = ImageIO.read(new File("assets/img/background.jpg"));
+	    image = ImageIO.read(new File("assets/img/startScreenBackground.jpg"));
 	} catch (IOException e) {
 	    System.out.println("ERROR: background.jpg cannot be read.");
 	    image = null;
@@ -343,7 +343,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
 	}
 	g2.setFont(contentFont);
-	g2.drawString("Your democratic freedom.", 140, 210);
+	g2.drawString("Your democratic freedom", 140, 210);
 
 	//final int headingXPos = 90;
 	//final int nameXPos = 130;
@@ -474,6 +474,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Enemy enemyRight;
 	Random rand = new Random();
 	int choose = 0;
+	
 	if (score <= 2500) {
 	    choose = rand.nextInt(6) + 1;
 	} else if (score > 2500 && score <= 5000) {
@@ -481,8 +482,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	} else if (score > 5000 && score <= 7500) {
 	    choose = rand.nextInt(6) + 1;
 	}
+	
 	if (score <= 2500) {
-	    //First tier of enemies
+	    // First tier of enemies
 	    switch (choose) {
 		case 1:
 		    for (int i = 0; i < 150; i += 50) {
@@ -534,7 +536,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 	    }
 	} else if (score > 2500 && score <= 5000) {
-	    //Second tier of enemies
+	    // Second tier of enemies
 	    switch (choose) {
 		case 1:
 		    for (int i = 0; i < 150; i += 50) {
@@ -712,6 +714,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     private class KeyboardControls implements KeyListener {
 
+	@Override
 	public void keyPressed(KeyEvent event) {
 	    // Keyboard controls
 	    switch (event.getKeyCode()) {
@@ -736,15 +739,18 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	}
 
+	@Override
 	public void keyReleased(KeyEvent event) {
 	}
 
+	@Override
 	public void keyTyped(KeyEvent event) {
 	}
     }
 
     private class MouseControls implements MouseListener, MouseMotionListener {
 
+	@Override
 	public void mouseClicked(MouseEvent event) {
 	    // Mouse click controls
 	    if (event.getButton() == MouseEvent.BUTTON1) {
@@ -767,20 +773,25 @@ public class WorldWarK extends JPanel implements Runnable {
 	public void mousePressed(MouseEvent event) {
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent event) {
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent event) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent event) {
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent event) {
 	    // Sets x position of player when mouse is moved
 	    player.setXPosition(event.getX());
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent event) {
 	    // Sets x position of player when mouse is clicked and dragged
 	    player.setXPosition(event.getX());
