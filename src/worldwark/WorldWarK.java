@@ -86,7 +86,7 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
-	     // Controls the spawn rates of the stages depending on the score
+	    // Controls the spawn rates of the stages depending on the score
 	    if (spawnTimer >= 3000 && score <= 2500) {
 		spawnEnemy(this);
 	    } else if (spawnTimer >= 2000 && score > 2500 && score <= 5000) {
@@ -198,23 +198,27 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setFont(gameTitleFont);
 	g2.drawString("World", 25, 100);
 	g2.drawString("War", 50, 200);
-	try {
-	    gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(120f);
-	} catch (Exception e) {
-	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	if (gameTitleFont != null) {
+	    gameTitleFont = gameTitleFont.deriveFont(120f);
 	}
 	g2.setFont(gameTitleFont);
 	g2.drawString("K", 280, 240);
 
-	Font font1 = null;
+	Font spaceToStartFont = null;
 	try {
-	    font1 = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
+	    spaceToStartFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(40f);
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	}
 	g2.setColor(new Color(255, 215, 0));
-	g2.setFont(font1);
-	g2.drawString("Press SPACE to start", 25, 525);
+	g2.setFont(spaceToStartFont);
+	g2.drawString("Press SPACEBAR to start", 40, 525);
+
+	Font buttonFont = null;
+	if (spaceToStartFont != null) {
+	    buttonFont = spaceToStartFont.deriveFont(20f);
+	}
+	g2.setFont(buttonFont);
 
 	// Paint how to play button
 	g2.setColor(Color.RED);
@@ -474,7 +478,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Enemy enemyRight;
 	Random rand = new Random();
 	int choose = 0;
-	
+
 	if (score <= 2500) {
 	    choose = rand.nextInt(6) + 1;
 	} else if (score > 2500 && score <= 5000) {
@@ -482,7 +486,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	} else if (score > 5000 && score <= 7500) {
 	    choose = rand.nextInt(6) + 1;
 	}
-	
+
 	if (score <= 2500) {
 	    // First tier of enemies
 	    switch (choose) {
