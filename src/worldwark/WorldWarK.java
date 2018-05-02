@@ -143,60 +143,62 @@ public class WorldWarK extends JPanel implements Runnable {
 	    } else {
 		drawStartScreen(g2);
 	    }
-	} else {
-	    if (gamePaused == true) {
-		// Draw window background rectangle
-		g2.setColor(new Color(0, 0, 0, 250));
-		g2.fillRect(50, 80, 400, 700);
+	}
 
-		// Draw close button
-		g2.setColor(Color.RED);
-		Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-		g2.fill(closeButton);
-		startScreenButtons.add(closeButton);
-		g2.setColor(Color.WHITE);
-		g2.drawString("CLOSE", 377, 102);
-
-		readDrawFile(g2, "instructions", 60, 70);
-	    } else {
-		// Paint game background image
-		BufferedImage image;
-		try {
-		    image = ImageIO.read(new File("assets/img/background.jpg"));
-		} catch (IOException e) {
-		    System.out.println("ERROR: background.jpg cannot be read.");
-		    image = null;
-		}
-		g2.drawImage(image, 0, 0, null);
-
-		// Paint score
-		Font scoreHeading = null;
-		try {
-		    scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
-		} catch (Exception e) {
-		    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
-		}
-		g2.setFont(scoreHeading);
-		g2.setColor(Color.PINK);
-		g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
-
-		// Draw pause button
-		g2.setColor(Color.RED);
-		Rectangle2D pauseButton = new Rectangle2D.Double(420, 0, 80, 30);
-		g2.fill(pauseButton);
-		startScreenButtons.add(pauseButton);
-		g2.setColor(Color.WHITE);
-		g2.drawString("PAUSE", 427, 22);
-
-		// Remove finished objects and paint remaining GameObjects
-		for (Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext();) {
-		    GameObject value = iterator.next();
-		    if (finishedObjects.contains(value)) {
-			iterator.remove();
-		    }
-		    value.paintComponent(g2);
-		}
+	if (run == true || (run == false && gamePaused == true)) {
+	    // Paint game background image
+	    BufferedImage image;
+	    try {
+		image = ImageIO.read(new File("assets/img/background.jpg"));
+	    } catch (IOException e) {
+		System.out.println("ERROR: background.jpg cannot be read.");
+		image = null;
 	    }
+	    g2.drawImage(image, 0, 0, null);
+
+	    // Paint score
+	    Font scoreHeading = null;
+	    try {
+		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+	    }
+	    g2.setFont(scoreHeading);
+	    g2.setColor(Color.PINK);
+	    g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
+
+	    // Draw pause button
+	    g2.setColor(Color.RED);
+	    Rectangle2D pauseButton = new Rectangle2D.Double(420, 0, 80, 30);
+	    g2.fill(pauseButton);
+	    startScreenButtons.add(pauseButton);
+	    g2.setColor(Color.WHITE);
+	    g2.drawString("PAUSE", 427, 22);
+
+	    // Remove finished objects and paint remaining GameObjects
+	    for (Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext();) {
+		GameObject value = iterator.next();
+		if (finishedObjects.contains(value)) {
+		    iterator.remove();
+		}
+		value.paintComponent(g2);
+	    }
+	}
+
+	if (gamePaused == true) {
+	    // Draw window background rectangle
+	    g2.setColor(new Color(0, 0, 0, 250));
+	    g2.fillRect(50, 80, 400, 700);
+
+	    // Draw close button
+	    g2.setColor(Color.RED);
+	    Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	    g2.fill(closeButton);
+	    startScreenButtons.add(closeButton);
+	    g2.setColor(Color.WHITE);
+	    g2.drawString("CLOSE", 377, 102);
+
+	    readDrawFile(g2, "instructions", 60, 70);
 	}
     }
 
@@ -747,6 +749,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public static void main(String[] args) {
 	panel = new WorldWarK();
+
     }
 
     private class KeyboardControls implements KeyListener {
