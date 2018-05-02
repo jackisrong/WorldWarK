@@ -44,6 +44,10 @@ public class Enemy extends GameObject {
     public void setYSpeed(int speed) {
         ySpeed = speed;
     }
+    
+    public int getType() {
+        return typeOfEnemy;
+    }
 
     public void setReverse(boolean reverse) {
         this.reverse = reverse;
@@ -53,14 +57,14 @@ public class Enemy extends GameObject {
         return (Math.abs(yPos - reverseYPosition) <= 3);
     }
 
-    public boolean readyToTurnAtX(int reverseXPosition) {
+    public boolean readyToTurnAtX(int reverseXPosition) {// hi
         return (Math.abs(xPos - reverseXPosition) <= 3);
     }
 
     @Override
     public void update(WorldWarK panel) {
         panel.checkEnemyCollision(this);
-
+        // Y reverse
         if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
             ySpeed = 0;
             reverseTimer += 15;
@@ -69,13 +73,33 @@ public class Enemy extends GameObject {
                 ySpeed = -5;
             }
         }
-
+        // X reverse
         if (reverse && readyToTurnAtX(panel.getWidth() / 2)) {
             xSpeed = 0;
             reverseTimer += 15;
             if (reverseTimer >= 1000) {
                 reverse = false;
                 xSpeed = -5;
+            }
+        }
+
+        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() > 0 && this.getType() < 4 && this.getYSpeed() != 0) {
+            int bb = 0;
+            reverseTimer += 15;
+            if (reverseTimer >= 300 && bb == 0) {
+                ySpeed = -5;
+                bb = 1;
+            } else if (reverseTimer >= 300 && readyToTurnAtY(panel.getHeight() / 4) && bb == 1) {
+                xSpeed = - this.getXSpeed();
+                bb = 0;
+            }
+        }
+        if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() > 4) {
+            reverseTimer += 15;
+            if (reverseTimer >= 300) {
+                xSpeed = - this.getXSpeed();
+            } else if (reverseTimer >= 300 && readyToTurnAtX(panel.getWidth() / 4)) {
+                xSpeed = - this.getXSpeed();
             }
         }
 
