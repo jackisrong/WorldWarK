@@ -14,11 +14,11 @@ public class Bullet extends GameObject {
 	super(xPos, yPos, width, height);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
-    
+
     @Override
     public void update(WorldWarK panel) {
 	panel.checkBulletHit(this);
-	
+
 	yPos -= 10;
 	if (yPos < 0) {
 	    panel.deleteObject(this);
@@ -29,21 +29,20 @@ public class Bullet extends GameObject {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw bullet bulletBox/hitbox
+	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
 
-	// Puts the bullet image on the player
+	// Draw image
 	BufferedImage bulletImage;
 	try {
 	    bulletImage = ImageIO.read(new File("assets/img/bomb.png"));
+	    g2.setClip(rectangle);
+	    g2.drawImage(bulletImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: bomb.png cannot be read.");
-	    bulletImage = null;
 	}
-	g2.setClip(rectangle);
-	g2.drawImage(bulletImage, xPos, yPos, null);
     }
 }

@@ -74,11 +74,11 @@ public class Player extends GameObject {
     public void setHealth(int health) {
 	this.health = health;
     }
-    
+
     public void loseHealth(int healthLost) {
 	health -= healthLost;
     }
-    
+
     @Override
     public void update(WorldWarK panel) {
     }
@@ -87,7 +87,7 @@ public class Player extends GameObject {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw player playerBox/hitbox
+	// Draw player hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
@@ -99,15 +99,14 @@ public class Player extends GameObject {
 	g2.setColor(Color.GREEN);
 	g2.fillRect(xPos - 16, yPos + height, health, 3);
 
-	// Puts the player image on the player
+	// Draw image
 	BufferedImage playerImage;
 	try {
 	    playerImage = ImageIO.read(new File("assets/img/player.png"));
+	    g2.setClip(rectangle);
+	    g2.drawImage(playerImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: player.png cannot be read.");
-	    playerImage = null;
 	}
-	g2.setClip(rectangle);
-	g2.drawImage(playerImage, xPos, yPos, null);
     }
 }
