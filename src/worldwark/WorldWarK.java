@@ -188,6 +188,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (gamePaused == true) {
 	    // Draw window background rectangle
 	    g2.setColor(new Color(0, 0, 0, 250));
+	    g2.setClip(new Rectangle2D.Double(50, 80, 400, 700));
 	    g2.fillRect(50, 80, 400, 700);
 
 	    // Draw close button
@@ -795,11 +796,19 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Mouse click controls
 	    if (event.getButton() == MouseEvent.BUTTON1) {
 		if (run == false) {
-		    // Check if x and y coords of mouse click is within a button area
-		    for (Rectangle2D i : startScreenButtons) {
-			if (i.contains(event.getPoint())) {
-			    clickedStartScreenButton = i;
+		    if (gamePaused == true) {
+			if (new Rectangle2D.Double(370, 80, 80, 30).contains(event.getPoint())) {
+			    run = true;
+			    gamePaused = false;
 			    repaint();
+			}
+		    } else {
+			// Check if x and y coords of mouse click is within a button area
+			for (Rectangle2D i : startScreenButtons) {
+			    if (i.contains(event.getPoint())) {
+				clickedStartScreenButton = i;
+				repaint();
+			    }
 			}
 		    }
 		} else {
@@ -809,12 +818,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			repaint();
 		    }
 
-		    if (gamePaused == true) {
-			if (new Rectangle2D.Double(370, 80, 80, 30).contains(event.getPoint())) {
-			    gamePaused = false;
-			    repaint();
-			}
-		    } else {
+		    if (gamePaused == false) {
 			shootBullet();
 		    }
 		}
