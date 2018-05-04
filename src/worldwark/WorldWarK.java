@@ -742,6 +742,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public void gameOver() {
 	run = false;
 	gameOver = true;
+	score = 0;
 	player.setHealth(100);
 	objects.clear();
 	objects.add(player);
