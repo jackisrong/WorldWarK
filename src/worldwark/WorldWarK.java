@@ -171,6 +171,25 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.setColor(Color.PINK);
 	    g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
 
+	    // Paint high score
+	    BufferedReader inputStream = null;
+	    String previousHighScore = "0";
+	    try {
+		inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
+		previousHighScore = inputStream.readLine();
+	    } catch (IOException e) {
+		System.out.println("ERROR: Cannot open highScore.txt");
+	    } finally {
+		if (inputStream != null) {
+		    try {
+			inputStream.close();
+		    } catch (IOException e) {
+			System.out.println("ERROR: Cannot close inputStream.");
+		    }
+		}
+	    }
+	    g2.drawString("HIGH SCORE: " + previousHighScore, 180, 25);
+
 	    // Draw pause button
 	    g2.setColor(Color.RED);
 	    g2.fillRect(420, 0, 80, 30);
