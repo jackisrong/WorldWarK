@@ -44,9 +44,9 @@ public class Enemy extends GameObject {
     public void setYSpeed(int speed) {
 	ySpeed = speed;
     }
-    
+
     public int getType() {
-        return typeOfEnemy;
+	return typeOfEnemy;
     }
 
     public void setReverse(boolean reverse) {
@@ -58,57 +58,62 @@ public class Enemy extends GameObject {
     }
 
     public boolean readyToTurnAtX(int reverseXPosition) {// hi
-        return (Math.abs(xPos - reverseXPosition) <= 3);
+	return (Math.abs(xPos - reverseXPosition) <= 3);
     }
 
     @Override
     public void update(WorldWarK panel) {
-        panel.checkEnemyCollision(this);
-        // Y reverse
-        if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
-            ySpeed = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 1000) {
-                reverse = false;
-                ySpeed = -5;
-            }
-        }
-        // X reverse
-        if (reverse && readyToTurnAtX(panel.getWidth() / 2)) {
-            xSpeed = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 1000) {
-                reverse = false;
-                xSpeed = -5;
-            }
-        }
+	try {
+	    panel.checkEnemyCollision(this);
+	} catch (IOException e) {
+	    System.out.println("ERROR: IOException at checkEnemyCollision");
+	}
 
-        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() > 0 && this.getType() < 4 && this.getYSpeed() != 0) {
-            int bb = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 300 && bb == 0) {
-                ySpeed = -5;
-                bb = 1;
-            } else if (reverseTimer >= 300 && readyToTurnAtY(panel.getHeight() / 4) && bb == 1) {
-                xSpeed = - this.getXSpeed();
-                bb = 0;
-            }
-        }
-        if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() > 4) {
-            reverseTimer += 15;
-            if (reverseTimer >= 300) {
-                xSpeed = - this.getXSpeed();
-            } else if (reverseTimer >= 300 && readyToTurnAtX(panel.getWidth() / 4)) {
-                xSpeed = - this.getXSpeed();
-            }
-        }
+	// Y reverse
+	if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
+	    ySpeed = 0;
+	    reverseTimer += 15;
+	    if (reverseTimer >= 1000) {
+		reverse = false;
+		ySpeed = -5;
+	    }
+	}
+	// X reverse
+	if (reverse && readyToTurnAtX(panel.getWidth() / 2)) {
+	    xSpeed = 0;
+	    reverseTimer += 15;
+	    if (reverseTimer >= 1000) {
+		reverse = false;
+		xSpeed = -5;
+	    }
+	}
 
-        // Exits Left/Right wall's threshold
-        if (xPos <= -201 || xPos >= 701) {
-            panel.deleteObject(this);
-        } else {
-            xPos += xSpeed;
-        }
+	if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() > 0 && this.getType() < 4 && this.getYSpeed() != 0) {
+	    int bb = 0;
+	    reverseTimer += 15;
+	    if (reverseTimer >= 300 && bb == 0) {
+		ySpeed = -5;
+		bb = 1;
+	    } else if (reverseTimer >= 300 && readyToTurnAtY(panel.getHeight() / 4) && bb == 1) {
+		xSpeed = -this.getXSpeed();
+		bb = 0;
+	    }
+	}
+	if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() > 4) {
+	    reverseTimer += 15;
+	    if (reverseTimer >= 300) {
+		xSpeed = -this.getXSpeed();
+	    } else if (reverseTimer >= 300 && readyToTurnAtX(panel.getWidth() / 4)) {
+		xSpeed = -this.getXSpeed();
+	    }
+	}
+
+	// Exits Left/Right wall's threshold
+	if (xPos <= -201 || xPos >= 701) {
+	    panel.deleteObject(this);
+	} else {
+	    xPos += xSpeed;
+	}
 
 	// Deletes the object once it has passed the bottom of the frame
 	if (yPos > panel.getHeight() - height - 1) {
