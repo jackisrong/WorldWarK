@@ -526,6 +526,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	Enemy enemyRight;
 	Random rand = new Random();
 	int choose = 0;
+
 	// Spawns enemies dependeing on the score
 	if (score <= 2500) {
 	    choose = rand.nextInt(6) + 1;
