@@ -55,7 +55,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
 
-	score = 0;
 	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
 	objects.add(player);
 
@@ -75,6 +74,9 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void start() {
 	Thread thread = new Thread(this);
+	if (gamePaused == false) {
+	    score = 0;
+	}
 	run = true;
 	thread.start();
     }
@@ -742,7 +744,6 @@ public class WorldWarK extends JPanel implements Runnable {
     public void gameOver() {
 	run = false;
 	gameOver = true;
-	score = 0;
 	player.setHealth(100);
 	objects.clear();
 	objects.add(player);
