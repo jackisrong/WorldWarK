@@ -769,12 +769,29 @@ public class WorldWarK extends JPanel implements Runnable {
 	objects.add(player);
 	repaint();
 
+	BufferedReader inputStream = null;
+	String previousHighScore = "0";
+	try {
+	    inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
+	    previousHighScore = inputStream.readLine();
+	} catch (IOException e) {
+	    System.out.println("ERROR: Cannot open highScore.txt");
+	} finally {
+	    if (inputStream != null) {
+		inputStream.close();
+	    }
+	}
+
 	FileWriter outputStream = null;
 	try {
 	    outputStream = new FileWriter("assets/data/highScore.txt");
-	    outputStream.write(score + "\r\n");
+	    if (score > Integer.parseInt(previousHighScore)) {
+		outputStream.write(score + "\r\n");
+	    } else {
+		outputStream.write(previousHighScore + "\r\n");
+	    }
 	} catch (FileNotFoundException exception) {
-	    System.out.println("ERROR: Cannot write to user.txt");
+	    System.out.println("ERROR: Cannot write to highScore.txt");
 	} finally {
 	    if (outputStream != null) {
 		outputStream.close();
