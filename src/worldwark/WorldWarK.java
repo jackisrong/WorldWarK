@@ -18,8 +18,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -32,7 +32,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private static int spawnTimer = 0;
     private Player player;
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
-    private ArrayList<GameObject> objects = new ArrayList<>();
+    private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
     private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private Rectangle2D clickedStartScreenButton;
     private boolean run = false;
@@ -171,19 +171,17 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	    // Draw pause button
 	    g2.setColor(Color.RED);
-	    Rectangle2D pauseButton = new Rectangle2D.Double(420, 0, 80, 30);
-	    g2.fill(pauseButton);
-	    startScreenButtons.add(pauseButton);
+	    g2.fillRect(420, 0, 80, 30);
 	    g2.setColor(Color.WHITE);
 	    g2.drawString("PAUSE", 427, 22);
 
 	    // Remove finished objects and paint remaining GameObjects
-	    for (Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext();) {
-		GameObject value = iterator.next();
-		if (finishedObjects.contains(value)) {
-		    iterator.remove();
+	    for (GameObject i : objects) {
+		if (finishedObjects.contains(i)) {
+		    objects.remove(i);
+		} else {
+		    i.paintComponent(g2);
 		}
-		value.paintComponent(g2);
 	    }
 	}
 
@@ -201,7 +199,26 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.setColor(Color.WHITE);
 	    g2.drawString("CLOSE", 377, 102);
 
-	    readDrawFile(g2, "instructions", 60, 70);
+	    // Print heading
+	    Font titleFont = null;
+	    try {
+		titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	    }
+	    g2.setColor(Color.WHITE);
+	    g2.setFont(titleFont);
+	    g2.drawString("PAUSED", 120, 170);
+
+	    // Print subheading
+	    Font contentFont = null;
+	    try {
+		contentFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	    } catch (Exception e) {
+		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+	    }
+	    g2.setFont(contentFont);
+	    g2.drawString("Your game is paused.", 160, 210);
 	}
     }
 
