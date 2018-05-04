@@ -15,7 +15,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -746,7 +748,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
     }
 
-    public void checkEnemyCollision(Enemy enemy) {
+    public void checkEnemyCollision(Enemy enemy) throws IOException {
 	if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
 	    // Deletes enemy upon collision and player loses health
 	    deleteObject(enemy);
@@ -758,13 +760,25 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
     }
 
-    public void gameOver() {
+    public void gameOver() throws IOException {
 	run = false;
 	gameOver = true;
 	player.setHealth(100);
 	objects.clear();
 	objects.add(player);
 	repaint();
+
+	FileWriter outputStream = null;
+	try {
+	    outputStream = new FileWriter("assets/data/highScore.txt");
+	    outputStream.write(score + "\r\n");
+	} catch (FileNotFoundException exception) {
+	    System.out.println("ERROR: Cannot write to user.txt");
+	} finally {
+	    if (outputStream != null) {
+		outputStream.close();
+	    }
+	}
     }
 
     public static void main(String[] args) {
@@ -846,6 +860,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	}
 
+	@Override
 	public void mousePressed(MouseEvent event) {
 	}
 
