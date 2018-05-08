@@ -446,29 +446,6 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.setColor(Color.BLACK);
         g2.drawString("HIGH", 350, 300);
 
-	// Draw close button
-	g2.setColor(Color.WHITE);
-	Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
-	g2.fill(lowButtom);
-	startScreenButtons.add(lowButtom);
-	g2.setColor(Color.BLACK);
-	g2.drawString("LOW", 100, 300);
-
-	// Draw close button
-	g2.setColor(Color.WHITE);
-	Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
-	g2.fill(medButton);
-	startScreenButtons.add(medButton);
-	g2.setColor(Color.BLACK);
-	g2.drawString("NORMAL", 200, 300);
-
-	// Draw close button
-	g2.setColor(Color.WHITE);
-	Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
-	g2.fill(highButton);
-	startScreenButtons.add(highButton);
-	g2.setColor(Color.BLACK);
-	g2.drawString("HIGH", 350, 300);
 
 	// Print heading
 	Font titleFont = null;
