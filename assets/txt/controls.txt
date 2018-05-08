@@ -12,3 +12,6 @@ $Shoot
 $Launch Bomb
 %Keyboard: B Key
 %Mouse: Right Mouse Click
+$Pause Game
+%Keyboard: Escape Key
+%Mouse: Pause Button
