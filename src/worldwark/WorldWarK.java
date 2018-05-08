@@ -414,7 +414,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(closeButton);
         g2.setColor(Color.WHITE);
         g2.drawString("CLOSE", 377, 102);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
@@ -422,7 +422,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(lowButtom);
         g2.setColor(Color.BLACK);
         g2.drawString("LOW", 100, 300);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
@@ -430,7 +430,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(medButton);
         g2.setColor(Color.BLACK);
         g2.drawString("NORMAL", 200, 300);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
@@ -592,20 +592,20 @@ public class WorldWarK extends JPanel implements Runnable {
 
         // Spawns enemies dependeing on the score
         if (score <= 2500) {
-            choose = rand.nextInt(6) + 1;
+            choose = rand.nextInt(1) + 1;
         } else if (score > 2500 && score <= 5000) {
-            choose = rand.nextInt(7) + 6;
+            choose = rand.nextInt(1) + 8;
         } else if (score > 5000 && score <= 7500) {
             choose = rand.nextInt(6) + 1;
         }
-
+        System.out.println(choose);
         if (score <= 2500) {
             // First tier of enemies
             switch (choose) {
                 case 1:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 2550);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 2500);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
@@ -705,12 +705,24 @@ public class WorldWarK extends JPanel implements Runnable {
                     }
                     break;
                 case 7:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 7, 2, 50, 1, 75);
-                    enemyRight = new Enemy(0, 300, 64, 64, 7, 2, 50, 1, 75);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(0 - i * 2, 100 + i / 2, 64, 64, 3, 3, 50, 1, 75);
+                        enemyRight = new Enemy(450 + i * 2, 300 - i / 2, 64, 64, -3, 3, 50, 1, 75);
+                        enemyLeft.setReverse(true);
+                        enemyRight.setReverse(true);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
+                    break;
+                case 8:
+                    for (int i = 0; i < 150; i += 50) {
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, -3, 7, 50, 4, 75);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 3, 7, 50, 4, 75);
+                        enemyLeft.setReverse(true);
+                        enemyRight.setReverse(true);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
                     break;
 
             }
