@@ -135,8 +135,8 @@ public class WorldWarK extends JPanel implements Runnable {
 		}
 		g2.setColor(Color.RED);
 		g2.setFont(gameOverFont);
-		g2.drawString("GAME", 100, 370);
-		g2.drawString("OVER", 100, 450);
+		g2.drawString("GAME", 100, 270);
+		g2.drawString("OVER", 100, 350);
 
 		// Paint final score
 		Font finalScoreFont = null;
@@ -147,7 +147,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		}
 		g2.setFont(finalScoreFont);
 		g2.setColor(Color.PINK);
-		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 530);
+		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 430);
+		g2.setFont(finalScoreFont.deriveFont(20f));
+		g2.drawString("Press R to play again", 60, 580);
+		g2.drawString("Press T to return to title screen", 60, 610);
 	    } else {
 		drawStartScreen(g2);
 	    }
@@ -211,40 +214,44 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 
 	if (gamePaused == true) {
-	    // Draw window background rectangle
-	    g2.setColor(new Color(0, 0, 0, 250));
-	    g2.setClip(new Rectangle2D.Double(50, 80, 400, 700));
-	    g2.fillRect(50, 80, 400, 700);
-
-	    // Draw close button
-	    g2.setColor(Color.RED);
-	    Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	    g2.fill(closeButton);
-	    startScreenButtons.add(closeButton);
-	    g2.setColor(Color.WHITE);
-	    g2.drawString("CLOSE", 377, 102);
-
-	    // Print heading
-	    Font titleFont = null;
-	    try {
-		titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
-	    } catch (Exception e) {
-		System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
-	    }
-	    g2.setColor(Color.WHITE);
-	    g2.setFont(titleFont);
-	    g2.drawString("PAUSED", 120, 170);
-
-	    // Print subheading
-	    Font contentFont = null;
-	    try {
-		contentFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
-	    } catch (Exception e) {
-		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
-	    }
-	    g2.setFont(contentFont);
-	    g2.drawString("Your game is paused.", 160, 210);
+	    drawPausedScreen(g2);
 	}
+    }
+
+    public void drawPausedScreen(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.setClip(new Rectangle2D.Double(50, 80, 400, 700));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+
+	// Print heading
+	Font titleFont = null;
+	try {
+	    titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(50f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	}
+	g2.setColor(Color.WHITE);
+	g2.setFont(titleFont);
+	g2.drawString("PAUSED", 120, 170);
+
+	// Print subheading
+	Font contentFont = null;
+	try {
+	    contentFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+	} catch (Exception e) {
+	    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+	}
+	g2.setFont(contentFont);
+	g2.drawString("Your game is paused.", 160, 210);
     }
 
     public void drawStartScreen(Graphics2D g2) {
@@ -848,6 +855,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	gameOver = true;
 	player.setHealth(100);
 	objects.clear();
+	finishedObjects.clear();
 	objects.add(player);
 	repaint();
 
@@ -899,7 +907,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    player.keyboardMoveRight();
 		    break;
 		case KeyEvent.VK_SPACE:
-		    if (run == false && clickedStartScreenButton == null) {
+		    if (run == false && clickedStartScreenButton == null && gameOver == false) {
 			start();
 		    } else {
 			shootBullet();
@@ -908,6 +916,24 @@ public class WorldWarK extends JPanel implements Runnable {
 		case KeyEvent.VK_B:
 		    launchBomb();
 		    break;
+		case KeyEvent.VK_R:
+		    if (run == false && gameOver == true) {
+			start();
+		    }
+		case KeyEvent.VK_T:
+		    if (run == false && gameOver == true) {
+			gameOver = false;
+			repaint();
+		    }
+		case KeyEvent.VK_ESCAPE:
+		    if (run == true && gamePaused == false) {
+			gamePaused = true;
+			run = false;
+		    } else if (run == false && gamePaused == true) {
+			start();
+			gamePaused = false;
+			repaint();
+		    }
 		default:
 		    break;
 	    }
