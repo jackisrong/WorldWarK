@@ -290,7 +290,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 	g2.setColor(new Color(255, 215, 0));
 	g2.setFont(spaceToStartFont);
-	g2.drawString("Press SPACEBAR to start", 40, 525);
+	g2.drawString("Press SPACEBAR to play", 40, 525);
 
 	Font buttonFont = null;
 	if (spaceToStartFont != null) {
