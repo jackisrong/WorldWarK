@@ -931,13 +931,16 @@ public class WorldWarK extends JPanel implements Runnable {
 		    break;
 		case KeyEvent.VK_R:
 		    if (run == false && gameOver == true) {
+			gameOver = false;
 			start();
 		    }
+		    break;
 		case KeyEvent.VK_T:
 		    if (run == false && gameOver == true) {
 			gameOver = false;
 			repaint();
 		    }
+		    break;
 		case KeyEvent.VK_ESCAPE:
 		    if (run == true && gamePaused == false) {
 			gamePaused = true;
@@ -947,6 +950,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			gamePaused = false;
 			repaint();
 		    }
+		    break;
 		default:
 		    break;
 	    }
