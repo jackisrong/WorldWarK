@@ -50,7 +50,7 @@ public class Player extends GameObject {
 	this.xPos = xPos - width / 2;
     }
 
-    public void weaponUpgraded() {
+    public void upgradeWeapon() {
 	if (weapon < 5) {
 	    weapon++;
 	}

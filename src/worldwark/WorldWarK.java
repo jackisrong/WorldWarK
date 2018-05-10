@@ -414,38 +414,37 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(new Color(0, 0, 0, 250));
 	g2.fillRect(50, 80, 400, 700);
 
-        // Draw close button
-        g2.setColor(Color.RED);
-        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-        g2.fill(closeButton);
-        startScreenButtons.add(closeButton);
-        g2.setColor(Color.WHITE);
-        g2.drawString("CLOSE", 377, 102);
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
-        g2.fill(lowButtom);
-        startScreenButtons.add(lowButtom);
-        g2.setColor(Color.BLACK);
-        g2.drawString("LOW", 100, 300);
+	// Draw close button
+	g2.setColor(Color.WHITE);
+	Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
+	g2.fill(lowButtom);
+	startScreenButtons.add(lowButtom);
+	g2.setColor(Color.BLACK);
+	g2.drawString("LOW", 100, 300);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
-        g2.fill(medButton);
-        startScreenButtons.add(medButton);
-        g2.setColor(Color.BLACK);
-        g2.drawString("NORMAL", 200, 300);
+	// Draw close button
+	g2.setColor(Color.WHITE);
+	Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
+	g2.fill(medButton);
+	startScreenButtons.add(medButton);
+	g2.setColor(Color.BLACK);
+	g2.drawString("NORMAL", 200, 300);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
-        g2.fill(highButton);
-        startScreenButtons.add(highButton);
-        g2.setColor(Color.BLACK);
-        g2.drawString("HIGH", 350, 300);
-
+	// Draw close button
+	g2.setColor(Color.WHITE);
+	Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
+	g2.fill(highButton);
+	startScreenButtons.add(highButton);
+	g2.setColor(Color.BLACK);
+	g2.drawString("HIGH", 350, 300);
 
 	// Print heading
 	Font titleFont = null;
@@ -572,6 +571,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	    case 2:
 		file = "death";
 		break;
+	    case 3:
+		file = "powerUpPickUp";
+		break;
 	    default:
 		file = null;
 		break;
@@ -598,141 +600,141 @@ public class WorldWarK extends JPanel implements Runnable {
 	Random rand = new Random();
 	int choose = 0;
 
-        // Spawns enemies dependeing on the score
-        if (score <= 2500) {
-            choose = rand.nextInt(1) + 1;
-        } else if (score > 2500 && score <= 5000) {
-            choose = rand.nextInt(1) + 8;
-        } else if (score > 5000 && score <= 7500) {
-            choose = rand.nextInt(6) + 1;
-        }
-        System.out.println(choose);
-        if (score <= 2500) {
-            // First tier of enemies
+	// Spawns enemies dependeing on the score
+	if (score <= 2500) {
+	    choose = rand.nextInt(1) + 1;
+	} else if (score > 2500 && score <= 5000) {
+	    choose = rand.nextInt(1) + 8;
+	} else if (score > 5000 && score <= 7500) {
+	    choose = rand.nextInt(6) + 1;
+	}
+	System.out.println(choose);
+	if (score <= 2500) {
+	    // First tier of enemies
 	    objects.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300));
-            switch (choose) {
-                case 1:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
-                case 2:
-                    for (int i = 0; i <= 100; i++) {
-                        if (i == 0 || i == 50 || i == 100) {
-                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 5, 0, 15, 0, 50);
-                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -5, 0, 15, 0, 50);
-                            objects.add(enemyLeft);
-                            objects.add(enemyRight);
-                        }
-                    }
-                    break;
-                case 3:
-                    enemyLeft = new Enemy(300, 0, 64, 64, 0, 5, 50, 0, 50);
-                    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0, 50);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
-                    break;
-                case 4:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0, 50);
-                    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0, 50);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
-                    break;
-                case 5:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0, 50);
-                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0, 50);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                case 6:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50);
-                        enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0, 50);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-            }
-        } else if (score > 2500 && score <= 5000) {
-            // Second tier of enemies
-            switch (choose) {
-                case 1:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 7, 50, 4, 75);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 7, 50, 4, 75);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
-                case 2:
-                    for (int i = 0; i <= 100; i++) {
-                        if (i == 0 || i == 50 || i == 100) {
-                            enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 7, 0, 15, 1, 75);
-                            enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -7, 0, 15, 1, 75);
-                            objects.add(enemyLeft);
-                            objects.add(enemyRight);
-                        }
-                    }
-                    break;
-                case 3:
-                    enemyLeft = new Enemy(300, 0, 64, 64, 0, 7, 50, 1, 75);
-                    enemyRight = new Enemy(400, 0, 64, 64, 0, 7, 50, 1, 75);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
-                    break;
-                case 4:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 7, 0, 50, 1, 75);
-                    enemyRight = new Enemy(0, 300, 64, 64, 7, 0, 50, 1, 75);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
-                    break;
-                case 5:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 5, 0, 15, 1, 75);
-                        enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -5, 0, 15, 1, 75);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
-                case 6:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(-200 + i, -i, 64, 64, 5, 7, 15, 1, 75);
-                        enemyRight = new Enemy(700 - i, -i, 64, 64, -5, 7, 15, 1, 75);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
-                case 7:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(0 - i * 2, 100 + i / 2, 64, 64, 3, 3, 50, 1, 75);
-                        enemyRight = new Enemy(450 + i * 2, 300 - i / 2, 64, 64, -3, 3, 50, 1, 75);
-                        enemyLeft.setReverse(true);
-                        enemyRight.setReverse(true);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
-                case 8:
-                    for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, -3, 7, 50, 4, 75);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 3, 7, 50, 4, 75);
-                        enemyLeft.setReverse(true);
-                        enemyRight.setReverse(true);
-                        objects.add(enemyLeft);
-                        objects.add(enemyRight);
-                    }
-                    break;
+	    switch (choose) {
+		case 1:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
+			enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
+		case 2:
+		    for (int i = 0; i <= 100; i++) {
+			if (i == 0 || i == 50 || i == 100) {
+			    enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 5, 0, 15, 0, 50);
+			    enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -5, 0, 15, 0, 50);
+			    objects.add(enemyLeft);
+			    objects.add(enemyRight);
+			}
+		    }
+		    break;
+		case 3:
+		    enemyLeft = new Enemy(300, 0, 64, 64, 0, 5, 50, 0, 50);
+		    enemyRight = new Enemy(400, 0, 64, 64, 0, 5, 50, 0, 50);
+		    enemyLeft.setReverse(true);
+		    enemyRight.setReverse(true);
+		    objects.add(enemyLeft);
+		    objects.add(enemyRight);
+		    break;
+		case 4:
+		    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0, 50);
+		    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0, 50);
+		    enemyLeft.setReverse(true);
+		    enemyRight.setReverse(true);
+		    objects.add(enemyLeft);
+		    objects.add(enemyRight);
+		    break;
+		case 5:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0, 50);
+			enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0, 50);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		case 6:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50);
+			enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0, 50);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+	    }
+	} else if (score > 2500 && score <= 5000) {
+	    // Second tier of enemies
+	    switch (choose) {
+		case 1:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 7, 50, 4, 75);
+			enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 7, 50, 4, 75);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
+		case 2:
+		    for (int i = 0; i <= 100; i++) {
+			if (i == 0 || i == 50 || i == 100) {
+			    enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 7, 0, 15, 1, 75);
+			    enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -7, 0, 15, 1, 75);
+			    objects.add(enemyLeft);
+			    objects.add(enemyRight);
+			}
+		    }
+		    break;
+		case 3:
+		    enemyLeft = new Enemy(300, 0, 64, 64, 0, 7, 50, 1, 75);
+		    enemyRight = new Enemy(400, 0, 64, 64, 0, 7, 50, 1, 75);
+		    enemyLeft.setReverse(true);
+		    enemyRight.setReverse(true);
+		    objects.add(enemyLeft);
+		    objects.add(enemyRight);
+		    break;
+		case 4:
+		    enemyLeft = new Enemy(0, 100, 64, 64, 7, 0, 50, 1, 75);
+		    enemyRight = new Enemy(0, 300, 64, 64, 7, 0, 50, 1, 75);
+		    enemyLeft.setReverse(true);
+		    enemyRight.setReverse(true);
+		    objects.add(enemyLeft);
+		    objects.add(enemyRight);
+		    break;
+		case 5:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 5, 0, 15, 1, 75);
+			enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -5, 0, 15, 1, 75);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
+		case 6:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(-200 + i, -i, 64, 64, 5, 7, 15, 1, 75);
+			enemyRight = new Enemy(700 - i, -i, 64, 64, -5, 7, 15, 1, 75);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
+		case 7:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(0 - i * 2, 100 + i / 2, 64, 64, 3, 3, 50, 1, 75);
+			enemyRight = new Enemy(450 + i * 2, 300 - i / 2, 64, 64, -3, 3, 50, 1, 75);
+			enemyLeft.setReverse(true);
+			enemyRight.setReverse(true);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
+		case 8:
+		    for (int i = 0; i < 150; i += 50) {
+			enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, -3, 7, 50, 4, 75);
+			enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 3, 7, 50, 4, 75);
+			enemyLeft.setReverse(true);
+			enemyRight.setReverse(true);
+			objects.add(enemyLeft);
+			objects.add(enemyRight);
+		    }
+		    break;
 
 	    }
 	} else if (score > 5000 && score <= 7500) {
@@ -861,6 +863,18 @@ public class WorldWarK extends JPanel implements Runnable {
 		// If player loses all of their health, reset game
 		gameOver();
 	    }
+	}
+    }
+
+    public void checkPowerUpPickUp(PowerUp powerUp) {
+	if (powerUp.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+	    if (powerUp.getType() == 0) {
+		player.pickUpBomb();
+	    } else if (powerUp.getType() == 1) {
+		player.upgradeWeapon();
+	    }
+	    deleteObject(powerUp);
+	    playSound(3);
 	}
     }
 

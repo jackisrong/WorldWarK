@@ -19,8 +19,13 @@ public class PowerUp extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
+    public int getType() {
+	return powerUpType;
+    }
+    
     @Override
     public void update(WorldWarK panel) {
+	panel.checkPowerUpPickUp(this);
 	yPos += ySpeed;
     }
 
