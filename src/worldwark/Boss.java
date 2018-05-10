@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 
 public class Boss extends Enemy {
 
-    public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points) {
-	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points);
+    public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
+	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 

@@ -14,18 +14,22 @@ public class Enemy extends GameObject {
     protected int ySpeed;
     protected int health;
     protected int typeOfEnemy;
+    protected int shoot;
     private boolean reverse;
     private int reverseTimer;
+    private int shootTimer;
 
-    public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points) {
+    public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height);
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
 	this.health = health;
 	this.typeOfEnemy = typeOfEnemy;
 	this.points = points;
+        this.shoot = shoot;
 	reverse = false;
 	reverseTimer = 0;
+        shootTimer = 0;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -59,6 +63,10 @@ public class Enemy extends GameObject {
 
     public boolean readyToTurnAtX(int reverseXPosition) {// hi
 	return (Math.abs(xPos - reverseXPosition) <= 3);
+    }
+    
+    public int getShoot() {
+        return shoot;
     }
 
     @Override
@@ -119,6 +127,9 @@ public class Enemy extends GameObject {
 		xSpeed = -this.getXSpeed();
 	    }
 	} */
+        if (shootTimer > this.getShoot()) {
+            
+        }
 
 	// Exits Left/Right wall's threshold
 	if (xPos <= -201 || xPos >= 701) {
