@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 public class PowerUp extends GameObject {
 
+    private final int ySpeed = 4;
     private int powerUpType;
 
     public PowerUp(int xPos, int yPos, int width, int height, int powerUpType) {
@@ -20,6 +21,7 @@ public class PowerUp extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
+	yPos += ySpeed;
     }
 
     @Override
