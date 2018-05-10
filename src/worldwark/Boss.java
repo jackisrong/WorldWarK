@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Boss extends Enemy {
@@ -14,9 +15,22 @@ public class Boss extends Enemy {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
-    
+
     @Override
     public void update(WorldWarK panel) {
+	if (yPos < 100) {
+	    yPos += ySpeed;
+	}
+
+	if (xPos > 0 && xPos < xPos + width) {
+	    Random rng = new Random();
+	    int number = rng.nextInt(20);
+	    if (number == 0) {
+		xPos -= xSpeed;
+	    } else if (number == 1) {
+		xPos += xSpeed;
+	    }
+	}
     }
 
     @Override
@@ -34,22 +48,22 @@ public class Boss extends Enemy {
 	String fileName = null;
 	switch (typeOfEnemy) {
 	    case 0:
-		fileName = "helicopterLow";
+		fileName = "boss1";
 		break;
 	    case 1:
-		fileName = "helicopterMed";
+		fileName = "boss2";
 		break;
 	    case 2:
-		fileName = "helicopterHard";
+		fileName = "boss3";
 		break;
 	    case 3:
-		fileName = "fighterPlaneLow";
+		fileName = "boss4";
 		break;
 	    case 4:
-		fileName = "fighterPlaneMed";
+		fileName = "boss5";
 		break;
 	    case 5:
-		fileName = "fighterPlaneHard";
+		fileName = "boss6";
 		break;
 	    default:
 		break;

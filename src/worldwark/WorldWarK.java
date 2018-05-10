@@ -609,11 +609,12 @@ public class WorldWarK extends JPanel implements Runnable {
         System.out.println(choose);
         if (score <= 2500) {
             // First tier of enemies
+	    objects.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300));
             switch (choose) {
                 case 1:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 2550);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 2500);
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
