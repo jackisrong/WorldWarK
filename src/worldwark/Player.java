@@ -56,6 +56,10 @@ public class Player extends GameObject {
 	}
     }
 
+    public int getNumberOfBombs() {
+	return numberOfBombs;
+    }
+
     public int useBomb() {
 	if (numberOfBombs > 0) {
 	    return numberOfBombs--;
