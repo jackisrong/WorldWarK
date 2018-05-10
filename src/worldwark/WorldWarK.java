@@ -820,9 +820,12 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void launchBomb() {
-	Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
-	objects.add(bomb);
-	playSound(1);
+	if (player.getNumberOfBombs() > 0) {
+	    Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
+	    objects.add(bomb);
+	    player.useBomb();
+	    playSound(1);
+	}
     }
 
     public void dropPowerUp(GameObject enemy) {
