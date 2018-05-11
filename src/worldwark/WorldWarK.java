@@ -859,6 +859,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		    // Increases score (based on enemy type in the future?)
 		    score += i.getPoints();
 		}
+	    } else if (i.getClass().getName().equals("worldwark.Boss")) {
+		deleteObject(bullet);
+		Boss q = (Boss) i;
+		q.loseHealth(player.getWeaponDamage());
 	    }
 	}
     }

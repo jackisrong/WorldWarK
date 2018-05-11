@@ -24,10 +24,6 @@ public class Player extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public int getWeaponLevel() {
-	return weapon;
-    }
-
     public void keyboardMoveLeft() {
 	if (xPos > -width / 2) {
 	    xPos -= 10;
@@ -50,10 +46,21 @@ public class Player extends GameObject {
 	this.xPos = xPos - width / 2;
     }
 
+    public int getWeaponLevel() {
+	return weapon;
+    }
+
     public void upgradeWeapon() {
 	if (weapon < 5) {
 	    weapon++;
 	}
+    }
+
+    public int getWeaponDamage() {
+	if (weapon == 1) {
+	    return 100;
+	}
+	return 0;
     }
 
     public int getNumberOfBombs() {
