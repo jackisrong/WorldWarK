@@ -112,7 +112,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Sleep the thread
 	    try {
 		Thread.sleep(15);
-
 		spawnTimer += 15;
 	    } catch (InterruptedException e) {
 		System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
@@ -613,6 +612,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	} else if (score > 5000 && score <= 7500) {
 	    choose = rand.nextInt(6) + 1;
 	}
+
 	if (score <= 2500) {
 	    // First tier of enemies
 	    objects.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300, 2000));
@@ -658,6 +658,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			objects.add(enemyLeft);
 			objects.add(enemyRight);
 		    }
+		    break;
 		case 6:
 		    for (int i = 0; i < 150; i += 50) {
 			enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50, 1000 + i * 2);
@@ -665,6 +666,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			objects.add(enemyLeft);
 			objects.add(enemyRight);
 		    }
+		    break;
 	    }
 	} else if (score > 2500 && score <= 5000) {
 	    // Second tier of enemies
@@ -835,7 +837,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (rng.nextInt(50) == 0) {
 	    // Choose which power up to drop
 	    if (rng.nextInt(2) == 0) {
-		// Drop bomb
+		// Drop bomb power up
 		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0);
 		objects.add(powerUp);
 	    } else {
@@ -894,6 +896,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	objects.add(player);
 	repaint();
 
+	// Read current high score
 	BufferedReader inputStream = null;
 	String previousHighScore = "0";
 	try {
@@ -907,6 +910,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	}
 
+	// Update to new high score if necessary
 	FileWriter outputStream = null;
 	try {
 	    outputStream = new FileWriter("assets/data/highScore.txt");
@@ -926,7 +930,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public static void main(String[] args) {
 	panel = new WorldWarK();
-
     }
 
     private class KeyboardControls implements KeyListener {
