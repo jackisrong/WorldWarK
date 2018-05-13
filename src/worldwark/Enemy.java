@@ -27,10 +27,10 @@ public class Enemy extends GameObject {
 	this.health = health;
 	this.typeOfEnemy = typeOfEnemy;
 	this.points = points;
-        this.shoot = shoot;
+	this.shoot = shoot;
 	reverse = false;
 	reverseTimer = 0;
-        shootTimer = 0;
+	shootTimer = 0;
 	initialHealth = health;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
@@ -51,6 +51,14 @@ public class Enemy extends GameObject {
 	ySpeed = speed;
     }
 
+    public void loseHealth(int health) {
+	this.health -= health;
+    }
+
+    public int getHealth() {
+	return health;
+    }
+
     public int getType() {
 	return typeOfEnemy;
     }
@@ -66,9 +74,9 @@ public class Enemy extends GameObject {
     public boolean readyToTurnAtX(int reverseXPosition) {// hi
 	return (Math.abs(xPos - reverseXPosition) <= 3);
     }
-    
+
     public int getShoot() {
-        return shoot;
+	return shoot;
     }
 
     @Override
@@ -129,9 +137,9 @@ public class Enemy extends GameObject {
 		xSpeed = -this.getXSpeed();
 	    }
 	} */
-        if (shootTimer > this.getShoot()) {
-            
-        }
+	if (shootTimer > this.getShoot()) {
+
+	}
 
 	// Exits Left/Right wall's threshold
 	if (xPos <= -201 || xPos >= 701) {
@@ -151,12 +159,19 @@ public class Enemy extends GameObject {
     @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
+	g2.setClip(null);
 
 	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
+
+	// Draw player health bar
+	g2.setColor(Color.RED);
+	g2.fillRect(xPos - 8, yPos + height, 70, 3);
+	g2.setColor(Color.GREEN);
+	g2.fillRect(xPos - 8, yPos + height, (int) ((double) health / (double) initialHealth * 70.0), 3);
 
 	// Draw appropriate enemy image on the enemy
 	BufferedImage enemyImage;

@@ -16,10 +16,6 @@ public class Boss extends Enemy {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public void loseHealth(int health) {
-	this.health -= health;
-    }
-
     @Override
     public void update(WorldWarK panel) {
 	if (yPos < 100) {
@@ -47,12 +43,12 @@ public class Boss extends Enemy {
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
-
+	
 	// Draw player health bar
 	g2.setColor(Color.RED);
 	g2.fillRect(xPos - 16, yPos + height, 200, 3);
 	g2.setColor(Color.GREEN);
-	g2.fillRect(xPos - 16, yPos + height, health / initialHealth * 200, 3);
+	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 200.0), 3);
 
 	// Draw appropriate enemy image on the enemy
 	BufferedImage enemyImage;

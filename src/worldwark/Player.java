@@ -14,6 +14,7 @@ public class Player extends GameObject {
     private int health;
     private int weapon;
     private int numberOfBombs;
+    private int initialHealth;
 
     public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int weapon, int numberOfBombs) {
 	super(xPos, yPos, width, height);
@@ -21,6 +22,7 @@ public class Player extends GameObject {
 	this.health = health;
 	this.weapon = weapon;
 	this.numberOfBombs = numberOfBombs;
+	initialHealth = health;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -108,7 +110,7 @@ public class Player extends GameObject {
 	g2.setColor(Color.RED);
 	g2.fillRect(xPos - 16, yPos + height, 100, 3);
 	g2.setColor(Color.GREEN);
-	g2.fillRect(xPos - 16, yPos + height, health, 3);
+	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 100.0), 3);
 
 	// Draw image
 	BufferedImage playerImage;
