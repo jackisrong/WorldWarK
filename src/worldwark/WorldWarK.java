@@ -1012,7 +1012,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public static void main(String[] args) throws IOException {
 	panel = new WorldWarK();
-
     }
 
     private class KeyboardControls implements KeyListener {
