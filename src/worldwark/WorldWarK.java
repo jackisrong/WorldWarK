@@ -853,11 +853,15 @@ public class WorldWarK extends JPanel implements Runnable {
 	    if (i.getClass().getName().equals("worldwark.Enemy")) {
 		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    // If bulletBox intersects rectangle of the enemy, kill the enemy
-		    dropPowerUp(i);
-		    deleteObject(i);
 		    deleteObject(bullet);
-		    // Increases score (based on enemy type in the future?)
-		    score += i.getPoints();
+		    dropPowerUp(i);
+		    Enemy q = (Enemy) i;
+		    q.loseHealth(player.getWeaponDamage());
+		    if (q.getHealth() <= 0) {
+			deleteObject(i);
+			// Increases score (based on enemy type in the future?)
+			score += i.getPoints();
+		    }
 		}
 	    } else if (i.getClass().getName().equals("worldwark.Boss")) {
 		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
