@@ -48,7 +48,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private float volume;
     private FloatControl audioControl;
     //private ArrayList<Float> musicVolume = new ArrayList<>();
-    private BufferedReader input;
+    //private BufferedReader input;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -65,26 +65,23 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
 
-	player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
-	objects.add(player);
-
-        Scanner sc = null;
-        try {
-            sc = new Scanner(new File("assets/data/volume.txt"));
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            volume = sc.nextFloat();
-            audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float range = audioControl.getMaximum() - audioControl.getMinimum();
-            float gain = (range * volume) + audioControl.getMinimum();
-            audioControl.setValue(gain);
-            clip.start();
-        } catch (Exception e) {
-            System.out.println("ERROR: myjam.wav cannot be played.");
-        } finally {
-            sc.close();
-        }
+	Scanner sc = null;
+	try {
+	    sc = new Scanner(new File("assets/data/volume.txt"));
+	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
+	    clip = AudioSystem.getClip();
+	    clip.open(audioIn);
+	    volume = sc.nextFloat();
+	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	    float range = audioControl.getMaximum() - audioControl.getMinimum();
+	    float gain = (range * volume) + audioControl.getMinimum();
+	    audioControl.setValue(gain);
+	    clip.start();
+	} catch (Exception e) {
+	    System.out.println("ERROR: myjam.wav cannot be played.");
+	} finally {
+	    sc.close();
+	}
     }
 
     public void deleteObject(GameObject gameObject) {
@@ -94,6 +91,8 @@ public class WorldWarK extends JPanel implements Runnable {
     public void start() {
 	Thread thread = new Thread(this);
 	if (gamePaused == false) {
+	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
+	    objects.add(player);
 	    score = 0;
 	}
 	run = true;
@@ -116,53 +115,54 @@ public class WorldWarK extends JPanel implements Runnable {
 		spawnEnemy(this);
 	    }
 
-            if (fireTimer >= 1000) {
-                enemyFire();
-            }
+	    if (fireTimer >= 1000) {
+		enemyFire();
+	    }
 
-            // Update objects' motion
-            for (GameObject i : objects) {
-                i.update(this);
-            }
-            repaint();
+	    // Update objects' motion
+	    for (GameObject i : objects) {
+		i.update(this);
+	    }
+	    repaint();
 
-            // Sleep the thread
-            try {
-                Thread.sleep(15);
-                spawnTimer += 15;
-                fireTimer += 15;
-            } catch (InterruptedException e) {
-                System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
-            }
-        }
+	    // Sleep the thread
+	    try {
+		Thread.sleep(15);
+		spawnTimer += 15;
+		fireTimer += 15;
+	    } catch (InterruptedException e) {
+		System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
+	    }
+	}
     }
 
     public void enemyFire() {
-        ArrayList<GameObject> enemies = new ArrayList<>();
-        for (GameObject i : objects) {
-            if (i instanceof Enemy) {
-                enemies.add(i);
-            }
-        }
-        if (enemies.size() > 0) {
-            int prevSelectedEnemy = -1;
-            for (int i = 0; i < 3; i++) {
-                Random rand = new Random();
-                int selectedIndex = rand.nextInt(enemies.size());
-                while (selectedIndex == prevSelectedEnemy) {
-                    selectedIndex = rand.nextInt(enemies.size());
-                }
-                GameObject selectedEnemy = enemies.get(selectedIndex);
-                int dX = selectedEnemy.getXPos() - player.getXPos();
-                int dY = selectedEnemy.getYPos() - player.getYPos();
-                if (dY <= -100 && !selectedEnemy.isOutsideScreen()) {
-                    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, dX / 67, dY / 67);
-                    objects.add(bullet);
-                    playSound(0);
-                }
-            }
-        }
-        fireTimer = 0;
+	ArrayList<GameObject> enemies = new ArrayList<>();
+	for (GameObject i : objects) {
+	    if (i instanceof Enemy) {
+		enemies.add(i);
+	    }
+	}
+
+	if (enemies.size() > 0) {
+	    int prevSelectedEnemy = -1;
+	    for (int i = 0; i < 3; i++) {
+		Random rand = new Random();
+		int selectedIndex = rand.nextInt(enemies.size());
+		while (selectedIndex == prevSelectedEnemy) {
+		    selectedIndex = rand.nextInt(enemies.size());
+		}
+		GameObject selectedEnemy = enemies.get(selectedIndex);
+		int dX = selectedEnemy.getXPos() - player.getXPos();
+		int dY = selectedEnemy.getYPos() - player.getYPos();
+		if (dY <= -100 && !selectedEnemy.isOutsideScreen()) {
+		    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, dX / 67, dY / 67);
+		    objects.add(bullet);
+		    playSound(0);
+		}
+	    }
+	}
+	fireTimer = 0;
     }
 
     @Override
@@ -376,44 +376,44 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(settingsButton);
 	g2.drawString("SETTINGS", 35, 778);
 
-        // Check if a start screen button has been clicked
-        if (clickedStartScreenButton != null) {
-            if (clickedStartScreenButton.equals(instructionsButton)) {
-                drawInstructions(g2);
-            } else if (clickedStartScreenButton.equals(controlsButton)) {
-                drawControls(g2);
-            } else if (clickedStartScreenButton.equals(creditsButton)) {
-                drawCredits(g2);
-            } else if (clickedStartScreenButton.equals(settingsButton)) {
-                drawMusic(g2);
-            } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-                // Go back to start screen if a close button is pressed
-                clickedStartScreenButton = null;
-                startScreenButtons.clear();
-                repaint();
-            } else {
-                drawMusic(g2);
-                audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                float range = audioControl.getMaximum() - audioControl.getMinimum();
-                volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
-                if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
-                    volume -= 0.1;
-                    volume = Math.max(volume, 0);
-                    //   musicVolume.add(volume);
-                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
-                    volume = (float) 0.9;
-                    //  musicVolume.add(volume);
-                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
-                    volume += 0.1;
-                    volume = Math.min(volume, 1);
-                    //   musicVolume.add(volume);
-                }
-                float gain = (range * volume) + audioControl.getMinimum();
-                audioControl.setValue(gain);
-                
-                clip.start();
-            }
-        }
+	// Check if a start screen button has been clicked
+	if (clickedStartScreenButton != null) {
+	    if (clickedStartScreenButton.equals(instructionsButton)) {
+		drawInstructions(g2);
+	    } else if (clickedStartScreenButton.equals(controlsButton)) {
+		drawControls(g2);
+	    } else if (clickedStartScreenButton.equals(creditsButton)) {
+		drawCredits(g2);
+	    } else if (clickedStartScreenButton.equals(settingsButton)) {
+		drawMusic(g2);
+	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+		// Go back to start screen if a close button is pressed
+		clickedStartScreenButton = null;
+		startScreenButtons.clear();
+		repaint();
+	    } else {
+		drawMusic(g2);
+		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		float range = audioControl.getMaximum() - audioControl.getMinimum();
+		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
+		if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
+		    volume -= 0.1;
+		    volume = Math.max(volume, 0);
+		    //   musicVolume.add(volume);
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
+		    volume = (float) 0.9;
+		    //  musicVolume.add(volume);
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
+		    volume += 0.1;
+		    volume = Math.min(volume, 1);
+		    //   musicVolume.add(volume);
+		}
+		float gain = (range * volume) + audioControl.getMinimum();
+		audioControl.setValue(gain);
+
+		clip.start();
+	    }
+	}
     }
 
     public void drawInstructions(Graphics2D g2) {
@@ -445,7 +445,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(Color.WHITE);
 	g2.drawString("CLOSE", 377, 102);
 
-	readDrawFile(g2, "controls", 60, 170);
+	readDrawFile(g2, "controls", 60, 100);
     }
 
     public void drawCredits(Graphics2D g2) {
@@ -469,37 +469,37 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.setColor(new Color(0, 0, 0, 250));
 	g2.fillRect(50, 80, 400, 700);
 
-        // Draw close button
-        g2.setColor(Color.RED);
-        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-        g2.fill(closeButton);
-        startScreenButtons.add(closeButton);
-        g2.setColor(Color.WHITE);
-        g2.drawString("CLOSE", 377, 102);
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
-        g2.fill(lowButtom);
-        startScreenButtons.add(lowButtom);
-        g2.setColor(Color.BLACK);
-        g2.drawString("LOW", 100, 300);
+	// Draw low volume button
+	g2.setColor(Color.WHITE);
+	Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
+	g2.fill(lowButtom);
+	startScreenButtons.add(lowButtom);
+	g2.setColor(Color.BLACK);
+	g2.drawString("LOW", 100, 300);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
-        g2.fill(medButton);
-        startScreenButtons.add(medButton);
-        g2.setColor(Color.BLACK);
-        g2.drawString("NORMAL", 200, 300);
+	// Draw normal volume button
+	g2.setColor(Color.WHITE);
+	Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
+	g2.fill(medButton);
+	startScreenButtons.add(medButton);
+	g2.setColor(Color.BLACK);
+	g2.drawString("NORMAL", 200, 300);
 
-        // Draw close button
-        g2.setColor(Color.WHITE);
-        Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
-        g2.fill(highButton);
-        startScreenButtons.add(highButton);
-        g2.setColor(Color.BLACK);
-        g2.drawString("HIGH", 350, 300);
+	// Draw high volume button
+	g2.setColor(Color.WHITE);
+	Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
+	g2.fill(highButton);
+	startScreenButtons.add(highButton);
+	g2.setColor(Color.BLACK);
+	g2.drawString("HIGH", 350, 300);
 
 	// Print heading
 	Font titleFont = null;
@@ -901,8 +901,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
-	    if (i.getClass().getName().equals("worldwark.Enemy")) {
-		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+	    if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		if (i.getClass().getName().equals("worldwark.Enemy")) {
 		    // If bulletBox intersects rectangle of the enemy, kill the enemy
 		    deleteObject(bullet);
 		    dropPowerUp(i);
@@ -913,9 +913,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			// Increases score (based on enemy type in the future?)
 			score += i.getPoints();
 		    }
-		}
-	    } else if (i.getClass().getName().equals("worldwark.Boss")) {
-		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		} else if (i.getClass().getName().equals("worldwark.Boss")) {
 		    deleteObject(bullet);
 		    Boss q = (Boss) i;
 		    q.loseHealth(player.getWeaponDamage());
@@ -929,15 +927,15 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void checkEnemyBulletHit(EnemyBullet bullet) throws IOException {
-        if (bullet.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-            // Deletes enemy upon collision and player loses health
-            deleteObject(bullet);
-            player.loseHealth(10);
-            if (player.getHealth() <= 0) {
-                // If player loses all of their health, reset game
-                gameOver();
-            }
-        }
+	if (bullet.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+	    // Deletes enemy upon collision and player loses health
+	    deleteObject(bullet);
+	    player.loseHealth(10);
+	    if (player.getHealth() <= 0) {
+		// If player loses all of their health, reset game
+		gameOver();
+	    }
+	}
     }
 
     public void checkEnemyCollision(Enemy enemy) throws IOException {
@@ -967,56 +965,53 @@ public class WorldWarK extends JPanel implements Runnable {
     public void gameOver() throws IOException {
 	run = false;
 	gameOver = true;
-	player.setHealth(100);
 	objects.clear();
 	finishedObjects.clear();
-	objects.add(player);
 	repaint();
 
-        BufferedReader inputStream = null;
-        String previousHighScore = "0";
-        try {
-            inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
-            previousHighScore = inputStream.readLine();
-        } catch (IOException e) {
-            System.out.println("ERROR: Cannot open highScore.txt");
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        }
-        FileWriter outputStream = null;
+	BufferedReader inputStream = null;
+	String previousHighScore = "0";
+	try {
+	    inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
+	    previousHighScore = inputStream.readLine();
+	} catch (IOException e) {
+	    System.out.println("ERROR: Cannot open highScore.txt");
+	} finally {
+	    if (inputStream != null) {
+		inputStream.close();
+	    }
+	}
+	FileWriter outputStream = null;
 
-        try {
-            outputStream = new FileWriter("assets/data/volume.txt");
-            outputStream.write("" + volume);
-        } catch (FileNotFoundException exception) {
-            System.out.println("Error opening file");
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
+	try {
+	    outputStream = new FileWriter("assets/data/volume.txt");
+	    outputStream.write("" + volume);
+	} catch (FileNotFoundException exception) {
+	    System.out.println("Error opening file");
+	} finally {
+	    if (outputStream != null) {
+		outputStream.close();
+	    }
+	}
 
-
-        try {
-            outputStream = new FileWriter("assets/data/highScore.txt");
-            if (score > Integer.parseInt(previousHighScore)) {
-                outputStream.write(score + "\r\n");
-            } else {
-                outputStream.write(previousHighScore + "\r\n");
-            }
-        } catch (FileNotFoundException exception) {
-            System.out.println("ERROR: Cannot write to highScore.txt");
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
+	try {
+	    outputStream = new FileWriter("assets/data/highScore.txt");
+	    if (score > Integer.parseInt(previousHighScore)) {
+		outputStream.write(score + "\r\n");
+	    } else {
+		outputStream.write(previousHighScore + "\r\n");
+	    }
+	} catch (FileNotFoundException exception) {
+	    System.out.println("ERROR: Cannot write to highScore.txt");
+	} finally {
+	    if (outputStream != null) {
+		outputStream.close();
+	    }
+	}
     }
 
     public static void main(String[] args) throws IOException {
-        panel = new WorldWarK();
+	panel = new WorldWarK();
 
     }
 
@@ -1062,6 +1057,9 @@ public class WorldWarK extends JPanel implements Runnable {
 			start();
 			gamePaused = false;
 			repaint();
+		    } else if (run == false && gamePaused == false && clickedStartScreenButton != null) {
+			clickedStartScreenButton = new Rectangle2D.Double(370, 80, 80, 30);
+			repaint();
 		    }
 		    break;
 		default:
@@ -1087,6 +1085,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		if (run == false) {
 		    if (gamePaused == true) {
 			if (new Rectangle2D.Double(370, 80, 80, 30).contains(event.getPoint())) {
+			    // Resume game
 			    start();
 			    gamePaused = false;
 			    repaint();
@@ -1102,6 +1101,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 		} else {
 		    if (new Rectangle2D.Double(420, 0, 80, 30).contains(event.getPoint())) {
+			// Pause game
 			run = false;
 			gamePaused = true;
 			repaint();
@@ -1135,13 +1135,17 @@ public class WorldWarK extends JPanel implements Runnable {
 	@Override
 	public void mouseMoved(MouseEvent event) {
 	    // Sets x position of player when mouse is moved
-	    player.setXPosition(event.getX());
+	    if (run == true && gamePaused == false) {
+		player.setXPosition(event.getX());
+	    }
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent event) {
 	    // Sets x position of player when mouse is clicked and dragged
-	    player.setXPosition(event.getX());
+	    if (run == true && gamePaused == false) {
+		player.setXPosition(event.getX());
+	    }
 	}
     }
 }

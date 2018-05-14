@@ -45,7 +45,7 @@ public class PowerUp extends GameObject {
 	if (powerUpType == 0) {
 	    fileName = "bombPowerUp";
 	} else if (powerUpType == 1) {
-	    fileName = "powerUp";
+	    fileName = "weaponPowerUp";
 	}
 
 	try {
