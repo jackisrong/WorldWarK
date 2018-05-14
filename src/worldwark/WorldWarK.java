@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -33,6 +34,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public static WorldWarK panel;
     private static int spawnTimer = 0;
+    private static int fireTimer = 0;
     private Player player;
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
@@ -44,6 +46,9 @@ public class WorldWarK extends JPanel implements Runnable {
     private int score;
     private Clip clip;
     private float volume;
+    private FloatControl audioControl;
+    //private ArrayList<Float> musicVolume = new ArrayList<>();
+    private BufferedReader input;
 
     public WorldWarK() {
         JFrame frame = new JFrame("World War K");
@@ -63,14 +68,22 @@ public class WorldWarK extends JPanel implements Runnable {
         player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 0, 3);
         objects.add(player);
 
+        Scanner sc = null;
         try {
+            sc = new Scanner(new File("assets/data/volume.txt"));
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
-            volume = 0.5f;
+            volume = sc.nextFloat();
+            audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = audioControl.getMaximum() - audioControl.getMinimum();
+            float gain = (range * volume) + audioControl.getMinimum();
+            audioControl.setValue(gain);
             clip.start();
         } catch (Exception e) {
             System.out.println("ERROR: myjam.wav cannot be played.");
+        } finally {
+            sc.close();
         }
     }
 
@@ -103,6 +116,10 @@ public class WorldWarK extends JPanel implements Runnable {
                 spawnEnemy(this);
             }
 
+            if (fireTimer >= 1000) {
+                enemyFire();
+            }
+
             // Update objects' motion
             for (GameObject i : objects) {
                 i.update(this);
@@ -113,10 +130,39 @@ public class WorldWarK extends JPanel implements Runnable {
             try {
                 Thread.sleep(15);
                 spawnTimer += 15;
+                fireTimer += 15;
             } catch (InterruptedException e) {
                 System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
             }
         }
+    }
+
+    public void enemyFire() {
+        ArrayList<GameObject> enemies = new ArrayList<>();
+        for (GameObject i : objects) {
+            if (i instanceof Enemy) {
+                enemies.add(i);
+            }
+        }
+        if (enemies.size() > 0) {
+            int prevSelectedEnemy = -1;
+            for (int i = 0; i < 3; i++) {
+                Random rand = new Random();
+                int selectedIndex = rand.nextInt(enemies.size());
+                while (selectedIndex == prevSelectedEnemy) {
+                    selectedIndex = rand.nextInt(enemies.size());
+                }
+                GameObject selectedEnemy = enemies.get(selectedIndex);
+                int dX = selectedEnemy.getXPos() - player.getXPos();
+                int dY = selectedEnemy.getYPos() - player.getYPos();
+                if (dY <= -100 && !selectedEnemy.isOutsideScreen()) {
+                    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, dX / 67, dY / 67);
+                    objects.add(bullet);
+                    playSound(0);
+                }
+            }
+        }
+        fireTimer = 0;
     }
 
     @Override
@@ -335,20 +381,25 @@ public class WorldWarK extends JPanel implements Runnable {
                 startScreenButtons.clear();
                 repaint();
             } else {
-                FloatControl audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                drawMusic(g2);
+                audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 float range = audioControl.getMaximum() - audioControl.getMinimum();
                 volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
                 if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
                     volume -= 0.1;
                     volume = Math.max(volume, 0);
+                    //   musicVolume.add(volume);
                 } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
-                    volume = (float) 0.7;
+                    volume = (float) 0.9;
+                    //  musicVolume.add(volume);
                 } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
                     volume += 0.1;
                     volume = Math.min(volume, 1);
+                    //   musicVolume.add(volume);
                 }
                 float gain = (range * volume) + audioControl.getMinimum();
                 audioControl.setValue(gain);
+                
                 clip.start();
             }
         }
@@ -414,7 +465,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(closeButton);
         g2.setColor(Color.WHITE);
         g2.drawString("CLOSE", 377, 102);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
@@ -422,7 +473,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(lowButtom);
         g2.setColor(Color.BLACK);
         g2.drawString("LOW", 100, 300);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
@@ -430,7 +481,7 @@ public class WorldWarK extends JPanel implements Runnable {
         startScreenButtons.add(medButton);
         g2.setColor(Color.BLACK);
         g2.drawString("NORMAL", 200, 300);
-        
+
         // Draw close button
         g2.setColor(Color.WHITE);
         Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
@@ -812,6 +863,18 @@ public class WorldWarK extends JPanel implements Runnable {
         }
     }
 
+    public void checkEnemyBulletHit(EnemyBullet bullet) throws IOException {
+        if (bullet.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
+            // Deletes enemy upon collision and player loses health
+            deleteObject(bullet);
+            player.loseHealth(10);
+            if (player.getHealth() <= 0) {
+                // If player loses all of their health, reset game
+                gameOver();
+            }
+        }
+    }
+
     public void checkEnemyCollision(Enemy enemy) throws IOException {
         if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
             // Deletes enemy upon collision and player loses health
@@ -844,8 +907,20 @@ public class WorldWarK extends JPanel implements Runnable {
                 inputStream.close();
             }
         }
-
         FileWriter outputStream = null;
+
+        try {
+            outputStream = new FileWriter("assets/data/volume.txt");
+            outputStream.write("" + volume);
+        } catch (FileNotFoundException exception) {
+            System.out.println("Error opening file");
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+
+
         try {
             outputStream = new FileWriter("assets/data/highScore.txt");
             if (score > Integer.parseInt(previousHighScore)) {
@@ -862,7 +937,7 @@ public class WorldWarK extends JPanel implements Runnable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         panel = new WorldWarK();
 
     }
