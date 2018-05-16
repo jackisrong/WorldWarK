@@ -365,12 +365,33 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.draw(controlsButton);
         g2.drawString("CONTROLS", 286, 578);
 
-        // Paint credits button
-        g2.setColor(Color.RED);
-        Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
-        startScreenButtons.add(creditsButton);
-        g2.draw(creditsButton);
-        g2.drawString("CREDITS", 386, 778);
+	// Paint weapons button
+	g2.setColor(Color.RED);
+	Rectangle2D weaponsButton = new Rectangle2D.Double(80, 600, 145, 40);
+	startScreenButtons.add(weaponsButton);
+	g2.draw(weaponsButton);
+	g2.drawString("WEAPONS", 106, 628);
+
+	// Paint enemies button
+	g2.setColor(Color.RED);
+	Rectangle2D enemiesButton = new Rectangle2D.Double(280, 600, 116, 40);
+	startScreenButtons.add(enemiesButton);
+	g2.draw(enemiesButton);
+	g2.drawString("ENEMIES", 296, 628);
+
+	// Paint power ups button
+	g2.setColor(Color.RED);
+	Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 650, 145, 40);
+	startScreenButtons.add(powerUpsButton);
+	g2.draw(powerUpsButton);
+	g2.drawString("POWER UPS", 96, 678);
+
+	// Paint credits button
+	g2.setColor(Color.RED);
+	Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
+	startScreenButtons.add(creditsButton);
+	g2.draw(creditsButton);
+	g2.drawString("CREDITS", 386, 778);
 
         // Paint settings button
         g2.setColor(Color.RED);
@@ -379,40 +400,46 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.draw(settingsButton);
         g2.drawString("SETTINGS", 35, 778);
 
-        // Check if a start screen button has been clicked
-        if (clickedStartScreenButton != null) {
-            if (clickedStartScreenButton.equals(instructionsButton)) {
-                drawInstructions(g2);
-            } else if (clickedStartScreenButton.equals(controlsButton)) {
-                drawControls(g2);
-            } else if (clickedStartScreenButton.equals(creditsButton)) {
-                drawCredits(g2);
-            } else if (clickedStartScreenButton.equals(settingsButton)) {
-                drawMusic(g2);
-            } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-                // Go back to start screen if a close button is pressed
-                clickedStartScreenButton = null;
-                startScreenButtons.clear();
-                repaint();
-            } else {
-                drawMusic(g2);
-                audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                float range = audioControl.getMaximum() - audioControl.getMinimum();
-                volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
-                if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
-                    volume -= 0.1;
-                    volume = Math.max(volume, 0);
-                    //   musicVolume.add(volume);
-                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
-                    volume = (float) 0.9;
-                    //  musicVolume.add(volume);
-                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
-                    volume += 0.1;
-                    volume = Math.min(volume, 1);
-                    //   musicVolume.add(volume);
-                }
-                float gain = (range * volume) + audioControl.getMinimum();
-                audioControl.setValue(gain);
+	// Check if a start screen button has been clicked
+	if (clickedStartScreenButton != null) {
+	    if (clickedStartScreenButton.equals(instructionsButton)) {
+		drawInstructions(g2);
+	    } else if (clickedStartScreenButton.equals(controlsButton)) {
+		drawControls(g2);
+	    } else if (clickedStartScreenButton.equals(weaponsButton)) {
+		drawWeaponsInfo(g2);
+	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
+		drawEnemiesInfo(g2);
+	    } else if (clickedStartScreenButton.equals(powerUpsButton)) {
+		drawPowerUpsInfo(g2);
+	    } else if (clickedStartScreenButton.equals(creditsButton)) {
+		drawCredits(g2);
+	    } else if (clickedStartScreenButton.equals(settingsButton)) {
+		drawMusic(g2);
+	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+		// Go back to start screen if a close button is pressed
+		clickedStartScreenButton = null;
+		startScreenButtons.clear();
+		repaint();
+	    } else {
+		drawMusic(g2);
+		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		float range = audioControl.getMaximum() - audioControl.getMinimum();
+		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
+		if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
+		    volume -= 0.1;
+		    volume = Math.max(volume, 0);
+		    //   musicVolume.add(volume);
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
+		    volume = (float) 0.9;
+		    //  musicVolume.add(volume);
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
+		    volume += 0.1;
+		    volume = Math.min(volume, 1);
+		    //   musicVolume.add(volume);
+		}
+		float gain = (range * volume) + audioControl.getMinimum();
+		audioControl.setValue(gain);
 
                 clip.start();
             }
@@ -449,6 +476,54 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.drawString("CLOSE", 377, 102);
 
         readDrawFile(g2, "controls", 60, 100);
+    }
+
+    public void drawWeaponsInfo(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+
+	readDrawFile(g2, "weapons", 80, 85);
+    }
+
+    public void drawEnemiesInfo(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+
+	readDrawFile(g2, "enemies", 100, 30);
+    }
+    
+    public void drawPowerUpsInfo(Graphics2D g2) {
+	// Draw window background rectangle
+	g2.setColor(new Color(0, 0, 0, 250));
+	g2.fillRect(50, 80, 400, 700);
+
+	// Draw close button
+	g2.setColor(Color.RED);
+	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	g2.fill(closeButton);
+	startScreenButtons.add(closeButton);
+	g2.setColor(Color.WHITE);
+	g2.drawString("CLOSE", 377, 102);
+
+	readDrawFile(g2, "powerUps", 45, 80);
     }
 
     public void drawCredits(Graphics2D g2) {

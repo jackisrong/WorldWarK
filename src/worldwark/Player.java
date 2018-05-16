@@ -59,10 +59,20 @@ public class Player extends GameObject {
     }
 
     public int getWeaponDamage() {
-	if (weapon == 1) {
-	    return 100;
+	switch (weapon) {
+	    case 1:
+		return 50;
+	    case 2:
+		return 75;
+	    case 3:
+		return 100;
+	    case 4:
+		return 125;
+	    case 5:
+		return 150;
+	    default:
+		return 0;
 	}
-	return 0;
     }
 
     public int getNumberOfBombs() {

@@ -1,0 +1,12 @@
+^POWER UPS
+*Nobody can be as strong as Soviet Russia
+$Info
+%There are 2 different types of
+%power ups that you can pick up
+%from the dead bodies of enemies.
+$Bombs
+%Bombs can be used to explode a
+%large amount of enemies.
+$Weapon Upgrades
+%Weapon upgrades can be used to
+%upgrade your weapon.
