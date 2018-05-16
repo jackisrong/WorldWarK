@@ -194,6 +194,12 @@ public class WorldWarK extends JPanel implements Runnable {
 		g2.setFont(finalScoreFont);
 		g2.setColor(Color.PINK);
 		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 430);
+
+		// Paint previous high score
+		// CHANGE THIS SO HIGH SCORE IS A GLOBAL VARIABLE
+		//g2.drawString("HIGH SCORE: " + previousHighScore, 60, 470);
+
+		// Paint play again info
 		g2.setFont(finalScoreFont.deriveFont(20f));
 		g2.drawString("Press R to play again", 60, 580);
 		g2.drawString("Press T to return to title screen", 60, 610);
@@ -362,12 +368,12 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(controlsButton);
 	g2.drawString("CONTROLS", 286, 578);
 
-	// Paint weapons button
+	// Paint power ups button
 	g2.setColor(Color.RED);
-	Rectangle2D weaponsButton = new Rectangle2D.Double(80, 600, 145, 40);
-	startScreenButtons.add(weaponsButton);
-	g2.draw(weaponsButton);
-	g2.drawString("WEAPONS", 106, 628);
+	Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 600, 145, 40);
+	startScreenButtons.add(powerUpsButton);
+	g2.draw(powerUpsButton);
+	g2.drawString("POWER UPS", 96, 628);
 
 	// Paint enemies button
 	g2.setColor(Color.RED);
@@ -375,13 +381,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	startScreenButtons.add(enemiesButton);
 	g2.draw(enemiesButton);
 	g2.drawString("ENEMIES", 296, 628);
-
-	// Paint power ups button
-	g2.setColor(Color.RED);
-	Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 650, 145, 40);
-	startScreenButtons.add(powerUpsButton);
-	g2.draw(powerUpsButton);
-	g2.drawString("POWER UPS", 96, 678);
 
 	// Paint credits button
 	g2.setColor(Color.RED);
@@ -403,12 +402,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		drawInstructions(g2);
 	    } else if (clickedStartScreenButton.equals(controlsButton)) {
 		drawControls(g2);
-	    } else if (clickedStartScreenButton.equals(weaponsButton)) {
-		drawWeaponsInfo(g2);
-	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
-		drawEnemiesInfo(g2);
 	    } else if (clickedStartScreenButton.equals(powerUpsButton)) {
 		drawPowerUpsInfo(g2);
+	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
+		drawEnemiesInfo(g2);
 	    } else if (clickedStartScreenButton.equals(creditsButton)) {
 		drawCredits(g2);
 	    } else if (clickedStartScreenButton.equals(settingsButton)) {
@@ -437,7 +434,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		}
 		float gain = (range * volume) + audioControl.getMinimum();
 		audioControl.setValue(gain);
-
 		clip.start();
 	    }
 	}
@@ -475,22 +471,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	readDrawFile(g2, "controls", 60, 100);
     }
 
-    public void drawWeaponsInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "weapons", 80, 85);
-    }
-
     public void drawEnemiesInfo(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
@@ -506,7 +486,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	readDrawFile(g2, "enemies", 100, 30);
     }
-    
+
     public void drawPowerUpsInfo(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));

@@ -10,3 +10,9 @@ $Bombs
 $Weapon Upgrades
 %Weapon upgrades can be used to
 %upgrade your weapon.
+$Weapon Levels
+%Level 1: AR
+%Level 2: Burst AR 
+%Level 3: Remote Rocket Launcher
+%Level 4: Minigun
+%Level 5: Machine Gun
