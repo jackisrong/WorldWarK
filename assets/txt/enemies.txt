@@ -1,0 +1,12 @@
+^ENEMIES
+*The only enemies are those to the communist regime
+$Info
+%There are many different types
+%of enemies for your killing
+%pleasure.
+$Helicopters
+%Helicopters are able to move
+%in all directions.
+$Fighter Planes
+%Fighter planes are only able
+%to move downwards.
