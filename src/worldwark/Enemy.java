@@ -88,7 +88,7 @@ public class Enemy extends GameObject {
 	}
 
 	// Y reverse
-	/* if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
+	 if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
             ySpeed = 0;
             reverseTimer += 15;
             if (reverseTimer >= 1000) {
@@ -105,26 +105,25 @@ public class Enemy extends GameObject {
                 xSpeed = -5;
             }
         }
-	 */
-	if (reverse && this.getYSpeed() != 0 && this.getType() < 4) { // Horizontal Zig Zag
+	 
+	if (reverse && this.getYSpeed() != 0 && this.getType() == 6 ) { // Horizontal Zig Zag
 	    reverseTimer += 20;
-	    if (reverseTimer == 500) {
+	    if (reverseTimer == 100) {
 		ySpeed = -this.getYSpeed();
 	    }
 	    System.out.println(reverseTimer);
-	    if (reverseTimer == 1000) {
+	    if (reverseTimer == 500) {
 		ySpeed = -this.getYSpeed();
 		reverseTimer = 0;
 	    }
 
 	}
-	if (reverse && this.getXSpeed() != 0) {
-	    reverseTimer += 20;
-	    if (reverseTimer == 500) {
+	if (reverse && this.getXSpeed() != 0 && this.getType() == 8) {
+	    if (reverseTimer == 100) {
 		xSpeed = -this.getXSpeed();
 	    }
 	    System.out.println(reverseTimer);
-	    if (reverseTimer == 1000) {
+	    if (reverseTimer == 500) {
 		xSpeed = -this.getXSpeed();
 		reverseTimer = 0;
 	    }
@@ -181,20 +180,28 @@ public class Enemy extends GameObject {
 		fileName = "helicopterLow";
 		break;
 	    case 1:
+            case 6: {
 		fileName = "helicopterMed";
 		break;
+            }
 	    case 2:
+            case 7: {
 		fileName = "helicopterHard";
 		break;
+            }
 	    case 3:
 		fileName = "fighterPlaneLow";
 		break;
 	    case 4:
+            case 8: {
 		fileName = "fighterPlaneMed";
 		break;
+            }
 	    case 5:
+            case 9: {
 		fileName = "fighterPlaneHard";
 		break;
+            }
 	    default:
 		break;
 	}
