@@ -27,6 +27,9 @@ public class PowerUp extends GameObject {
     public void update(WorldWarK panel) {
 	panel.checkPowerUpPickUp(this);
 	yPos += ySpeed;
+	if (yPos > panel.getHeight()) {
+	    panel.deleteObject(this);
+	}
     }
 
     @Override

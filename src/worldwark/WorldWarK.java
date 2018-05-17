@@ -38,7 +38,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private Player player;
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
-    private ArrayList<GameObject> finishedObjects = new ArrayList<>();
+    //private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private Rectangle2D clickedStartScreenButton;
     private boolean run = false;
     private boolean gamePaused = false;
@@ -104,7 +104,8 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void deleteObject(GameObject gameObject) {
-	finishedObjects.add(gameObject);
+	//finishedObjects.add(gameObject);
+	objects.remove(gameObject);
     }
 
     public void start() {
@@ -267,11 +268,11 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	    // Remove finished objects and paint remaining GameObjects
 	    for (GameObject i : objects) {
-		if (finishedObjects.contains(i)) {
-		    objects.remove(i);
-		} else {
-		    i.paintComponent(g2);
-		}
+//		if (finishedObjects.contains(i)) {
+//		    objects.remove(i);
+//		} else {
+		i.paintComponent(g2);
+		//}
 	    }
 	}
 
@@ -962,8 +963,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
-	    if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		if (i instanceof Enemy) {
+	    if (i instanceof Enemy) {
+		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    deleteObject(bullet);
 		    Enemy q = (Enemy) i;
 		    q.loseHealth(player.getWeaponDamage());
@@ -973,7 +974,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 
 		    if (i instanceof Boss == false) {
-			// Drop power up if not a boss
 			dropPowerUp(i);
 		    }
 		}
@@ -986,7 +986,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    deleteObject(bullet);
 	    player.loseHealth(10);
 	    if (player.getHealth() <= 0) {
-		// If player loses all of their health, reset game
 		gameOver();
 	    }
 	}
@@ -994,11 +993,9 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void checkEnemyCollision(Enemy enemy) throws IOException {
 	if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-	    // Deletes enemy upon collision and player loses health
 	    deleteObject(enemy);
 	    player.loseHealth(10);
 	    if (player.getHealth() <= 0) {
-		// If player loses all of their health, reset game
 		gameOver();
 	    }
 	}
@@ -1020,7 +1017,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	run = false;
 	gameOver = true;
 	objects.clear();
-	finishedObjects.clear();
+	//finishedObjects.clear();
 	repaint();
 
 	FileWriter outputStream = null;
