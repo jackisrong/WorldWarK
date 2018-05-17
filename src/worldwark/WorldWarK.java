@@ -47,6 +47,8 @@ public class WorldWarK extends JPanel implements Runnable {
     private Clip clip;
     private float volume;
     private FloatControl audioControl;
+    private int previousHighScore = 0;
+    private int highScore = 0;
     //private ArrayList<Float> musicVolume = new ArrayList<>();
     //private BufferedReader input;
 
@@ -82,6 +84,23 @@ public class WorldWarK extends JPanel implements Runnable {
 	} finally {
 	    sc.close();
 	}
+
+	BufferedReader inputStream = null;
+	try {
+	    inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
+	    highScore = Integer.parseInt(inputStream.readLine());
+	    previousHighScore = highScore;
+	} catch (IOException e) {
+	    System.out.println("ERROR: Cannot open highScore.txt");
+	} finally {
+	    if (inputStream != null) {
+		try {
+		    inputStream.close();
+		} catch (IOException e) {
+		    System.out.println("Cannot close inputStream");
+		}
+	    }
+	}
     }
 
     public void deleteObject(GameObject gameObject) {
@@ -106,6 +125,11 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
+	    // Update high sccore
+	    if (score > highScore) {
+		highScore = score;
+	    }
+
 	    // Controls the spawn rates of the stages depending on the score
 	    if (spawnTimer >= 3000 && score <= 2500) {
 		spawnEnemy(this);
@@ -194,10 +218,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		g2.setFont(finalScoreFont);
 		g2.setColor(Color.PINK);
 		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 430);
-
-		// Paint previous high score
-		// CHANGE THIS SO HIGH SCORE IS A GLOBAL VARIABLE
-		//g2.drawString("HIGH SCORE: " + previousHighScore, 60, 470);
+		g2.drawString("HIGH SCORE: " + highScore, 60, 470);
+		if (highScore > previousHighScore) {
+		    g2.drawString("NEW HIGH SCORE!", 80, 180);
+		}
 
 		// Paint play again info
 		g2.setFont(finalScoreFont.deriveFont(20f));
@@ -229,25 +253,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.setFont(scoreHeading);
 	    g2.setColor(Color.PINK);
 	    g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
-
-	    // Paint high score
-	    BufferedReader inputStream = null;
-	    String previousHighScore = "0";
-	    try {
-		inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
-		previousHighScore = inputStream.readLine();
-	    } catch (IOException e) {
-		System.out.println("ERROR: Cannot open highScore.txt");
-	    } finally {
-		if (inputStream != null) {
-		    try {
-			inputStream.close();
-		    } catch (IOException e) {
-			System.out.println("ERROR: Cannot close inputStream.");
-		    }
-		}
-	    }
-	    g2.drawString("HIGH SCORE: " + previousHighScore, 180, 25);
+	    g2.drawString("HIGH SCORE: " + highScore, 180, 25);
 
 	    // Paint number of bombs and weapon level
 	    g2.drawString("BOMBS: " + player.getNumberOfBombs(), 10, 790);
@@ -1024,20 +1030,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	finishedObjects.clear();
 	repaint();
 
-	BufferedReader inputStream = null;
-	String previousHighScore = "0";
-	try {
-	    inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
-	    previousHighScore = inputStream.readLine();
-	} catch (IOException e) {
-	    System.out.println("ERROR: Cannot open highScore.txt");
-	} finally {
-	    if (inputStream != null) {
-		inputStream.close();
-	    }
-	}
 	FileWriter outputStream = null;
-
 	try {
 	    outputStream = new FileWriter("assets/data/volume.txt");
 	    outputStream.write("" + volume);
@@ -1049,13 +1042,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	}
 
+	if (score > highScore) {
+	    previousHighScore = highScore;
+	    highScore = score;
+	}
+
 	try {
 	    outputStream = new FileWriter("assets/data/highScore.txt");
-	    if (score > Integer.parseInt(previousHighScore)) {
-		outputStream.write(score + "\r\n");
-	    } else {
-		outputStream.write(previousHighScore + "\r\n");
-	    }
+	    outputStream.write(highScore + "\r\n");
 	} catch (FileNotFoundException exception) {
 	    System.out.println("ERROR: Cannot write to highScore.txt");
 	} finally {
