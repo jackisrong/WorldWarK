@@ -963,24 +963,18 @@ public class WorldWarK extends JPanel implements Runnable {
     public void checkBulletHit(Bullet bullet) {
 	for (GameObject i : objects) {
 	    if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		if (i.getClass().getName().equals("worldwark.Enemy")) {
-		    // If bulletBox intersects rectangle of the enemy, kill the enemy
+		if (i instanceof Enemy) {
 		    deleteObject(bullet);
-		    dropPowerUp(i);
 		    Enemy q = (Enemy) i;
 		    q.loseHealth(player.getWeaponDamage());
 		    if (q.getHealth() <= 0) {
 			deleteObject(i);
-			// Increases score (based on enemy type in the future?)
 			score += i.getPoints();
 		    }
-		} else if (i.getClass().getName().equals("worldwark.Boss")) {
-		    deleteObject(bullet);
-		    Boss q = (Boss) i;
-		    q.loseHealth(player.getWeaponDamage());
-		    if (q.getHealth() <= 0) {
-			deleteObject(i);
-			score += i.getPoints();
+
+		    if (i instanceof Boss == false) {
+			// Drop power up if not a boss
+			dropPowerUp(i);
 		    }
 		}
 	    }
@@ -989,7 +983,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void checkEnemyBulletHit(EnemyBullet bullet) throws IOException {
 	if (bullet.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-	    // Deletes enemy upon collision and player loses health
 	    deleteObject(bullet);
 	    player.loseHealth(10);
 	    if (player.getHealth() <= 0) {
