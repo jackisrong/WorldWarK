@@ -38,7 +38,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private Player player;
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
-    //private ArrayList<GameObject> finishedObjects = new ArrayList<>();
     private Rectangle2D clickedStartScreenButton;
     private boolean run = false;
     private boolean gamePaused = false;
@@ -49,8 +48,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private FloatControl audioControl;
     private int previousHighScore = 0;
     private int highScore = 0;
-    //private ArrayList<Float> musicVolume = new ArrayList<>();
-    //private BufferedReader input;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -67,13 +64,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
 
-	Scanner sc = null;
+	// Get saved volume
+	BufferedReader inputStream = null;
 	try {
-	    sc = new Scanner(new File("assets/data/volume.txt"));
+	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
 	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
-	    volume = sc.nextFloat();
+	    volume = Float.parseFloat(inputStream.readLine());
 	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    float range = audioControl.getMaximum() - audioControl.getMinimum();
 	    float gain = (range * volume) + audioControl.getMinimum();
@@ -82,10 +80,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	} catch (Exception e) {
 	    System.out.println("ERROR: myjam.wav cannot be played.");
 	} finally {
-	    sc.close();
+	    try {
+		inputStream.close();
+	    } catch (IOException e) {
+		System.out.println("ERROR: Cannot close inputStream");
+	    }
 	}
 
-	BufferedReader inputStream = null;
+	// Get previous high score
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/highScore.txt"));
 	    highScore = Integer.parseInt(inputStream.readLine());
@@ -97,14 +99,13 @@ public class WorldWarK extends JPanel implements Runnable {
 		try {
 		    inputStream.close();
 		} catch (IOException e) {
-		    System.out.println("Cannot close inputStream");
+		    System.out.println("ERROR: Cannot close inputStream");
 		}
 	    }
 	}
     }
 
     public void deleteObject(GameObject gameObject) {
-	//finishedObjects.add(gameObject);
 	objects.remove(gameObject);
     }
 
@@ -218,7 +219,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		}
 		g2.setFont(finalScoreFont);
 		g2.setColor(Color.PINK);
-		g2.drawString("YOUR FINAL SCORE: " + Integer.toString(score), 60, 430);
+		g2.drawString("YOUR SCORE: " + Integer.toString(score), 60, 430);
 		g2.drawString("HIGH SCORE: " + highScore, 60, 470);
 		if (highScore > previousHighScore) {
 		    g2.drawString("NEW HIGH SCORE!", 80, 180);
@@ -244,7 +245,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    }
 	    g2.drawImage(image, 0, 0, null);
 
-	    // Paint score
+	    // Paint score and high score
 	    Font scoreHeading = null;
 	    try {
 		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
@@ -266,13 +267,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.setColor(Color.WHITE);
 	    g2.drawString("PAUSE", 427, 22);
 
-	    // Remove finished objects and paint remaining GameObjects
+	    // Paint GameObjects
 	    for (GameObject i : objects) {
-//		if (finishedObjects.contains(i)) {
-//		    objects.remove(i);
-//		} else {
 		i.paintComponent(g2);
-		//}
 	    }
 	}
 
@@ -328,7 +325,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 	g2.drawImage(image, 0, 0, null);
 
-	// Paint start screen
+	// Paint start screen content
 	Font gameTitleFont = null;
 	try {
 	    gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
@@ -405,163 +402,100 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	// Check if a start screen button has been clicked
 	if (clickedStartScreenButton != null) {
+	    // Draw window background rectangle
+	    g2.setColor(new Color(0, 0, 0, 250));
+	    g2.fillRect(50, 80, 400, 700);
+
+	    // Draw close button
+	    g2.setColor(Color.RED);
+	    Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+	    g2.fill(closeButton);
+	    startScreenButtons.add(closeButton);
+	    g2.setColor(Color.WHITE);
+	    g2.drawString("CLOSE", 377, 102);
+
 	    if (clickedStartScreenButton.equals(instructionsButton)) {
-		drawInstructions(g2);
+		readDrawFile(g2, "instructions", 60, 70);
 	    } else if (clickedStartScreenButton.equals(controlsButton)) {
-		drawControls(g2);
+		readDrawFile(g2, "controls", 60, 100);
 	    } else if (clickedStartScreenButton.equals(powerUpsButton)) {
-		drawPowerUpsInfo(g2);
+		readDrawFile(g2, "powerUps", 45, 80);
 	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
-		drawEnemiesInfo(g2);
+		readDrawFile(g2, "enemies", 100, 30);
 	    } else if (clickedStartScreenButton.equals(creditsButton)) {
-		drawCredits(g2);
+		readDrawFile(g2, "credits", 100, 140);
 	    } else if (clickedStartScreenButton.equals(settingsButton)) {
 		drawMusic(g2);
 	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-		// Go back to start screen if a close button is pressed
+		// Remove dialogue boxes if close button is pressed
 		clickedStartScreenButton = null;
 		startScreenButtons.clear();
 		repaint();
 	    } else {
+		// Change volume based on volume button pressed
+		System.out.println("VOLUME BEFORE: " + volume);
 		drawMusic(g2);
 		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = audioControl.getMaximum() - audioControl.getMinimum();
 		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
-		if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
+		if (clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
 		    volume -= 0.1;
 		    volume = Math.max(volume, 0);
-		    //   musicVolume.add(volume);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(215, 278, 100, 30))) {
 		    volume = (float) 0.9;
-		    //  musicVolume.add(volume);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
+		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(330, 278, 100, 30))) {
 		    volume += 0.1;
 		    volume = Math.min(volume, 1);
-		    //   musicVolume.add(volume);
 		}
 		float gain = (range * volume) + audioControl.getMinimum();
 		audioControl.setValue(gain);
 		clip.start();
+
+		// Save volume setting to file
+		try {
+		    FileWriter outputStream = null;
+		    try {
+			outputStream = new FileWriter("assets/data/volume.txt");
+			outputStream.write(volume + "\r\n");
+		    } catch (FileNotFoundException e) {
+			System.out.println("ERROR: Cannot write to volume.txt");
+		    } finally {
+			if (outputStream != null) {
+			    outputStream.close();
+			}
+		    }
+		} catch (IOException e) {
+		    System.out.println("ERROR: IOException when saving volume setting to file");
+		}
+		System.out.println("VOLUME AFTER: " + volume);
 	    }
 	}
     }
 
-    public void drawInstructions(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "instructions", 60, 70);
-    }
-
-    public void drawControls(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "controls", 60, 100);
-    }
-
-    public void drawEnemiesInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "enemies", 100, 30);
-    }
-
-    public void drawPowerUpsInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "powerUps", 45, 80);
-    }
-
-    public void drawCredits(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
-	readDrawFile(g2, "credits", 100, 140);
-    }
-
     public void drawMusic(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
-
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
-
 	// Draw low volume button
 	g2.setColor(Color.WHITE);
-	Rectangle2D lowButtom = new Rectangle2D.Double(98, 278, 50, 30);
-	g2.fill(lowButtom);
-	startScreenButtons.add(lowButtom);
-	g2.setColor(Color.BLACK);
-	g2.drawString("LOW", 100, 300);
+	Rectangle2D lowButton = new Rectangle2D.Double(100, 278, 100, 30);
+	g2.draw(lowButton);
+	startScreenButtons.add(lowButton);
+	//g2.setColor(Color.BLACK);
+	g2.drawString("LOW", 130, 300);
 
 	// Draw normal volume button
 	g2.setColor(Color.WHITE);
-	Rectangle2D medButton = new Rectangle2D.Double(198, 278, 100, 30);
-	g2.fill(medButton);
+	Rectangle2D medButton = new Rectangle2D.Double(215, 278, 100, 30);
+	g2.draw(medButton);
 	startScreenButtons.add(medButton);
-	g2.setColor(Color.BLACK);
-	g2.drawString("NORMAL", 200, 300);
+	//g2.setColor(Color.BLACK);
+	g2.drawString("NORMAL", 225, 300);
 
 	// Draw high volume button
 	g2.setColor(Color.WHITE);
-	Rectangle2D highButton = new Rectangle2D.Double(348, 278, 60, 30);
-	g2.fill(highButton);
+	Rectangle2D highButton = new Rectangle2D.Double(330, 278, 100, 30);
+	g2.draw(highButton);
 	startScreenButtons.add(highButton);
-	g2.setColor(Color.BLACK);
-	g2.drawString("HIGH", 350, 300);
+	//g2.setColor(Color.BLACK);
+	g2.drawString("HIGH", 355, 300);
 
 	// Print heading
 	Font titleFont = null;
@@ -1017,26 +951,15 @@ public class WorldWarK extends JPanel implements Runnable {
 	run = false;
 	gameOver = true;
 	objects.clear();
-	//finishedObjects.clear();
 	repaint();
-
-	FileWriter outputStream = null;
-	try {
-	    outputStream = new FileWriter("assets/data/volume.txt");
-	    outputStream.write("" + volume);
-	} catch (FileNotFoundException exception) {
-	    System.out.println("Error opening file");
-	} finally {
-	    if (outputStream != null) {
-		outputStream.close();
-	    }
-	}
 
 	if (score > highScore) {
 	    previousHighScore = highScore;
 	    highScore = score;
 	}
 
+	// Save high score to file
+	FileWriter outputStream = null;
 	try {
 	    outputStream = new FileWriter("assets/data/highScore.txt");
 	    outputStream.write(highScore + "\r\n");
@@ -1150,7 +1073,9 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 		}
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {
-		launchBomb();
+		if (run == true) {
+		    launchBomb();
+		}
 	    }
 	}
 
