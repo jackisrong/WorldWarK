@@ -6,5 +6,5 @@ $Levels
 %The game is continuous and gets
 %harder and harder until you die.
 $Boss
-%After each stage, there's a boss battle.
+%After each stage, there's a boss.
 %You must beat the boss to continue.
