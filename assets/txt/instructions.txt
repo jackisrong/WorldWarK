@@ -3,15 +3,8 @@
 $Goal
 %Kill them before they kill you.
 $Levels
-%The game is continuous and gradually
-%gets harder and harder until you die.
-$Enemies
-%There are 2 types of enemies:
-%attack helicopters go in any direction,
-%fighter planes only go downwards.
+%The game is continuous and gets
+%harder and harder until you die.
 $Boss
-%After each stage, there's a boss battle.
+%After each stage, there's a boss.
 %You must beat the boss to continue.
-$Bombs
-%You can launch bombs that destroy
-%everything.
