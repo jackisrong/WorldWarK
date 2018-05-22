@@ -88,7 +88,7 @@ public class Enemy extends GameObject {
 	}
 
 	// Y reverse
-	 if (reverse && readyToTurnAtY(panel.getHeight() / 2)) {
+	 if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) {
             ySpeed = 0;
             reverseTimer += 15;
             if (reverseTimer >= 1000) {
@@ -97,7 +97,7 @@ public class Enemy extends GameObject {
             }
         }
         // X reverse
-        if (reverse && readyToTurnAtX(panel.getWidth() / 2)) {
+        if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() < 6) {
             xSpeed = 0;
             reverseTimer += 15;
             if (reverseTimer >= 1000) {
@@ -108,22 +108,22 @@ public class Enemy extends GameObject {
 	 
 	if (reverse && this.getYSpeed() != 0 && this.getType() == 6 ) { // Horizontal Zig Zag
 	    reverseTimer += 20;
-	    if (reverseTimer == 100) {
+	    if (reverseTimer == 500) {
 		ySpeed = -this.getYSpeed();
 	    }
-	    System.out.println(reverseTimer);
-	    if (reverseTimer == 500) {
+	    if (reverseTimer == 1000) {
 		ySpeed = -this.getYSpeed();
 		reverseTimer = 0;
 	    }
 
 	}
+        
 	if (reverse && this.getXSpeed() != 0 && this.getType() == 8) {
-	    if (reverseTimer == 100) {
+            reverseTimer += 20;
+	    if (reverseTimer == 500) {
 		xSpeed = -this.getXSpeed();
 	    }
-	    System.out.println(reverseTimer);
-	    if (reverseTimer == 500) {
+	    if (reverseTimer == 1000) {
 		xSpeed = -this.getXSpeed();
 		reverseTimer = 0;
 	    }

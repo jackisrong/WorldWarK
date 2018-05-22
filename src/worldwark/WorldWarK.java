@@ -46,7 +46,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private int score;
     private Clip clip;
     private float volume;
-    private int b = 0;
+    private int b = 1;
     private FloatControl audioControl;
     //private ArrayList<Float> musicVolume = new ArrayList<>();
     //private BufferedReader input;
@@ -365,33 +365,33 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.draw(controlsButton);
         g2.drawString("CONTROLS", 286, 578);
 
-	// Paint weapons button
-	g2.setColor(Color.RED);
-	Rectangle2D weaponsButton = new Rectangle2D.Double(80, 600, 145, 40);
-	startScreenButtons.add(weaponsButton);
-	g2.draw(weaponsButton);
-	g2.drawString("WEAPONS", 106, 628);
+        // Paint weapons button
+        g2.setColor(Color.RED);
+        Rectangle2D weaponsButton = new Rectangle2D.Double(80, 600, 145, 40);
+        startScreenButtons.add(weaponsButton);
+        g2.draw(weaponsButton);
+        g2.drawString("WEAPONS", 106, 628);
 
-	// Paint enemies button
-	g2.setColor(Color.RED);
-	Rectangle2D enemiesButton = new Rectangle2D.Double(280, 600, 116, 40);
-	startScreenButtons.add(enemiesButton);
-	g2.draw(enemiesButton);
-	g2.drawString("ENEMIES", 296, 628);
+        // Paint enemies button
+        g2.setColor(Color.RED);
+        Rectangle2D enemiesButton = new Rectangle2D.Double(280, 600, 116, 40);
+        startScreenButtons.add(enemiesButton);
+        g2.draw(enemiesButton);
+        g2.drawString("ENEMIES", 296, 628);
 
-	// Paint power ups button
-	g2.setColor(Color.RED);
-	Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 650, 145, 40);
-	startScreenButtons.add(powerUpsButton);
-	g2.draw(powerUpsButton);
-	g2.drawString("POWER UPS", 96, 678);
+        // Paint power ups button
+        g2.setColor(Color.RED);
+        Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 650, 145, 40);
+        startScreenButtons.add(powerUpsButton);
+        g2.draw(powerUpsButton);
+        g2.drawString("POWER UPS", 96, 678);
 
-	// Paint credits button
-	g2.setColor(Color.RED);
-	Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
-	startScreenButtons.add(creditsButton);
-	g2.draw(creditsButton);
-	g2.drawString("CREDITS", 386, 778);
+        // Paint credits button
+        g2.setColor(Color.RED);
+        Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
+        startScreenButtons.add(creditsButton);
+        g2.draw(creditsButton);
+        g2.drawString("CREDITS", 386, 778);
 
         // Paint settings button
         g2.setColor(Color.RED);
@@ -400,46 +400,46 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.draw(settingsButton);
         g2.drawString("SETTINGS", 35, 778);
 
-	// Check if a start screen button has been clicked
-	if (clickedStartScreenButton != null) {
-	    if (clickedStartScreenButton.equals(instructionsButton)) {
-		drawInstructions(g2);
-	    } else if (clickedStartScreenButton.equals(controlsButton)) {
-		drawControls(g2);
-	    } else if (clickedStartScreenButton.equals(weaponsButton)) {
-		drawWeaponsInfo(g2);
-	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
-		drawEnemiesInfo(g2);
-	    } else if (clickedStartScreenButton.equals(powerUpsButton)) {
-		drawPowerUpsInfo(g2);
-	    } else if (clickedStartScreenButton.equals(creditsButton)) {
-		drawCredits(g2);
-	    } else if (clickedStartScreenButton.equals(settingsButton)) {
-		drawMusic(g2);
-	    } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
-		// Go back to start screen if a close button is pressed
-		clickedStartScreenButton = null;
-		startScreenButtons.clear();
-		repaint();
-	    } else {
-		drawMusic(g2);
-		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-		float range = audioControl.getMaximum() - audioControl.getMinimum();
-		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
-		if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
-		    volume -= 0.1;
-		    volume = Math.max(volume, 0);
-		    //   musicVolume.add(volume);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
-		    volume = (float) 0.9;
-		    //  musicVolume.add(volume);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
-		    volume += 0.1;
-		    volume = Math.min(volume, 1);
-		    //   musicVolume.add(volume);
-		}
-		float gain = (range * volume) + audioControl.getMinimum();
-		audioControl.setValue(gain);
+        // Check if a start screen button has been clicked
+        if (clickedStartScreenButton != null) {
+            if (clickedStartScreenButton.equals(instructionsButton)) {
+                drawInstructions(g2);
+            } else if (clickedStartScreenButton.equals(controlsButton)) {
+                drawControls(g2);
+            } else if (clickedStartScreenButton.equals(weaponsButton)) {
+                drawWeaponsInfo(g2);
+            } else if (clickedStartScreenButton.equals(enemiesButton)) {
+                drawEnemiesInfo(g2);
+            } else if (clickedStartScreenButton.equals(powerUpsButton)) {
+                drawPowerUpsInfo(g2);
+            } else if (clickedStartScreenButton.equals(creditsButton)) {
+                drawCredits(g2);
+            } else if (clickedStartScreenButton.equals(settingsButton)) {
+                drawMusic(g2);
+            } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
+                // Go back to start screen if a close button is pressed
+                clickedStartScreenButton = null;
+                startScreenButtons.clear();
+                repaint();
+            } else {
+                drawMusic(g2);
+                audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float range = audioControl.getMaximum() - audioControl.getMinimum();
+                volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
+                if (clickedStartScreenButton.equals(new Rectangle2D.Double(98, 278, 50, 30))) {
+                    volume -= 0.1;
+                    volume = Math.max(volume, 0);
+                    //   musicVolume.add(volume);
+                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(198, 278, 100, 30))) {
+                    volume = (float) 0.9;
+                    //  musicVolume.add(volume);
+                } else if (clickedStartScreenButton.equals(new Rectangle2D.Double(348, 278, 60, 30))) {
+                    volume += 0.1;
+                    volume = Math.min(volume, 1);
+                    //   musicVolume.add(volume);
+                }
+                float gain = (range * volume) + audioControl.getMinimum();
+                audioControl.setValue(gain);
 
                 clip.start();
             }
@@ -479,51 +479,51 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void drawWeaponsInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
+        // Draw window background rectangle
+        g2.setColor(new Color(0, 0, 0, 250));
+        g2.fillRect(50, 80, 400, 700);
 
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
+        // Draw close button
+        g2.setColor(Color.RED);
+        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+        g2.fill(closeButton);
+        startScreenButtons.add(closeButton);
+        g2.setColor(Color.WHITE);
+        g2.drawString("CLOSE", 377, 102);
 
-	readDrawFile(g2, "weapons", 80, 85);
+        readDrawFile(g2, "weapons", 80, 85);
     }
 
     public void drawEnemiesInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
+        // Draw window background rectangle
+        g2.setColor(new Color(0, 0, 0, 250));
+        g2.fillRect(50, 80, 400, 700);
 
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
+        // Draw close button
+        g2.setColor(Color.RED);
+        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+        g2.fill(closeButton);
+        startScreenButtons.add(closeButton);
+        g2.setColor(Color.WHITE);
+        g2.drawString("CLOSE", 377, 102);
 
-	readDrawFile(g2, "enemies", 100, 30);
+        readDrawFile(g2, "enemies", 100, 30);
     }
-    
+
     public void drawPowerUpsInfo(Graphics2D g2) {
-	// Draw window background rectangle
-	g2.setColor(new Color(0, 0, 0, 250));
-	g2.fillRect(50, 80, 400, 700);
+        // Draw window background rectangle
+        g2.setColor(new Color(0, 0, 0, 250));
+        g2.fillRect(50, 80, 400, 700);
 
-	// Draw close button
-	g2.setColor(Color.RED);
-	Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
-	g2.fill(closeButton);
-	startScreenButtons.add(closeButton);
-	g2.setColor(Color.WHITE);
-	g2.drawString("CLOSE", 377, 102);
+        // Draw close button
+        g2.setColor(Color.RED);
+        Rectangle2D closeButton = new Rectangle2D.Double(370, 80, 80, 30);
+        g2.fill(closeButton);
+        startScreenButtons.add(closeButton);
+        g2.setColor(Color.WHITE);
+        g2.drawString("CLOSE", 377, 102);
 
-	readDrawFile(g2, "powerUps", 45, 80);
+        readDrawFile(g2, "powerUps", 45, 80);
     }
 
     public void drawCredits(Graphics2D g2) {
@@ -735,11 +735,11 @@ public class WorldWarK extends JPanel implements Runnable {
 
         // Spawns enemies dependeing on the score
         if (score <= 2500) {
-            choose = rand.nextInt(1) + 1;
-        } else if (score > 2500 && score <= 5000) {
-            choose = rand.nextInt(8) + 1;
-        } else if (score > 5000 && score <= 7500) {
             choose = rand.nextInt(6) + 1;
+        } else if (score > 2500 && score <= 5000) {
+            choose = rand.nextInt(7) + 1;
+        } else if (score > 5000 && score <= 7500) {
+            choose = rand.nextInt(8) + 1;
         } else if (score >= 10000) {
             choose = rand.nextInt(3) + 1;
         }
@@ -749,8 +749,8 @@ public class WorldWarK extends JPanel implements Runnable {
             switch (choose) {
                 case 1:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 2501, 1000 + i * 2);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 2501, 1000 + i * 2);
+                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2);
+                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2);
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
@@ -774,12 +774,17 @@ public class WorldWarK extends JPanel implements Runnable {
                     objects.add(enemyRight);
                     break;
                 case 4:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 5, 0, 50, 0, 50, 1000);
-                    enemyRight = new Enemy(0, 300, 64, 64, 5, 0, 50, 0, 50, 1000);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
+                    for (int i = 0; i <= 1; i++) {
+                        if (i == 1) {
+                            int r = -1;
+                            enemyLeft = new Enemy(0 + i * 500 - 25, 100, 64, 64, 5 * r, 0, 50, 0, 50, 1000);
+                            enemyRight = new Enemy(0 + i * 500 - 25, 300, 64, 64, 5 * r, 0, 50, 0, 50, 1000);
+                            enemyLeft.setReverse(true);
+                            enemyRight.setReverse(true);
+                            objects.add(enemyLeft);
+                            objects.add(enemyRight);
+                        }
+                    }
                     break;
                 case 5:
                     for (int i = 0; i < 150; i += 50) {
@@ -853,8 +858,14 @@ public class WorldWarK extends JPanel implements Runnable {
                     break;
                 case 7:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(0 - i * 2, 100 + i / 2, 64, 64, 3, 3, 50, 6, 75, 1000 + i * 2);
-                        enemyRight = new Enemy(450 + i * 2, 300 - i / 2, 64, 64, -3, 3, 50, 6, 75, 1000 + i * 2);
+                        if (i == 50) {
+                            b = -1;
+                        } else {
+                            b = 1;
+                        }
+                        System.out.println(b);
+                        enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 50, 6, 75, 1000 + i * 2);
+                        enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 50, 6, 75, 1000 + i * 2);
                         enemyLeft.setReverse(true);
                         enemyRight.setReverse(true);
                         objects.add(enemyLeft);
@@ -863,8 +874,14 @@ public class WorldWarK extends JPanel implements Runnable {
                     break;
                 case 8:
                     for (int i = 0; i < 150; i += 50) {
-                        enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, -3, 7, 50, 8, 75, 1000 + i * 2);
-                        enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 3, 7, 50, 8, 75, 1000 + i * 2);
+                        if (i == 50) {
+                            b = -1;
+                        } else {
+                            b = 1;
+                        }
+                        System.out.println(b);
+                        enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 50, 8, 75, 1000 + i * 2);
+                        enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 50, 8, 75, 1000 + i * 2);
                         enemyLeft.setReverse(true);
                         enemyRight.setReverse(true);
                         objects.add(enemyLeft);
@@ -873,7 +890,7 @@ public class WorldWarK extends JPanel implements Runnable {
                     break;
 
             }
-        } else if (score > 5000 && score <= 7500) {
+        } else if (score > 5000 && score <= 10000) {
             // Third tier of enemies
             switch (choose) {
                 case 1:
@@ -903,12 +920,14 @@ public class WorldWarK extends JPanel implements Runnable {
                     objects.add(enemyRight);
                     break;
                 case 4:
-                    enemyLeft = new Enemy(0, 100, 64, 64, 10, 0, 50, 2, 100, 1000);
-                    enemyRight = new Enemy(0, 300, 64, 64, 10, 0, 50, 2, 100, 1000);
-                    enemyLeft.setReverse(true);
-                    enemyRight.setReverse(true);
-                    objects.add(enemyLeft);
-                    objects.add(enemyRight);
+                    for (int i = 0; i <= 50; i += 50) {
+                        enemyLeft = new Enemy(0 + i * 10, 100 + i, 64, 64, 10, 0, 50, 2, 100, 1000);
+                        enemyRight = new Enemy(0 + i * 10, 300 + i, 64, 64, 10, 0, 50, 2, 100, 1000);
+                        enemyLeft.setReverse(true);
+                        enemyRight.setReverse(true);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
                     break;
                 case 5:
                     for (int i = 0; i < 150; i += 50) {
@@ -925,6 +944,41 @@ public class WorldWarK extends JPanel implements Runnable {
                         objects.add(enemyLeft);
                         objects.add(enemyRight);
                     }
+                    break;
+                case 7:
+                    for (int i = 0; i < 150; i += 50) {
+                        if (i == 50) {
+                            b = -1;
+                        } else {
+                            b = 1;
+                        }
+                        System.out.println(b);
+                        enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 50, 6, 75, 1000 + i * 2);
+                        enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 50, 6, 75, 1000 + i * 2);
+                        enemyLeft.setReverse(true);
+                        enemyRight.setReverse(true);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
+                    break;
+                case 8:
+                    for (int i = 0; i < 150; i += 50) {
+                        if (i == 50) {
+                            b = -1;
+                        } else {
+                            b = 1;
+                        }
+                        System.out.println(b);
+                        enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 50, 8, 75, 1000 + i * 2);
+                        enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 50, 8, 75, 1000 + i * 2);
+                        enemyLeft.setReverse(true);
+                        enemyRight.setReverse(true);
+                        objects.add(enemyLeft);
+                        objects.add(enemyRight);
+                    }
+                    break;
+                case 9:
+
                     break;
             }
 
