@@ -17,6 +17,11 @@ public class Bomb extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
+	if (yPos > panel.getHeight() / 2) {
+	    yPos -= 2;
+	} else {
+	    // EXPLODE
+	}
     }
 
     @Override
