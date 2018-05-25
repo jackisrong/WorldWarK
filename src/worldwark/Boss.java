@@ -15,6 +15,7 @@ public class Boss extends Enemy {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
+    
 
     @Override
     public void update(WorldWarK panel) {
@@ -31,6 +32,10 @@ public class Boss extends Enemy {
 		xPos += xSpeed;
 	    }
 	}
+    }
+    
+    public void setFiringRate(int rate) {
+        firingRate = rate;
     }
 
     @Override

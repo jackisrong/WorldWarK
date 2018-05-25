@@ -19,6 +19,7 @@ public class Enemy extends GameObject {
     private int reverseTimer;
     private int shootTimer;
     protected int initialHealth;
+    protected int firingRate;
 
     public Enemy(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height);
@@ -32,6 +33,7 @@ public class Enemy extends GameObject {
 	reverseTimer = 0;
 	shootTimer = 0;
 	initialHealth = health;
+        firingRate = 1000;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -61,6 +63,10 @@ public class Enemy extends GameObject {
 
     public int getType() {
 	return typeOfEnemy;
+    }
+    
+    public int getFiringRate() {
+        return firingRate;
     }
 
     public void setReverse(boolean reverse) {

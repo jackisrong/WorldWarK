@@ -14,12 +14,18 @@ public class EnemyBullet extends GameObject {
 
     private int xSpeed;
     private int ySpeed;
+    private int damage;
 
-    public EnemyBullet(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed) {
+    public EnemyBullet(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int damage) {
 	super(xPos, yPos, width, height);
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
+        this.damage = damage;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+    }
+    
+    public int getDamage() {
+        return damage;
     }
 
     @Override

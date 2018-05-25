@@ -6,11 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -21,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -51,42 +47,43 @@ public class WorldWarK extends JPanel implements Runnable {
     private int highScore = 0;
 
     public WorldWarK() {
-	JFrame frame = new JFrame("World War K");
-	setBackground(Color.black);
-	setPreferredSize(new Dimension(500, 800));
-	addKeyListener(new KeyboardControls());
-	addMouseListener(new MouseControls());
-	addMouseMotionListener(new MouseControls());
-	setFocusable(true);
-	frame.setSize(500, 800);
-	frame.setResizable(false);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setVisible(true);
-	frame.add(this);
-	frame.pack();
+        JFrame frame = new JFrame("World War K");
+        setBackground(Color.black);
+        setPreferredSize(new Dimension(500, 800));
+        addKeyListener(new KeyboardControls(this));
+	addMouseListener(new MouseControls(this));
+	addMouseMotionListener(new MouseControls(this));
+        setFocusable(true);
+        frame.setSize(500, 800);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.add(this);
+        frame.pack();
 
-	// Get saved volume
-	BufferedReader inputStream = null;
-	try {
-	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
-	    clip = AudioSystem.getClip();
-	    clip.open(audioIn);
-	    volume = Float.parseFloat(inputStream.readLine());
-	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-	    float range = audioControl.getMaximum() - audioControl.getMinimum();
-	    float gain = (range * volume) + audioControl.getMinimum();
-	    audioControl.setValue(gain);
-	    clip.start();
-	} catch (Exception e) {
-	    System.out.println("ERROR: myjam.wav cannot be played.");
-	} finally {
-	    try {
-		inputStream.close();
-	    } catch (IOException e) {
-		System.out.println("ERROR: Cannot close inputStream");
-	    }
-	}
+        // Get saved volume
+        BufferedReader inputStream = null;
+        Scanner sc;
+        try {
+            sc = new Scanner(new File("assets/data/volume.txt"));
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            volume = sc.nextFloat();
+            audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = audioControl.getMaximum() - audioControl.getMinimum();
+            float gain = (range * volume) + audioControl.getMinimum();
+            audioControl.setValue(gain);
+            clip.start();
+        } catch (Exception e) {
+            System.out.println("ERROR: myjam.wav cannot be played.");
+        }  finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                System.out.println("ERROR: Cannot close inputStream");
+        }
+        }
 
 	// Get previous high score
 	try {
@@ -110,6 +107,46 @@ public class WorldWarK extends JPanel implements Runnable {
 	objects.remove(gameObject);
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean getRun() {
+        return run;
+    }
+
+    public Rectangle2D getClickedStartScreenButton() {
+        return clickedStartScreenButton;
+    }
+
+    public void setClickedStartScreenButton(Rectangle2D rect) {
+        clickedStartScreenButton = rect;
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
+
+    public boolean getGamePaused() {
+        return gamePaused;
+    }
+
+    public ArrayList<Rectangle2D> getStartScreenButtons() {
+        return startScreenButtons;
+    }
+
+    public void setGamePaused(boolean paused) {
+        gamePaused = paused;
+    }
+
+    public void setGameOver(boolean over) {
+        gameOver = over;
+    }
+
+    public void setRun(boolean run) {
+        this.run = run;
+    }
+    
     public void start() {
 	Thread thread = new Thread(this);
 	if (gamePaused == false) {
@@ -170,32 +207,64 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void enemyFire() {
-	ArrayList<GameObject> enemies = new ArrayList<>();
-	for (GameObject i : objects) {
-	    if (i instanceof Enemy) {
-		enemies.add(i);
-	    }
-	}
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        Boss boss = null;
+        for (GameObject i : objects) {
+            if (i instanceof Enemy) {
+                enemies.add((Enemy) i);
+            }
+            if (i instanceof Boss) {
+                boss = (Boss) i;
+            }
+        }
 
-	if (enemies.size() > 0) {
-	    int prevSelectedEnemy = -1;
-	    for (int i = 0; i < 3; i++) {
-		Random rand = new Random();
-		int selectedIndex = rand.nextInt(enemies.size());
-		while (selectedIndex == prevSelectedEnemy) {
-		    selectedIndex = rand.nextInt(enemies.size());
-		}
-		GameObject selectedEnemy = enemies.get(selectedIndex);
-		int dX = selectedEnemy.getXPos() - player.getXPos();
-		int dY = selectedEnemy.getYPos() - player.getYPos();
-		if (dY <= -100 && !selectedEnemy.isOutsideScreen()) {
-		    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, 0, -7);
-		    objects.add(bullet);
-		    playSound(0);
-		}
-	    }
-	}
-	fireTimer = 0;
+        if (boss != null && fireTimer % boss.getFiringRate() == 0) {
+            Random rand = new Random();
+            int dX = boss.getXPos() - player.getXPos();
+            int dY = boss.getYPos() - player.getYPos();
+            EnemyBullet bullet = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, dX / 67, dY / 67, 10);
+            objects.add(bullet);
+            playSound(0);
+            if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
+                boss.setFiringRate(750);
+                int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+                int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+                // position of boss fire is off due to size of boss; change position
+                EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 10);
+                EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 10);
+                objects.add(bullet2);
+                objects.add(bullet3);
+            } else if (boss.getHealth() <= 100) {
+                boss.setFiringRate(500);
+                int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+                int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+                // position of boss fire is off due to size of boss; change position
+                EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 10);
+                EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 10);
+                objects.add(bullet2);
+                objects.add(bullet3);
+            }
+        }
+
+        if (enemies.size() > 0 && fireTimer % (enemies.get(0).getFiringRate()) == 0) {
+            int prevSelectedEnemy = -1;
+            for (int i = 0; i < 3; i++) {
+                Random rand = new Random();
+                int selectedIndex = rand.nextInt(enemies.size());
+                while (selectedIndex == prevSelectedEnemy) {
+                    selectedIndex = rand.nextInt(enemies.size());
+                }
+                GameObject selectedEnemy = enemies.get(selectedIndex);
+                int dX = selectedEnemy.getXPos() - player.getXPos();
+                int dY = selectedEnemy.getYPos() - player.getYPos();
+                if (dY <= -100 && !selectedEnemy.isOutsideScreen()) {
+                    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, dX / 67, dY / 67, 10);
+                    objects.add(bullet);
+                    playSound(0);
+                }
+            }
+            fireTimer = 0;
+        }
     }
 
     @Override
@@ -1057,168 +1126,37 @@ public class WorldWarK extends JPanel implements Runnable {
 	objects.clear();
 	repaint();
 
-	if (score > highScore) {
-	    previousHighScore = highScore;
-	    highScore = score;
-	}
+        if (score > highScore) {
+            previousHighScore = highScore;
+            highScore = score;
+        }
+        
+        FileWriter outputStream = null;
+        try {
+            outputStream = new FileWriter("assets/data/volume.txt");
+            outputStream.write("" + volume);
+        } catch (FileNotFoundException exception) {
+            System.out.println("Error opening file");
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
 
-	// Save high score to file
-	FileWriter outputStream = null;
-	try {
-	    outputStream = new FileWriter("assets/data/highScore.txt");
-	    outputStream.write(highScore + "\r\n");
-	} catch (FileNotFoundException exception) {
-	    System.out.println("ERROR: Cannot write to highScore.txt");
-	} finally {
-	    if (outputStream != null) {
-		outputStream.close();
-	    }
-	}
+        // Save high score to file
+        try {
+            outputStream = new FileWriter("assets/data/highScore.txt");
+            outputStream.write(highScore + "\r\n");
+        } catch (FileNotFoundException exception) {
+            System.out.println("ERROR: Cannot write to highScore.txt");
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException {
-	panel = new WorldWarK();
-    }
-
-    private class KeyboardControls implements KeyListener {
-
-	@Override
-	public void keyPressed(KeyEvent event) {
-	    // Keyboard controls
-	    switch (event.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-		    player.keyboardMoveLeft();
-		    break;
-		case KeyEvent.VK_RIGHT:
-		    player.keyboardMoveRight();
-		    break;
-		case KeyEvent.VK_SPACE:
-		    if (run == false && clickedStartScreenButton == null && gameOver == false) {
-			start();
-		    } else {
-			if (shootTimer >= player.getWeaponCooldown()) {
-			    shootBullet();
-			    shootTimer = 0;
-			}
-		    }
-		    break;
-		case KeyEvent.VK_B:
-		    launchBomb();
-		    break;
-		case KeyEvent.VK_R:
-		    if (run == false && gameOver == true) {
-			gameOver = false;
-			start();
-		    }
-		    break;
-		case KeyEvent.VK_T:
-		    if (run == false && gameOver == true) {
-			gameOver = false;
-			repaint();
-		    }
-		    break;
-		case KeyEvent.VK_ESCAPE:
-		    if (run == true && gamePaused == false) {
-			gamePaused = true;
-			run = false;
-		    } else if (run == false && gamePaused == true) {
-			start();
-			gamePaused = false;
-			repaint();
-		    } else if (run == false && gamePaused == false && clickedStartScreenButton != null) {
-			clickedStartScreenButton = new Rectangle2D.Double(370, 80, 80, 30);
-			repaint();
-		    }
-		    break;
-		default:
-		    break;
-	    }
-	}
-
-	@Override
-	public void keyReleased(KeyEvent event) {
-	}
-
-	@Override
-	public void keyTyped(KeyEvent event) {
-	}
-    }
-
-    private class MouseControls implements MouseListener, MouseMotionListener {
-
-	@Override
-	public void mouseClicked(MouseEvent event) {
-	    // Mouse click controls
-	    if (event.getButton() == MouseEvent.BUTTON1) {
-		if (run == false) {
-		    if (gamePaused == true) {
-			if (new Rectangle2D.Double(370, 80, 80, 30).contains(event.getPoint())) {
-			    // Resume game
-			    start();
-			    gamePaused = false;
-			    repaint();
-			}
-		    } else {
-			// Check if x and y coords of mouse click is within a button area
-			for (Rectangle2D i : startScreenButtons) {
-			    if (i.contains(event.getPoint())) {
-				clickedStartScreenButton = i;
-				repaint();
-			    }
-			}
-		    }
-		} else {
-		    if (new Rectangle2D.Double(420, 0, 80, 30).contains(event.getPoint())) {
-			// Pause game
-			run = false;
-			gamePaused = true;
-			repaint();
-		    }
-
-		    if (gamePaused == false) {
-			if (shootTimer >= player.getWeaponCooldown()) {
-			    shootBullet();
-			    shootTimer = 0;
-			}
-		    }
-		}
-	    } else if (event.getButton() == MouseEvent.BUTTON3) {
-		if (run == true) {
-		    launchBomb();
-		}
-	    }
-	}
-
-	@Override
-	public void mousePressed(MouseEvent event) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent event) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent event) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent event) {
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent event) {
-	    // Sets x position of player when mouse is moved
-	    if (run == true && gamePaused == false) {
-		player.setXPosition(event.getX());
-	    }
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent event) {
-	    // Sets x position of player when mouse is clicked and dragged
-	    if (run == true && gamePaused == false) {
-		player.setXPosition(event.getX());
-	    }
-	}
+        panel = new WorldWarK();
     }
 }
