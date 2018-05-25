@@ -22,7 +22,7 @@ public class KeyboardControls implements KeyListener {
                 w.getPlayer().keyboardMoveRight();
                 break;
             case KeyEvent.VK_SPACE:
-                if (w.getRun() == false && w.getClickedStartScreenButton() == null && w.getGameOver() == false) {
+                if (w.getRun() == false && w.getClickedStartScreenButton() == null && w.getGameOver() == false && w.getGamePaused() == false) {
                     w.start();
                 } else {
                     w.shootBullet();
