@@ -21,7 +21,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
@@ -35,6 +34,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public static WorldWarK panel;
     private static int spawnTimer = 0;
     private static int fireTimer = 0;
+    private static int shootTimer;
     private Player player;
     private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
@@ -116,6 +116,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
 	    objects.add(player);
 	    score = 0;
+	    shootTimer = player.getWeaponCooldown();
 	}
 	run = true;
 	thread.start();
@@ -159,6 +160,9 @@ public class WorldWarK extends JPanel implements Runnable {
 		Thread.sleep(15);
 		spawnTimer += 15;
 		fireTimer += 15;
+		if (shootTimer <= player.getWeaponCooldown()) {
+		    shootTimer += 15;
+		}
 	    } catch (InterruptedException e) {
 		System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
 	    }
@@ -1040,6 +1044,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		player.pickUpBomb();
 	    } else if (powerUp.getType() == 1) {
 		player.upgradeWeapon();
+		shootTimer = player.getWeaponCooldown();
 	    }
 	    deleteObject(powerUp);
 	    playSound(3);
@@ -1091,7 +1096,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		    if (run == false && clickedStartScreenButton == null && gameOver == false) {
 			start();
 		    } else {
-			shootBullet();
+			if (shootTimer >= player.getWeaponCooldown()) {
+			    shootBullet();
+			    shootTimer = 0;
+			}
 		    }
 		    break;
 		case KeyEvent.VK_B:
@@ -1168,7 +1176,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		    }
 
 		    if (gamePaused == false) {
-			shootBullet();
+			if (shootTimer >= player.getWeaponCooldown()) {
+			    shootBullet();
+			    shootTimer = 0;
+			}
 		    }
 		}
 	    } else if (event.getButton() == MouseEvent.BUTTON3) {

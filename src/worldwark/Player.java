@@ -58,6 +58,23 @@ public class Player extends GameObject {
 	}
     }
 
+    public int getWeaponCooldown() {
+	switch (weapon) {
+	    case 1:
+		return 200;
+	    case 2:
+		return 150;
+	    case 3:
+		return 300;
+	    case 4:
+		return 200;
+	    case 5:
+		return 200;
+	    default:
+		return 0;
+	}
+    }
+    
     public int getWeaponDamage() {
 	switch (weapon) {
 	    case 1:
