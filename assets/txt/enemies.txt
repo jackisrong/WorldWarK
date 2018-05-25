@@ -1,6 +1,6 @@
 ^ENEMIES
-*The only enemies are those to the communist regime
-$Info
+*The enemies are those to the communist regime
+$Enemies
 %There are many different types
 %of enemies for your killing
 %pleasure.

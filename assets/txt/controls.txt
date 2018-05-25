@@ -1,5 +1,5 @@
 ^CONTROLS
-*Control me like a facist government
+*Control me like the facist government
 $Move Left
 %Keyboard: Left Arrow Key
 %Mouse: Move Mouse Left

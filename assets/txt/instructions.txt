@@ -2,6 +2,8 @@
 *Play me like one of your Russian comrades
 $Goal
 %Kill them before they kill you.
+We cannot allow the capitalist
+scum to reach us.
 $Levels
 %The game is continuous and gets
 %harder and harder until you die.

@@ -424,7 +424,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    } else if (clickedStartScreenButton.equals(powerUpsButton)) {
 		readDrawFile(g2, "powerUps", 45, 80);
 	    } else if (clickedStartScreenButton.equals(enemiesButton)) {
-		readDrawFile(g2, "enemies", 100, 30);
+		readDrawFile(g2, "enemies", 100, 45);
 	    } else if (clickedStartScreenButton.equals(creditsButton)) {
 		readDrawFile(g2, "credits", 100, 140);
 	    } else if (clickedStartScreenButton.equals(settingsButton)) {
