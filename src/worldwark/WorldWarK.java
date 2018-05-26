@@ -165,88 +165,88 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void enemyFire() {
-        ArrayList<Enemy> enemies = new ArrayList<>();
-        Boss boss = null;
-        for (GameObject i : objects) {
-            if (i instanceof Enemy && !i.isOutsideScreen()) {
-                enemies.add((Enemy) i);
-            }
-            if (i instanceof Boss) {
-                boss = (Boss) i;
-            }
-        }
+	ArrayList<Enemy> enemies = new ArrayList<>();
+	Boss boss = null;
+	for (GameObject i : objects) {
+	    if (i instanceof Enemy && !i.isOutsideScreen()) {
+		enemies.add((Enemy) i);
+	    }
+	    if (i instanceof Boss) {
+		boss = (Boss) i;
+	    }
+	}
 
-        if (boss != null && fireTimer % boss.getFiringRate() == 0) {
-            Random rand = new Random();
-            int dX = boss.getXPos() - player.getXPos();
-            int dY = boss.getYPos() - player.getYPos();
-            EnemyBullet bullet = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, dX / 67, dY / 67, 10);
-            objects.add(bullet);
-            playSound(0);
-            if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
-                boss.setFiringRate(750);
-                int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-                int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-                // position of boss fire is off due to size of boss; change position
-                EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 15);
-                EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 15);
-                objects.add(bullet2);
-                objects.add(bullet3);
-            } else if (boss.getHealth() <= 100) {
-                boss.setFiringRate(500);
-                int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-                int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-                // position of boss fire is off due to size of boss; change position
-                EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 20);
-                EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 20);
-                objects.add(bullet2);
-                objects.add(bullet3);
-            }
-        }
+	if (boss != null && fireTimer % boss.getFiringRate() == 0) {
+	    Random rand = new Random();
+	    int dX = boss.getXPos() - player.getXPos();
+	    int dY = boss.getYPos() - player.getYPos();
+	    EnemyBullet bullet = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, dX / 67, dY / 67, 10);
+	    objects.add(bullet);
+	    playSound(0);
+	    if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
+		boss.setFiringRate(750);
+		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		// position of boss fire is off due to size of boss; change position
+		EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 15);
+		EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 15);
+		objects.add(bullet2);
+		objects.add(bullet3);
+	    } else if (boss.getHealth() <= 100) {
+		boss.setFiringRate(500);
+		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		// position of boss fire is off due to size of boss; change position
+		EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 20);
+		EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 20);
+		objects.add(bullet2);
+		objects.add(bullet3);
+	    }
+	}
 
-        if (enemies.size() > 0 && fireTimer % (enemies.get(0).getFiringRate()) == 0) {
-            int prevSelectedEnemy = -1;
-            ArrayList<Integer> chosenEnemies = new ArrayList<>();
-            if (enemies.size() >= 3) {
-                for (int i = 0; i < 3; i++) {
-                    Random rand = new Random();
-                    int selectedIndex = rand.nextInt(enemies.size());
-                    while (selectedIndex == prevSelectedEnemy) {
-                        selectedIndex = rand.nextInt(enemies.size());
-                    }
-                    chosenEnemies.add(selectedIndex);
-                }
-            } else {
-                for(int i = 0; i < enemies.size(); i++ ) {
-                    chosenEnemies.add(i);
-                }
-            }
-            for (int i = 0; i < chosenEnemies.size(); i++ ) {
-                Enemy selectedEnemy = enemies.get(chosenEnemies.get(i));
-                int dX = selectedEnemy.getXPos() - player.getXPos();
-                int dY = selectedEnemy.getYPos() - player.getYPos();
-                int bulletXSpeed = dX / 67;
-                int bulletYSpeed = dY / 67;
-                if (selectedEnemy.getYSpeed() < bulletYSpeed) {
-                    double bulletSpeedMultiplier = (double)selectedEnemy.getYSpeed() / bulletYSpeed;
-                    bulletXSpeed *= Math.pow(bulletSpeedMultiplier, 2);
-                    bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
-                }
-                if (dY <= -100 ) {
-                    EnemyBullet bullet = new EnemyBullet(
-                            selectedEnemy.getXPos() + 24,
-                            selectedEnemy.getYPos(),
-                            10,
-                            10,
-                            bulletXSpeed,
-                            bulletYSpeed,
-                            10);
-                    objects.add(bullet);
-                    playSound(0);
-                }
-            }
-            fireTimer = 0;
-        }
+	if (enemies.size() > 0 && fireTimer % (enemies.get(0).getFiringRate()) == 0) {
+	    int prevSelectedEnemy = -1;
+	    ArrayList<Integer> chosenEnemies = new ArrayList<>();
+	    if (enemies.size() >= 3) {
+		for (int i = 0; i < 3; i++) {
+		    Random rand = new Random();
+		    int selectedIndex = rand.nextInt(enemies.size());
+		    while (selectedIndex == prevSelectedEnemy) {
+			selectedIndex = rand.nextInt(enemies.size());
+		    }
+		    chosenEnemies.add(selectedIndex);
+		}
+	    } else {
+		for (int i = 0; i < enemies.size(); i++) {
+		    chosenEnemies.add(i);
+		}
+	    }
+	    for (int i = 0; i < chosenEnemies.size(); i++) {
+		Enemy selectedEnemy = enemies.get(chosenEnemies.get(i));
+		int dX = selectedEnemy.getXPos() - player.getXPos();
+		int dY = selectedEnemy.getYPos() - player.getYPos();
+		int bulletXSpeed = dX / 67;
+		int bulletYSpeed = dY / 67;
+		if (selectedEnemy.getYSpeed() < bulletYSpeed) {
+		    double bulletSpeedMultiplier = (double) selectedEnemy.getYSpeed() / bulletYSpeed;
+		    bulletXSpeed *= Math.pow(bulletSpeedMultiplier, 2);
+		    bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
+		}
+		if (dY <= -100) {
+		    EnemyBullet bullet = new EnemyBullet(
+			    selectedEnemy.getXPos() + 24,
+			    selectedEnemy.getYPos(),
+			    10,
+			    10,
+			    bulletXSpeed,
+			    bulletYSpeed,
+			    10);
+		    objects.add(bullet);
+		    playSound(0);
+		}
+	    }
+	    fireTimer = 0;
+	}
     }
 
     @Override
@@ -705,7 +705,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 0;
-        objects.addAll(EnemyFactory.makeEnemies(score));
+	objects.addAll(EnemyFactory.makeEnemies(score));
     }
 
     public void shootBullet() {

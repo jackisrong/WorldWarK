@@ -22,7 +22,7 @@ public class PowerUp extends GameObject {
     public int getType() {
 	return powerUpType;
     }
-    
+
     @Override
     public void update(WorldWarK panel) {
 	panel.checkPowerUpPickUp(this);

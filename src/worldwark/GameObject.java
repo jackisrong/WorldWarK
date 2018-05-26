@@ -36,15 +36,15 @@ public abstract class GameObject {
     }
 
     public int getPoints() {
-        return points;
+	return points;
     }
 
     public Rectangle2D getRectangle() {
 	return rectangle;
     }
-    
+
     public boolean isOutsideScreen() {
-        return (xPos >= 500 || xPos <= 0 || yPos <= 0 || yPos >= 800);
+	return (xPos >= 500 || xPos <= 0 || yPos <= 0 || yPos >= 800);
     }
 
     public abstract void update(WorldWarK panel);

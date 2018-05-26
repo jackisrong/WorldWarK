@@ -33,7 +33,7 @@ public class Enemy extends GameObject {
 	reverseTimer = 0;
 	shootTimer = 0;
 	initialHealth = health;
-        firingRate = 1000;
+	firingRate = 1000;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -64,9 +64,9 @@ public class Enemy extends GameObject {
     public int getType() {
 	return typeOfEnemy;
     }
-    
+
     public int getFiringRate() {
-        return firingRate;
+	return firingRate;
     }
 
     public void setReverse(boolean reverse) {
@@ -94,25 +94,25 @@ public class Enemy extends GameObject {
 	}
 
 	// Y reverse
-	 if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) {
-            ySpeed = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 1000) {
-                reverse = false;
-                ySpeed = -5;
-            }
-        }
-        // X reverse
-        if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() < 6) {
-            xSpeed = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 1000) {
-                reverse = false;
-                xSpeed = -5;
-            }
-        }
-	 
-	if (reverse && this.getYSpeed() != 0 && this.getType() == 6 ) { // Horizontal Zig Zag
+	if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) {
+	    ySpeed = 0;
+	    reverseTimer += 15;
+	    if (reverseTimer >= 1000) {
+		reverse = false;
+		ySpeed = -5;
+	    }
+	}
+	// X reverse
+	if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() < 6) {
+	    xSpeed = 0;
+	    reverseTimer += 15;
+	    if (reverseTimer >= 1000) {
+		reverse = false;
+		xSpeed = -5;
+	    }
+	}
+
+	if (reverse && this.getYSpeed() != 0 && this.getType() == 6) { // Horizontal Zig Zag
 	    reverseTimer += 20;
 	    if (reverseTimer == 500) {
 		ySpeed = -this.getYSpeed();
@@ -123,9 +123,9 @@ public class Enemy extends GameObject {
 	    }
 
 	}
-        
+
 	if (reverse && this.getXSpeed() != 0 && this.getType() == 8) {
-            reverseTimer += 20;
+	    reverseTimer += 20;
 	    if (reverseTimer == 500) {
 		xSpeed = -this.getXSpeed();
 	    }
@@ -186,28 +186,28 @@ public class Enemy extends GameObject {
 		fileName = "helicopterLow";
 		break;
 	    case 1:
-            case 6: {
+	    case 6: {
 		fileName = "helicopterMed";
 		break;
-            }
+	    }
 	    case 2:
-            case 7: {
+	    case 7: {
 		fileName = "helicopterHard";
 		break;
-            }
+	    }
 	    case 3:
 		fileName = "fighterPlaneLow";
 		break;
 	    case 4:
-            case 8: {
+	    case 8: {
 		fileName = "fighterPlaneMed";
 		break;
-            }
+	    }
 	    case 5:
-            case 9: {
+	    case 9: {
 		fileName = "fighterPlaneHard";
 		break;
-            }
+	    }
 	    default:
 		break;
 	}

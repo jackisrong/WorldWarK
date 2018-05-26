@@ -6,8 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class EnemyBullet extends GameObject {
@@ -20,12 +18,12 @@ public class EnemyBullet extends GameObject {
 	super(xPos, yPos, width, height);
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
-        this.damage = damage;
+	this.damage = damage;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
-    
+
     public int getDamage() {
-        return damage;
+	return damage;
     }
 
     @Override

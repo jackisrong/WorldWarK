@@ -74,7 +74,7 @@ public class Player extends GameObject {
 		return 0;
 	}
     }
-    
+
     public int getWeaponDamage() {
 	switch (weapon) {
 	    case 1:

@@ -15,7 +15,6 @@ public class Boss extends Enemy {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
-    
 
     @Override
     public void update(WorldWarK panel) {
@@ -33,9 +32,9 @@ public class Boss extends Enemy {
 	    }
 	}
     }
-    
+
     public void setFiringRate(int rate) {
-        firingRate = rate;
+	firingRate = rate;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class Boss extends Enemy {
 	g2.setColor(transparentColor);
 	g2.fill(rectangle);
 	g2.draw(rectangle);
-	
+
 	// Draw player health bar
 	g2.setColor(Color.RED);
 	g2.fillRect(xPos - 16, yPos + height, 200, 3);
