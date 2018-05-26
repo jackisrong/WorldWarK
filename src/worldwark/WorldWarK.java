@@ -30,14 +30,14 @@ public class WorldWarK extends JPanel implements Runnable {
     public static WorldWarK panel;
     private static int spawnTimer = 0;
     private static int fireTimer = 0;
-    private static int shootTimer;
-    private Player player;
-    private ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
+    int shootTimer;
+    Player player;
+    ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
-    private Rectangle2D clickedStartScreenButton;
-    private boolean run = false;
-    private boolean gamePaused = false;
-    private boolean gameOver = false;
+    Rectangle2D clickedStartScreenButton;
+    boolean run = false;
+    boolean gamePaused = false;
+    boolean gameOver = false;
     private int score;
     private Clip clip;
     private float volume;
@@ -63,10 +63,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	// Get saved volume
 	BufferedReader inputStream = null;
-	//Scanner sc;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-	    //sc = new Scanner(new File("assets/data/volume.txt"));
 	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
@@ -106,46 +104,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void deleteObject(GameObject gameObject) {
 	objects.remove(gameObject);
-    }
-
-    public Player getPlayer() {
-	return player;
-    }
-
-    public boolean getRun() {
-	return run;
-    }
-
-    public Rectangle2D getClickedStartScreenButton() {
-	return clickedStartScreenButton;
-    }
-
-    public void setClickedStartScreenButton(Rectangle2D rect) {
-	clickedStartScreenButton = rect;
-    }
-
-    public boolean getGameOver() {
-	return gameOver;
-    }
-
-    public boolean getGamePaused() {
-	return gamePaused;
-    }
-
-    public ArrayList<Rectangle2D> getStartScreenButtons() {
-	return startScreenButtons;
-    }
-
-    public void setGamePaused(boolean paused) {
-	gamePaused = paused;
-    }
-
-    public void setGameOver(boolean over) {
-	gameOver = over;
-    }
-
-    public void setRun(boolean run) {
-	this.run = run;
     }
 
     public void start() {
