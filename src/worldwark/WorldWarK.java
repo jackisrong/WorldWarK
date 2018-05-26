@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;

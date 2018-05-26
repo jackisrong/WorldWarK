@@ -25,7 +25,7 @@ public class KeyboardControls implements KeyListener {
 	    case KeyEvent.VK_SPACE:
 		if (w.run == false && w.clickedStartScreenButton == null && w.gameOver == false && w.gamePaused == false) {
 		    w.start();
-		} else {
+		} else if (w.run == true && w.gameOver == false && w.gamePaused == false) {
 		    if (w.shootTimer >= w.player.getWeaponCooldown()) {
 			w.shootBullet();
 			w.shootTimer = 0;
@@ -51,6 +51,7 @@ public class KeyboardControls implements KeyListener {
 		if (w.run == true && w.gamePaused == false) {
 		    w.gamePaused = true;
 		    w.run = false;
+		    w.repaint();
 		} else if (w.run == false && w.gamePaused == true) {
 		    w.start();
 		    w.gamePaused = false;
