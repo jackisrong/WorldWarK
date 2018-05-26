@@ -1,18 +1,16 @@
 ^POWER UPS
 *Nobody can be as strong as Soviet Russia
-$Info
+$Power Ups
 %There are 2 different types of
-%power ups that you can pick up
-%from the dead bodies of enemies.
+%power ups you can pick up.
 $Bombs
 %Bombs can be used to explode a
-%large amount of enemies.
+%radius of enemies. They explode
+%on contact, or when they reach
+%half the length of the screen.
 $Weapon Upgrades
-%Weapon upgrades can be used to
-%upgrade your weapon.
-$Weapon Levels
 %Level 1: AK-47
 %Level 2: AK-74 (faster fire rate) 
 %Level 3: AK-47 Burst Mode
-%Level 4: Minigun
+%Level 4: AK-74 Burst Mode
 %Level 5: Machine Gun

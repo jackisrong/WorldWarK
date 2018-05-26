@@ -2,11 +2,11 @@
 *Play me like one of your Russian comrades
 $Goal
 %Kill them before they kill you.
-We cannot allow the capitalist
-scum to reach us.
+%We cannot allow the capitalist
+%scum to reach us.
 $Levels
 %The game is continuous and gets
 %harder and harder until you die.
 $Boss
-%After each stage, there's a boss.
+%There is a boss after each stage.
 %You must beat the boss to continue.

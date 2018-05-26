@@ -10,3 +10,6 @@ $Helicopters
 $Fighter Planes
 %Fighter planes are only able
 %to move downwards.
+$Difficulty
+%The enemies slowly get harder
+%and harder.
