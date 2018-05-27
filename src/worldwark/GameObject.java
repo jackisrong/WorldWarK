@@ -39,7 +39,7 @@ public abstract class GameObject {
     }
 
     public boolean isOutsideScreen() {
-	return (xPos >= 500 || xPos <= 0 || yPos <= 0 || yPos >= 800);
+	return (xPos >= 500 || xPos + width <= 0 || yPos + height <= 0 || yPos >= 800);
     }
 
     public abstract void update(WorldWarK panel);

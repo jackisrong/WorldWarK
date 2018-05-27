@@ -80,13 +80,13 @@ public class Player extends GameObject {
 	    case 1:
 		return 50;
 	    case 2:
-		return 75;
+		return 70;
 	    case 3:
-		return 100;
+		return 40;
 	    case 4:
-		return 125;
+		return 60;
 	    case 5:
-		return 150;
+		return 50;
 	    default:
 		return 0;
 	}
