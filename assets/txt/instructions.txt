@@ -5,8 +5,13 @@ $Goal
 %We cannot allow the capitalist
 %scum to reach us.
 $Levels
-%The game is continuous and gets
-%harder and harder until you die.
+%This game is continuous. It gets
+%harder and harder until you die,
+%much like the sad, terrible lives
+%of the capitalists.
 $Boss
 %There is a boss after each stage.
 %You must beat the boss to continue.
+%Think of the boss like Soviet Russia,
+%except nobody can defeat Russia.
+%LONG LIVE THE MOTHERLAND!

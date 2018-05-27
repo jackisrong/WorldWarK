@@ -10,6 +10,6 @@ $Music
 %TDB
 $Sound Effects
 %Brian Wu
-$Testing Team
-%Brian Wu
-%Justin Reiter
+$Special Thanks
+%Everyone who helped test the game
+%Mr. Qayum
