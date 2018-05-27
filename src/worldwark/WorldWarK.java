@@ -762,6 +762,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void gameOver() throws IOException {
+	playSound(2);
 	run = false;
 	gameOver = true;
 	objects.clear();
