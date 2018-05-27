@@ -19,13 +19,21 @@ public class PowerUp extends GameObject {
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
-    public int getType() {
-	return powerUpType;
-    }
-
     @Override
     public void update(WorldWarK panel) {
-	panel.checkPowerUpPickUp(this);
+	// Check power up pick up
+	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	    if (powerUpType == 0) {
+		panel.player.pickUpBomb();
+	    } else if (powerUpType == 1) {
+		panel.player.upgradeWeapon();
+		panel.shootTimer = panel.player.getWeaponCooldown();
+	    }
+	    panel.deleteObject(this);
+	    panel.playSound(3);
+	}
+
+	// Update power up location
 	yPos += ySpeed;
 	if (yPos > panel.getHeight()) {
 	    panel.deleteObject(this);

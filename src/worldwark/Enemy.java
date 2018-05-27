@@ -15,6 +15,7 @@ public class Enemy extends GameObject {
     protected int ySpeed;
     protected int health;
     protected int typeOfEnemy;
+    protected int points;
     protected int shoot;
     private boolean reverse;
     private int reverseTimer;
@@ -68,6 +69,10 @@ public class Enemy extends GameObject {
         return typeOfEnemy;
     }
 
+    public int getPoints() {
+	return points;
+    }
+
     public int getFiringRate() {
         return firingRate;
     }
@@ -90,21 +95,19 @@ public class Enemy extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-        try {
-            panel.checkEnemyCollision(this);
-        } catch (IOException e) {
-            System.out.println("ERROR: IOException at checkEnemyCollision");
-        }
-        // Y reverse
-        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) {
-            ySpeed = 0;
-            reverseTimer += 15;
-            if (reverseTimer >= 1000) {
-                reverse = false;
-                ySpeed = -5;
-            }
-        }
-        // X reverse
+	// Check enemy collision
+	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	    panel.deleteObject(this);
+	    panel.player.loseHealth(10);
+	    if (panel.player.getHealth() <= 0) {
+		try {
+		    panel.gameOver();
+		} catch (IOException e) {
+		    System.out.println("ERROR: IOException when updating EnemyBullet");
+		}
+	    }
+	}
+                // X reverse
         if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() < 6) {
             if (reverseTimer == 0) {
                 initialSpeed = this.getXSpeed();

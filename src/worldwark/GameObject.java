@@ -9,7 +9,6 @@ public abstract class GameObject {
     protected int yPos;
     protected int width;
     protected int height;
-    protected int points;
     protected Rectangle2D rectangle;
 
     public GameObject(int xPos, int yPos, int width, int height) {
@@ -35,16 +34,12 @@ public abstract class GameObject {
 	return height;
     }
 
-    public int getPoints() {
-	return points;
-    }
-
     public Rectangle2D getRectangle() {
 	return rectangle;
     }
 
     public boolean isOutsideScreen() {
-	return (xPos >= 500 || xPos <= 0 || yPos <= 0 || yPos >= 800);
+	return (xPos >= 500 || xPos + width <= 0 || yPos + height <= 0 || yPos >= 800);
     }
 
     public abstract void update(WorldWarK panel);
