@@ -771,7 +771,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    q.loseHealth(player.getWeaponDamage());
 		    if (q.getHealth() <= 0) {
 			deleteObject(i);
-			score += i.getPoints();
+			score += q.getPoints();
 		    }
 
 		    if (i instanceof Boss == false) {
@@ -816,8 +816,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	for (GameObject i : objects) {
 	    if (i instanceof Enemy) {
 		if (bomb.getExplosionEllipse().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		    Enemy q = (Enemy) i;
 		    deleteObject(i);
-		    score += i.getPoints();
+		    score += q.getPoints();
 		    dropPowerUp(i);
 		}
 	    }

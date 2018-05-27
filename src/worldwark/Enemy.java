@@ -14,6 +14,7 @@ public class Enemy extends GameObject {
     protected int ySpeed;
     protected int health;
     protected int typeOfEnemy;
+    protected int points;
     protected int shoot;
     private boolean reverse;
     private int reverseTimer;
@@ -65,6 +66,10 @@ public class Enemy extends GameObject {
 	return typeOfEnemy;
     }
 
+    public int getPoints() {
+	return points;
+    }
+    
     public int getFiringRate() {
 	return firingRate;
     }
