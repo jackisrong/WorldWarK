@@ -61,15 +61,15 @@ public class Player extends GameObject {
     public int getWeaponCooldown() {
 	switch (weapon) {
 	    case 1:
-		return 200;
-	    case 2:
 		return 150;
+	    case 2:
+		return 200;
 	    case 3:
 		return 300;
 	    case 4:
-		return 200;
+		return 400;
 	    case 5:
-		return 200;
+		return 300;
 	    default:
 		return 0;
 	}

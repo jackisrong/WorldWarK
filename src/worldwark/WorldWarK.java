@@ -709,8 +709,30 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void shootBullet() {
-	Bullet bullet = new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10);
-	objects.add(bullet);
+	switch (player.getWeaponLevel()) {
+	    case 1:
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		break;
+	    case 2:
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		break;
+	    case 3:
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 5, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, -5, 10));
+		break;
+	    case 4:
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 3, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, -3, 10));
+		break;
+	    case 5:
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		break;
+	    default:
+		break;
+	}
+
 	playSound(0);
     }
 

@@ -10,8 +10,13 @@ import javax.imageio.ImageIO;
 
 public class Bullet extends GameObject {
 
-    public Bullet(int xPos, int yPos, int width, int height) {
+    private int xSpeed;
+    private int ySpeed;
+
+    public Bullet(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed) {
 	super(xPos, yPos, width, height);
+	this.xSpeed = xSpeed;
+	this.ySpeed = ySpeed;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
@@ -19,8 +24,9 @@ public class Bullet extends GameObject {
     public void update(WorldWarK panel) {
 	panel.checkBulletHit(this);
 
-	yPos -= 10;
-	if (yPos < 0) {
+	xPos -= xSpeed;
+	yPos -= ySpeed;
+	if (yPos < 0 || xPos > 500 || xPos < 0) {
 	    panel.deleteObject(this);
 	}
     }
