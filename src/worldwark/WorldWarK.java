@@ -32,15 +32,14 @@ public class WorldWarK extends JPanel implements Runnable {
     int shootTimer;
     Player player;
     ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
-    private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
     Rectangle2D clickedStartScreenButton;
     boolean run = false;
     boolean gamePaused = false;
     boolean gameOver = false;
-    private int score;
+    int score;
     private Clip clip;
     private float volume;
-    private int b = 1;
     private FloatControl audioControl;
     private int previousHighScore = 0;
     private int highScore = 0;
@@ -759,82 +758,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1);
 		objects.add(powerUp);
 	    }
-	}
-    }
-
-    public void checkBulletHit(Bullet bullet) {
-	for (GameObject i : objects) {
-	    if (i instanceof Enemy) {
-		if (bullet.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		    deleteObject(bullet);
-		    Enemy q = (Enemy) i;
-		    q.loseHealth(player.getWeaponDamage());
-		    if (q.getHealth() <= 0) {
-			deleteObject(i);
-			score += q.getPoints();
-		    }
-
-		    if (i instanceof Boss == false) {
-			dropPowerUp(i);
-		    }
-		}
-	    }
-	}
-    }
-
-    public void checkEnemyBulletHit(EnemyBullet bullet) throws IOException {
-	if (bullet.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-	    deleteObject(bullet);
-	    player.loseHealth(10);
-	    if (player.getHealth() <= 0) {
-		gameOver();
-	    }
-	}
-    }
-
-    public void checkEnemyCollision(Enemy enemy) throws IOException {
-	if (enemy.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-	    deleteObject(enemy);
-	    player.loseHealth(10);
-	    if (player.getHealth() <= 0) {
-		gameOver();
-	    }
-	}
-    }
-
-    public void checkBombCollision(Bomb bomb) {
-	for (GameObject i : objects) {
-	    if (i instanceof Enemy) {
-		if (bomb.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		    bomb.setArmed(true);
-		}
-	    }
-	}
-    }
-
-    public void checkBombExplosionHit(Bomb bomb) {
-	for (GameObject i : objects) {
-	    if (i instanceof Enemy) {
-		if (bomb.getExplosionEllipse().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
-		    Enemy q = (Enemy) i;
-		    deleteObject(i);
-		    score += q.getPoints();
-		    dropPowerUp(i);
-		}
-	    }
-	}
-    }
-
-    public void checkPowerUpPickUp(PowerUp powerUp) {
-	if (powerUp.getRectangle().intersects(player.getXPos(), player.getYPos(), player.getWidth(), player.getHeight())) {
-	    if (powerUp.getType() == 0) {
-		player.pickUpBomb();
-	    } else if (powerUp.getType() == 1) {
-		player.upgradeWeapon();
-		shootTimer = player.getWeaponCooldown();
-	    }
-	    deleteObject(powerUp);
-	    playSound(3);
 	}
     }
 

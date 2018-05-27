@@ -24,15 +24,18 @@ public class Bomb extends GameObject {
 	return explosion;
     }
 
-    public void setArmed(boolean armedState) {
-	armed = armedState;
-    }
-
     @Override
     public void update(WorldWarK panel) {
 	if (armed == false && yPos > panel.getHeight() / 2) {
 	    yPos -= 2;
-	    panel.checkBombCollision(this);
+	    // Check bomb collision
+	    for (GameObject i : panel.objects) {
+		if (i instanceof Enemy) {
+		    if (this.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+			armed = true;
+		    }
+		}
+	    }
 	} else {
 	    armed = true;
 	}
@@ -42,10 +45,19 @@ public class Bomb extends GameObject {
 	}
 
 	if (explosionTimer == 1) {
-	    // Check explosion hit on enemies
 	    explosion = new Ellipse2D.Double(xPos - 150, yPos - 150, 300, 300);
 	    panel.playSound(1);
-	    panel.checkBombExplosionHit(this);
+	    // Check bomb explosion hit
+	    for (GameObject i : panel.objects) {
+		if (i instanceof Enemy) {
+		    if (this.getExplosionEllipse().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+			Enemy q = (Enemy) i;
+			panel.deleteObject(i);
+			panel.score += q.getPoints();
+			panel.dropPowerUp(i);
+		    }
+		}
+	    }
 	} else if (explosionTimer == 30) {
 	    panel.deleteObject(this);
 	}

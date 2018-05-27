@@ -28,20 +28,22 @@ public class EnemyBullet extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-	try {
-	    panel.checkEnemyBulletHit(this);
-	} catch (IOException e) {
-	    System.out.println("ERROR: IOException at checkEnemyBulletHit");
+	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	    panel.deleteObject(this);
+	    panel.player.loseHealth(10);
+	    if (panel.player.getHealth() <= 0) {
+		try {
+		    panel.gameOver();
+		} catch (IOException e) {
+		    System.out.println("ERROR: IOException when updating EnemyBullet");
+		}
+	    }
 	}
 
+	// Update bullet location
 	yPos -= ySpeed;
 	xPos -= xSpeed;
-
-	if (yPos > panel.getHeight() - height - 1) {
-	    panel.deleteObject(this);
-	}
-
-	if (xPos <= -201 || xPos >= 701) {
+	if (isOutsideScreen()) {
 	    panel.deleteObject(this);
 	}
     }

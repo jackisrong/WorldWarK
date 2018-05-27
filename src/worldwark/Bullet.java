@@ -22,8 +22,26 @@ public class Bullet extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-	panel.checkBulletHit(this);
+	// Check bullet hit
+	for (GameObject i : panel.objects) {
+	    if (i instanceof Enemy) {
+		if (this.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		    panel.deleteObject(this);
+		    Enemy q = (Enemy) i;
+		    q.loseHealth(panel.player.getWeaponDamage());
+		    if (q.getHealth() <= 0) {
+			panel.deleteObject(i);
+			panel.score += q.getPoints();
+		    }
 
+		    if (i instanceof Boss == false) {
+			panel.dropPowerUp(i);
+		    }
+		}
+	    }
+	}
+
+	// Update bullet location
 	xPos -= xSpeed;
 	yPos -= ySpeed;
 	if (yPos < 0 || xPos > 500 || xPos < 0) {
