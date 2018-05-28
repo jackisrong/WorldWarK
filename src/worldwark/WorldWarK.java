@@ -499,6 +499,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    volume += 0.1;
 		    volume = Math.min(volume, 1);
 		}
+		clickedStartScreenButton = new Rectangle2D.Double(30, 750, 100, 40);
 		float gain = (range * volume) + audioControl.getMinimum();
 		audioControl.setValue(gain);
 		clip.start();

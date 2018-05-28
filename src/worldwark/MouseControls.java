@@ -28,7 +28,7 @@ public class MouseControls implements MouseListener, MouseMotionListener {
 		} else {
 		    // Check if x and y coords of mouse click is within a button area
 		    for (Rectangle2D i : w.startScreenButtons) {
-			if (i.contains(event.getPoint()) && (w.clickedStartScreenButton == null || i.equals(new Rectangle2D.Double(370, 80, 80, 30)))) {
+			if (i.contains(event.getPoint()) && (w.clickedStartScreenButton == null || w.clickedStartScreenButton.equals(new Rectangle2D.Double(30, 750, 100, 40)) || i.equals(new Rectangle2D.Double(370, 80, 80, 30)))) {
 			    w.clickedStartScreenButton = i;
 			    w.repaint();
 			}
