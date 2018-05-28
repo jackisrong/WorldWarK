@@ -52,6 +52,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	addMouseListener(new MouseControls(this));
 	addMouseMotionListener(new MouseControls(this));
 	setFocusable(true);
+	frame.addKeyListener(new KeyboardControls(this));
+	frame.addMouseListener(new MouseControls(this));
 	frame.setSize(500, 800);
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
