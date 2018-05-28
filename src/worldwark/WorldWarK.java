@@ -234,14 +234,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
 		}
 		if (dY <= -100) {
-		    EnemyBullet bullet = new EnemyBullet(
-			    selectedEnemy.getXPos() + 24,
-			    selectedEnemy.getYPos(),
-			    10,
-			    10,
-			    bulletXSpeed,
-			    bulletYSpeed,
-			    10);
+		    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, bulletXSpeed, bulletYSpeed, 10);
 		    objects.add(bullet);
 		    playSound(0);
 		}
