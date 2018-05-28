@@ -700,7 +700,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 0;
-	objects.addAll(EnemyFactory.makeEnemies(score));
+	EnemyFactory ef = new EnemyFactory();
+	objects.addAll(ef.makeEnemies(score));
     }
 
     public void shootBullet() {
