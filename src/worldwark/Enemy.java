@@ -99,6 +99,7 @@ public class Enemy extends GameObject {
         if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
             panel.deleteObject(this);
             panel.player.loseHealth(10);
+	    panel.playSound(4);
             if (panel.player.getHealth() <= 0) {
                 try {
                     panel.gameOver();
