@@ -765,7 +765,9 @@ public class WorldWarK extends JPanel implements Runnable {
 		    break;
 		case 1:
 		    // Drop weapon upgrade
-		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1));
+		    if (player.getWeaponLevel() <= 4) {
+			objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1));
+		    }
 		    break;
 		case 2:
 		    // Drop health pack
