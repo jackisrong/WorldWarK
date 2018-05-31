@@ -52,6 +52,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	addMouseListener(new MouseControls(this));
 	addMouseMotionListener(new MouseControls(this));
 	setFocusable(true);
+	frame.addKeyListener(new KeyboardControls(this));
+	frame.addMouseListener(new MouseControls(this));
 	frame.setSize(500, 800);
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,14 +234,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
 		}
 		if (dY <= -100) {
-		    EnemyBullet bullet = new EnemyBullet(
-			    selectedEnemy.getXPos() + 24,
-			    selectedEnemy.getYPos(),
-			    10,
-			    10,
-			    bulletXSpeed,
-			    bulletYSpeed,
-			    10);
+		    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, bulletXSpeed, bulletYSpeed, 10);
 		    objects.add(bullet);
 		    playSound(0);
 		}
@@ -504,6 +499,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    volume += 0.1;
 		    volume = Math.min(volume, 1);
 		}
+		clickedStartScreenButton = new Rectangle2D.Double(30, 750, 100, 40);
 		float gain = (range * volume) + audioControl.getMinimum();
 		audioControl.setValue(gain);
 		clip.start();
@@ -704,7 +700,8 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 0;
-	objects.addAll(EnemyFactory.makeEnemies(score));
+	EnemyFactory ef = new EnemyFactory();
+	objects.addAll(ef.makeEnemies(score));
     }
 
     public void shootBullet() {

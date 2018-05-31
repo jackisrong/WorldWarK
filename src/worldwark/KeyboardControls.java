@@ -33,7 +33,9 @@ public class KeyboardControls implements KeyListener {
 		}
 		break;
 	    case KeyEvent.VK_B:
-		w.launchBomb();
+		if (w.run == true) {
+		    w.launchBomb();
+		}
 		break;
 	    case KeyEvent.VK_R:
 		if (w.run == false && w.gameOver == true) {
