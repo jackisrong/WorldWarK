@@ -750,18 +750,26 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void dropPowerUp(GameObject enemy) {
 	Random rng = new Random();
+	int choosePowerUp = rng.nextInt(3);
 
 	// Chance for a power up to drop
 	if (rng.nextInt(50) == 0) {
 	    // Choose which power up to drop
-	    if (rng.nextInt(2) == 0) {
-		// Drop bomb power up
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0);
-		objects.add(powerUp);
-	    } else {
-		// Drop weapon upgrade
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1);
-		objects.add(powerUp);
+	    switch (choosePowerUp) {
+		case 0:
+		    // Drop bomb power up
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0));
+		    break;
+		case 1:
+		    // Drop weapon upgrade
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1));
+		    break;
+		case 2:
+		    // Drop health pack
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 2));
+		    break;
+		default:
+		    break;
 	    }
 	}
     }
