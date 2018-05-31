@@ -59,7 +59,7 @@ public class Boss extends Enemy {
 	String fileName = null;
 	switch (typeOfEnemy) {
 	    case 0:
-		fileName = "boss1";
+		fileName = "bossfixedagain1";
 		break;
 	    case 1:
 		fileName = "boss2";

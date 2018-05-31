@@ -51,7 +51,7 @@ public class EnemyFactory {
 	System.out.println(choice);
 	switch (choice) {
 	    case 1:
-                enemies.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300, 2000));
+                enemies.add(new Boss(120, 0, 219, 196, 3, 3, 1000, 0, 300, 2000));
 		for (int i = 0; i < 150; i += 50) {
 		    enemies.add(new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2));
 		    enemies.add(new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2));
