@@ -67,10 +67,25 @@ public class WorldWarK extends JPanel implements Runnable {
 	BufferedReader inputStream = null;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
+	    volume = Float.parseFloat(inputStream.readLine());
+	} catch (Exception e) {
+	    System.out.println("ERROR: Cannot read volume.txt");
+	} finally {
+	    try {
+		inputStream.close();
+	    } catch (IOException e) {
+		System.out.println("ERROR: Cannot close inputStream");
+	    } catch (NullPointerException e) {
+		System.out.println("ERROR: volume.txt doesn't exist, setting volume to default value of 0.5");
+		volume = (float) 0.5;
+	    }
+	}
+
+	// Play music
+	try {
 	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
-	    volume = Float.parseFloat(inputStream.readLine());
 	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    float range = audioControl.getMaximum() - audioControl.getMinimum();
 	    float gain = (range * volume) + audioControl.getMinimum();
@@ -78,12 +93,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    clip.start();
 	} catch (Exception e) {
 	    System.out.println("ERROR: myjam.wav cannot be played.");
-	} finally {
-	    try {
-		inputStream.close();
-	    } catch (IOException e) {
-		System.out.println("ERROR: Cannot close inputStream");
-	    }
 	}
 
 	// Get previous high score
@@ -500,12 +509,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
 		if (clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
 		    volume -= 0.1;
-		    volume = Math.max(volume, 0);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(215, 278, 100, 30))) {
-		    volume = (float) 0.9;
+		    volume = Math.max(Math.round(volume * 10) / (float) 10.0, 0);
 		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(330, 278, 100, 30))) {
 		    volume += 0.1;
-		    volume = Math.min(volume, 1);
+		    volume = Math.min(Math.round(volume * 10) / (float) 10.0, 1);
 		}
 		clickedStartScreenButton = new Rectangle2D.Double(30, 750, 100, 40);
 		float gain = (range * volume) + audioControl.getMinimum();
@@ -525,6 +532,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			    outputStream.close();
 			}
 		    }
+		    repaint();
 		} catch (IOException e) {
 		    System.out.println("ERROR: IOException when saving volume setting to file");
 		}
@@ -540,15 +548,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(lowButton);
 	startScreenButtons.add(lowButton);
 	//g2.setColor(Color.BLACK);
-	g2.drawString("LOW", 130, 300);
+	g2.drawString("LOWER", 115, 300);
 
-	// Draw normal volume button
-	g2.setColor(Color.WHITE);
-	Rectangle2D medButton = new Rectangle2D.Double(215, 278, 100, 30);
-	g2.draw(medButton);
-	startScreenButtons.add(medButton);
-	//g2.setColor(Color.BLACK);
-	g2.drawString("NORMAL", 225, 300);
+	// Draw current volume
+	g2.drawString(Float.toString(volume), 245, 300);
 
 	// Draw high volume button
 	g2.setColor(Color.WHITE);
@@ -556,7 +559,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(highButton);
 	startScreenButtons.add(highButton);
 	//g2.setColor(Color.BLACK);
-	g2.drawString("HIGH", 355, 300);
+	g2.drawString("HIGHER", 345, 300);
 
 	// Print heading
 	Font titleFont = null;
@@ -750,18 +753,28 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void dropPowerUp(GameObject enemy) {
 	Random rng = new Random();
+	int choosePowerUp = rng.nextInt(3);
 
 	// Chance for a power up to drop
 	if (rng.nextInt(50) == 0) {
 	    // Choose which power up to drop
-	    if (rng.nextInt(2) == 0) {
-		// Drop bomb power up
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0);
-		objects.add(powerUp);
-	    } else {
-		// Drop weapon upgrade
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1);
-		objects.add(powerUp);
+	    switch (choosePowerUp) {
+		case 0:
+		    // Drop bomb power up
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0));
+		    break;
+		case 1:
+		    // Drop weapon upgrade
+		    if (player.getWeaponLevel() <= 4) {
+			objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1));
+		    }
+		    break;
+		case 2:
+		    // Drop health pack
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 2));
+		    break;
+		default:
+		    break;
 	    }
 	}
     }
