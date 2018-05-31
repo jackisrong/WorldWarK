@@ -302,7 +302,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    if (backgroundYScroll == -backgroundImage.getHeight() + 800) {
 		backgroundYScroll = 0;
 	    } else {
-		backgroundYScroll -= 5;
+		backgroundYScroll -= 2;
 	    }
 
 	    // Paint score and high score
