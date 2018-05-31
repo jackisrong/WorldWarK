@@ -90,9 +90,17 @@ public class Bomb extends GameObject {
 	    g2.draw(explosion);
 
 	    // Draw image
-	    BufferedImage explosionImage;
+	    BufferedImage explosionImage = null;
 	    try {
-		explosionImage = ImageIO.read(new File("assets/img/explosion.png"));
+		if (explosionTimer >= 0 && explosionTimer < 5) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion_1.png"));
+		} else if (explosionTimer >= 5 && explosionTimer < 10) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion_2.png"));
+		} else if (explosionTimer >= 10 && explosionTimer < 15) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion_3.png"));
+		} else if (explosionTimer >= 15) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion_4.png"));
+		}
 		g2.setClip(explosion);
 		g2.drawImage(explosionImage, xPos - 150, yPos - 150, null);
 	    } catch (IOException e) {
