@@ -43,6 +43,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private FloatControl audioControl;
     private int previousHighScore = 0;
     private int highScore = 0;
+    private int backgroundYScroll = 0;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -290,12 +291,17 @@ public class WorldWarK extends JPanel implements Runnable {
 	    // Paint game background image
 	    BufferedImage image;
 	    try {
-		image = ImageIO.read(new File("assets/img/background.jpg"));
+		image = ImageIO.read(new File("assets/img/background.png"));
 	    } catch (IOException e) {
-		System.out.println("ERROR: background.jpg cannot be read.");
+		System.out.println("ERROR: background.png cannot be read.");
 		image = null;
 	    }
-	    g2.drawImage(image, 0, 0, null);
+	    g2.drawImage(image, 0, backgroundYScroll, null);
+	    if (backgroundYScroll == image.getHeight()) {
+		backgroundYScroll = 0;
+	    } else {
+		backgroundYScroll -= 50;
+	    }
 
 	    // Paint score and high score
 	    Font scoreHeading = null;
@@ -372,7 +378,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	try {
 	    image = ImageIO.read(new File("assets/img/startScreenBackground.jpg"));
 	} catch (IOException e) {
-	    System.out.println("ERROR: background.jpg cannot be read.");
+	    System.out.println("ERROR: startScreenBackground.jpg cannot be read.");
 	    image = null;
 	}
 	g2.drawImage(image, 0, 0, null);
@@ -762,6 +768,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	playSound(2);
 	run = false;
 	gameOver = true;
+	backgroundYScroll = 0;
 	objects.clear();
 	repaint();
 
