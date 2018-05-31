@@ -44,6 +44,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private int previousHighScore = 0;
     private int highScore = 0;
     private int backgroundYScroll = 0;
+    private BufferedImage backgroundImage;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -100,6 +101,14 @@ public class WorldWarK extends JPanel implements Runnable {
 		    System.out.println("ERROR: Cannot close inputStream");
 		}
 	    }
+	}
+
+	// Get background image
+	try {
+	    backgroundImage = ImageIO.read(new File("assets/img/background.png"));
+	} catch (IOException e) {
+	    System.out.println("ERROR: background.png cannot be read.");
+	    backgroundImage = null;
 	}
     }
 
@@ -289,18 +298,11 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	if (run == true || (run == false && gamePaused == true)) {
 	    // Paint game background image
-	    BufferedImage image;
-	    try {
-		image = ImageIO.read(new File("assets/img/background.png"));
-	    } catch (IOException e) {
-		System.out.println("ERROR: background.png cannot be read.");
-		image = null;
-	    }
-	    g2.drawImage(image, 0, backgroundYScroll, null);
-	    if (Math.abs(backgroundYScroll) == image.getHeight()) {
+	    g2.drawImage(backgroundImage, 0, -backgroundImage.getHeight() + 800 - backgroundYScroll, null);
+	    if (backgroundYScroll == -backgroundImage.getHeight() + 800) {
 		backgroundYScroll = 0;
 	    } else {
-		backgroundYScroll += 25;
+		backgroundYScroll -= 5;
 	    }
 
 	    // Paint score and high score
