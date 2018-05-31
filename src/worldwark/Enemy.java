@@ -70,7 +70,7 @@ public class Enemy extends GameObject {
     }
 
     public int getPoints() {
-	return points;
+        return points;
     }
 
     public int getFiringRate() {
@@ -95,19 +95,19 @@ public class Enemy extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-	// Check enemy collision
-	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
-	    panel.deleteObject(this);
-	    panel.player.loseHealth(10);
-	    if (panel.player.getHealth() <= 0) {
-		try {
-		    panel.gameOver();
-		} catch (IOException e) {
-		    System.out.println("ERROR: IOException when updating EnemyBullet");
-		}
-	    }
-	}
-                // X reverse
+        // Check enemy collision
+        if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+            panel.deleteObject(this);
+            panel.player.loseHealth(10);
+            if (panel.player.getHealth() <= 0) {
+                try {
+                    panel.gameOver();
+                } catch (IOException e) {
+                    System.out.println("ERROR: IOException when updating EnemyBullet");
+                }
+            }
+        }
+        // X reverse
         if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() < 6) {
             if (reverseTimer == 0) {
                 initialSpeed = this.getXSpeed();
@@ -117,6 +117,19 @@ public class Enemy extends GameObject {
             if (reverseTimer >= 1000) {
                 reverse = false;
                 xSpeed = -initialSpeed;
+                reverseTimer = 0;
+            }
+        }
+        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) { // Horizontal Zig Zag
+            if (reverseTimer == 0) {
+                initialSpeed = this.getYSpeed();
+            }
+            ySpeed = 0;
+            reverseTimer += 15;
+            if (reverseTimer >= 1000) {
+                reverse = false;
+                ySpeed = -initialSpeed;
+                reverseTimer = 0;
             }
         }
 
@@ -152,6 +165,7 @@ public class Enemy extends GameObject {
                 reverse = false;
                 xSpeed = initialSpeed;
                 ySpeed = rand.nextInt(15) + 5;
+                reverseTimer = 0;
             }
         }
         /* if (reverse && readyToTurnAtX(panel.getWidth() - 50) && this.getType() > 4) {
@@ -212,7 +226,7 @@ public class Enemy extends GameObject {
             }
             case 2:
             case 7:
-            case 10:  {
+            case 10: {
                 fileName = "helicopterHard";
                 break;
             }
