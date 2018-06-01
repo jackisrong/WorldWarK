@@ -63,7 +63,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	BufferedReader inputStream = null;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/love maze.wav"));
+	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
             clip.loop(10);
@@ -74,7 +74,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    audioControl.setValue(gain);
 	    clip.start();
 	} catch (Exception e) {
-	    System.out.println("ERROR: love maze.wav cannot be played.");
+	    System.out.println("ERROR: myjam.wav cannot be played.");
 	} finally {
 	    try {
 		inputStream.close();
