@@ -23,11 +23,19 @@ public class PowerUp extends GameObject {
     public void update(WorldWarK panel) {
 	// Check power up pick up
 	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
-	    if (powerUpType == 0) {
-		panel.player.pickUpBomb();
-	    } else if (powerUpType == 1) {
-		panel.player.upgradeWeapon();
-		panel.shootTimer = panel.player.getWeaponCooldown();
+	    switch (powerUpType) {
+		case 0:
+		    panel.player.pickUpBomb();
+		    break;
+		case 1:
+		    panel.player.upgradeWeapon();
+		    panel.shootTimer = panel.player.getWeaponCooldown();
+		    break;
+		case 2:
+		    panel.player.setHealth(100);
+		    break;
+		default:
+		    break;
 	    }
 	    panel.deleteObject(this);
 	    panel.playSound(3);
@@ -53,10 +61,18 @@ public class PowerUp extends GameObject {
 	// Draw image
 	BufferedImage powerUpImage;
 	String fileName = null;
-	if (powerUpType == 0) {
-	    fileName = "bombPowerUp";
-	} else if (powerUpType == 1) {
-	    fileName = "weaponPowerUp";
+	switch (powerUpType) {
+	    case 0:
+		fileName = "bombPowerUp";
+		break;
+	    case 1:
+		fileName = "weaponPowerUp";
+		break;
+	    case 2:
+		fileName = "healthPackPowerUp";
+		break;
+	    default:
+		break;
 	}
 
 	try {

@@ -15,6 +15,7 @@ public class Player extends GameObject {
     private int weapon;
     private int numberOfBombs;
     private int initialHealth;
+    private int imageTimer;
 
     public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int weapon, int numberOfBombs) {
 	super(xPos, yPos, width, height);
@@ -121,6 +122,12 @@ public class Player extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
+	// Increase image animation timer
+	if (imageTimer == 8) {
+	    imageTimer = 0;
+	} else {
+	    imageTimer++;
+	}
     }
 
     @Override
@@ -140,13 +147,20 @@ public class Player extends GameObject {
 	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 100.0), 3);
 
 	// Draw image
-	BufferedImage playerImage;
+	String fileName = "";
 	try {
-	    playerImage = ImageIO.read(new File("assets/img/player.png"));
+	    
+	    if (imageTimer >= 0 && imageTimer < 3) {
+		fileName = "player1";
+	    } else if (imageTimer >= 3 && imageTimer < 6) {
+		fileName = "player2";
+	    } else {
+		fileName = "player3";
+	    }
 	    g2.setClip(rectangle);
-	    g2.drawImage(playerImage, xPos, yPos, null);
+	    g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
 	} catch (IOException e) {
-	    System.out.println("ERROR: player.png cannot be read.");
+	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
 	}
     }
 }

@@ -1,7 +1,7 @@
 ^POWER UPS
 *Nobody can be as strong as Soviet Russia
 $Power Ups
-%There are 2 different types of
+%There are 3 different types of
 %power ups you can pick up.
 $Bombs
 %Bombs can be used to explode a
@@ -14,3 +14,5 @@ $Weapon Upgrades
 %Level 3: AK-47 Burst Mode
 %Level 4: AK-74 Burst Mode
 %Level 5: Machine Gun
+$Health Packs
+%Health packs give you full health.
