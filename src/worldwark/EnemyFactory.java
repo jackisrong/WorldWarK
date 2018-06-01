@@ -102,8 +102,8 @@ public class EnemyFactory {
 	switch (choice) {
 	    case 1:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 7, 50, 4, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 7, 50, 4, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 7, 100, 4, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 7,100, 4, 75, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
@@ -111,24 +111,24 @@ public class EnemyFactory {
 	    case 2:
 		for (int i = 0; i <= 100; i++) {
 		    if (i == 0 || i == 50 || i == 100) {
-			enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 7, 0, 15, 1, 75, 1000 + i * 2);
-			enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -7, 0, 15, 1, 75, 1000 + i * 2);
+			enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 7, 0, 100, 1, 75, 1000 + i * 2);
+			enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -7, 0, 100, 1, 75, 1000 + i * 2);
 			enemies.add(enemyLeft);
 			enemies.add(enemyRight);
 		    }
 		}
 		break;
 	    case 3:
-		enemyLeft = new Enemy(300, 0, 64, 64, 0, 7, 50, 1, 75, 1000);
-		enemyRight = new Enemy(400, 0, 64, 64, 0, 7, 50, 1, 75, 1000);
+		enemyLeft = new Enemy(300, 0, 64, 64, 0, 7, 100, 1, 75, 1000);
+		enemyRight = new Enemy(400, 0, 64, 64, 0, 7, 100, 1, 75, 1000);
 		enemyLeft.setReverse(true);
 		enemyRight.setReverse(true);
 		enemies.add(enemyLeft);
 		enemies.add(enemyRight);
 		break;
 	    case 4:
-		enemyLeft = new Enemy(0, 100, 64, 64, 7, 0, 50, 1, 75, 1000);
-		enemyRight = new Enemy(0, 300, 64, 64, 7, 0, 50, 1, 75, 1000);
+		enemyLeft = new Enemy(0, 100, 64, 64, 7, 0, 100, 1, 75, 1000);
+		enemyRight = new Enemy(0, 300, 64, 64, 7, 0, 100, 1, 75, 1000);
 		enemyLeft.setReverse(true);
 		enemyRight.setReverse(true);
 		enemies.add(enemyLeft);
@@ -136,16 +136,16 @@ public class EnemyFactory {
 		break;
 	    case 5:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 5, 0, 15, 1, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -5, 0, 15, 1, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 5, 0, 100, 1, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -5, 0, 100, 1, 75, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
 		break;
 	    case 6:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(-200 + i, -i, 64, 64, 5, 7, 15, 1, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(700 - i, -i, 64, 64, -5, 7, 15, 1, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(-200 + i, -i, 64, 64, 5, 7, 100, 1, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(700 - i, -i, 64, 64, -5, 7, 100, 1, 75, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
@@ -158,8 +158,8 @@ public class EnemyFactory {
 			b = 1;
 		    }
 		    System.out.println(b);
-		    enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 50, 6, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 50, 6, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 100, 6, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 100, 6, 75, 1000 + i * 2);
 		    enemyLeft.setReverse(true);
 		    enemyRight.setReverse(true);
 		    enemies.add(enemyLeft);
@@ -174,8 +174,8 @@ public class EnemyFactory {
 			b = 1;
 		    }
 		    System.out.println(b);
-		    enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 50, 8, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 50, 8, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 100, 8, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 100, 8, 75, 1000 + i * 2);
 		    enemyLeft.setReverse(true);
 		    enemyRight.setReverse(true);
 		    enemies.add(enemyLeft);
@@ -191,8 +191,8 @@ public class EnemyFactory {
 	switch (choice) {
 	    case 1:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 10, 50, 5, 100, 1000 + i * 2);
-		    enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 10, 50, 5, 100, 1000 + i * 2);
+		    enemyLeft = new Enemy(50 + i, 0 - i, 64, 64, 0, 10, 150, 5, 100, 1000 + i * 2);
+		    enemyRight = new Enemy(385 - i, 0 - i, 64, 64, 0, 10, 150, 5, 100, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
@@ -200,16 +200,16 @@ public class EnemyFactory {
 	    case 2:
 		for (int i = 0; i <= 100; i++) {
 		    if (i == 0 || i == 50 || i == 100) {
-			enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 10, 0, 15, 2, 100, 1000 + i * 2);
-			enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -10, 0, 15, 2, 100, 1000 + i * 2);
+			enemyLeft = new Enemy(50 - i * 2, 250, 64, 64, 10, 0, 150, 2, 100, 1000 + i * 2);
+			enemyRight = new Enemy(450 + i * 2, 150, 64, 64, -10, 0, 150, 2, 100, 1000 + i * 2);
 			enemies.add(enemyLeft);
 			enemies.add(enemyRight);
 		    }
 		}
 		break;
 	    case 3:
-		enemyLeft = new Enemy(300, 0, 64, 64, 0, 10, 50, 2, 100, 1000);
-		enemyRight = new Enemy(400, 0, 64, 64, 0, 10, 50, 2, 100, 1000);
+		enemyLeft = new Enemy(300, 0, 64, 64, 0, 10, 150, 2, 100, 1000);
+		enemyRight = new Enemy(400, 0, 64, 64, 0, 10, 150, 2, 100, 1000);
 		enemyLeft.setReverse(true);
 		enemyRight.setReverse(true);
 		enemies.add(enemyLeft);
@@ -217,8 +217,8 @@ public class EnemyFactory {
 		break;
 	    case 4:
 		for (int i = 0; i <= 50; i += 50) {
-		    enemyLeft = new Enemy(0 + i * 10, 100 + i, 64, 64, 10, 0, 50, 2, 100, 1000);
-		    enemyRight = new Enemy(0 + i * 10, 300 + i, 64, 64, 10, 0, 50, 2, 100, 1000);
+		    enemyLeft = new Enemy(0 + i * 10, 100 + i, 64, 64, 10, 0, 150, 2, 100, 1000);
+		    enemyRight = new Enemy(0 + i * 10, 300 + i, 64, 64, 10, 0, 150, 2, 100, 1000);
 		    enemyLeft.setReverse(true);
 		    enemyRight.setReverse(true);
 		    enemies.add(enemyLeft);
@@ -227,16 +227,16 @@ public class EnemyFactory {
 		break;
 	    case 5:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 7, 0, 15, 2, 100, 1000 + i * 2);
-		    enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -7, 0, 15, 2, 100, 1000 + i * 2);
+		    enemyLeft = new Enemy(-200 + i, 32 + i, 64, 64, 7, 0, 150, 2, 100, 1000 + i * 2);
+		    enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -7, 0, 150, 2, 100, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
 		break;
 	    case 6:
 		for (int i = 0; i < 150; i += 50) {
-		    enemyLeft = new Enemy(-200 + i, -i, 64, 64, 7, 10, 15, 2, 50, 1000 + i * 2);
-		    enemyRight = new Enemy(700 - i, -i, 64, 64, -7, 10, 15, 2, 50, 1000 + i * 2);
+		    enemyLeft = new Enemy(-200 + i, -i, 64, 64, 7, 10, 150, 2, 50, 1000 + i * 2);
+		    enemyRight = new Enemy(700 - i, -i, 64, 64, -7, 10, 150, 2, 50, 1000 + i * 2);
 		    enemies.add(enemyLeft);
 		    enemies.add(enemyRight);
 		}
@@ -249,8 +249,8 @@ public class EnemyFactory {
 			b = 1;
 		    }
 		    System.out.println(b);
-		    enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 50, 6, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 50, 6, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(0 - i * 2, 100 + i - 25, 64, 64, 3, -3 * b, 150, 6, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(450 + i * 2, 300 - i + 25, 64, 64, -3, 3 * b, 150, 6, 75, 1000 + i * 2);
 		    enemyLeft.setReverse(true);
 		    enemyRight.setReverse(true);
 		    enemies.add(enemyLeft);
@@ -265,8 +265,8 @@ public class EnemyFactory {
 			b = 1;
 		    }
 		    System.out.println(b);
-		    enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 50, 8, 75, 1000 + i * 2);
-		    enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 50, 8, 75, 1000 + i * 2);
+		    enemyLeft = new Enemy(50, 0 - i - 25, 64, 64, -3 * b, 7, 150, 8, 75, 1000 + i * 2);
+		    enemyRight = new Enemy(385, 0 - i - 25, 64, 64, 3 * b, 7, 150, 8, 75, 1000 + i * 2);
 		    enemyLeft.setReverse(true);
 		    enemyRight.setReverse(true);
 		    enemies.add(enemyLeft);
@@ -279,8 +279,8 @@ public class EnemyFactory {
 		    for (int i = 0; i <= 1; i++) {
 			if (i == 1) {
 			    int r = -1;
-			    enemyLeft = new Enemy(0 - h, 50 + h, 64, 64, 5, 0, 50, 10, 50, 1000);
-			    enemyRight = new Enemy(500 + h, 250 + h, 64, 64, -5, 0, 50, 10, 50, 1000);
+			    enemyLeft = new Enemy(0 - h, 50 + h, 64, 64, 5, 0, 150, 10, 50, 1000);
+			    enemyRight = new Enemy(500 + h, 250 + h, 64, 64, -5, 0, 150, 10, 50, 1000);
 			    enemyLeft.setReverse(true);
 			    enemyRight.setReverse(true);
 			    enemies.add(enemyLeft);
@@ -293,7 +293,7 @@ public class EnemyFactory {
     }
 
     private void spawnBoss(int choice) {
-	enemies.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300, 2000));
+	enemies.add(new Boss(120, 0, 256, 256, 3, 3, 100000, 0, 300, 2000));
 	b = 1;
     }
 
