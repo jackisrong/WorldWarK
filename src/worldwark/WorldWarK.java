@@ -202,7 +202,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    int dY = boss.getYPos() - player.getYPos();
 	    EnemyBullet bullet = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, dX / 67, dY / 67, 10);
 	    objects.add(bullet);
-	    playSound(0);
+	    playSound(5);
 	    if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
 		boss.setFiringRate(750);
 		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
@@ -689,6 +689,21 @@ public class WorldWarK extends JPanel implements Runnable {
 	    case 3:
 		file = "powerUpPickUp";
 		break;
+	    case 4:
+		file = "ow";
+		break;
+	    case 5:
+		file = "enemyShoot";
+		break;
+	    case 6:
+		file = "beatHighScore";
+		break;
+	    case 7:
+		file = "bombThrown";
+		break;
+	    case 8:
+		file = "laser";
+		break;
 	    default:
 		file = null;
 		break;
@@ -748,6 +763,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
 	    objects.add(bomb);
 	    player.useBomb();
+	    playSound(7);
 	}
     }
 
@@ -790,6 +806,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (score > highScore) {
 	    previousHighScore = highScore;
 	    highScore = score;
+	    playSound(6);
 	}
 
 	FileWriter outputStream = null;
