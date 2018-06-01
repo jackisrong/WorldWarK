@@ -92,6 +92,14 @@ public class Enemy extends GameObject {
     public int getShoot() {
         return shoot;
     }
+    
+    public void setYPos(int yPos){
+        this.yPos = yPos;
+    }
+    
+    public void setXPos(int xPos){
+        this.xPos = xPos;
+    }
 
     @Override
     public void update(WorldWarK panel) {

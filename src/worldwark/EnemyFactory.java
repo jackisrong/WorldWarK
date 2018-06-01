@@ -7,7 +7,10 @@ public class EnemyFactory {
 
     private static Random rand = new Random();
     private static ArrayList<Enemy> enemies = new ArrayList<>();
-    private static int b = 1;
+    private static int b = 0;
+    private static Boss boss;
+    private static boolean spawned = false;
+    private static int bossTimer = 0;
 
     public static ArrayList<Enemy> makeEnemies(int score) {
         int choice = getChoice(score);
@@ -38,15 +41,6 @@ public class EnemyFactory {
         }
     }
 
-    /* Case 1: Linear Enemy
-       Case 2: Horizontal Enemy
-       Case 3: Linear Return
-       Case 4: Horizontal Return
-       Case 5: Horizontal StairCase
-       Case 6: Diagonal
-       Case 7: Horizontal Zig-Zag
-       Case 8: Linear Zig-Zag
-     */
     private static void spawnEnemiesUnder2500(int choice) { // adding this way saves a few more lines
         System.out.println(choice);
         switch (choice) {
@@ -83,13 +77,13 @@ public class EnemyFactory {
             case 5:
                 for (int i = 0; i < 150; i += 50) {
                     enemies.add(new Enemy(-200 + i, 32 + i, 64, 64, 3, 0, 15, 0, 50, 1000 + i * 2));
-                    enemies.add(enemyRight = new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0, 50, 1000 + i * 2));
+                    enemies.add(new Enemy(700 - i, 296 - i, 64, 64, -3, 0, 15, 0, 50, 1000 + i * 2));
                 }
                 break;
             case 6:
                 for (int i = 0; i < 150; i += 50) {
-                    enemies.add(enemyLeft = new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50, 1000 + i * 2));
-                    enemies.add(enemyRight = new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0, 50, 1000 + i * 2));
+                    enemies.add(new Enemy(-200 + i, -i, 64, 64, 4, 5, 15, 0, 50, 1000 + i * 2));
+                    enemies.add(new Enemy(700 - i, -i, 64, 64, -4, 5, 15, 0, 50, 1000 + i * 2));
                 }
                 break;
         }
@@ -184,7 +178,7 @@ public class EnemyFactory {
         }
     }
 
-    private static void spawnEnemiesUnder10000(int choice) { // case 9 is empty
+    private static void spawnEnemiesUnder10000(int choice) {
         Enemy enemyLeft = null;
         Enemy enemyRight = null;
         switch (choice) {
@@ -292,8 +286,53 @@ public class EnemyFactory {
     }
 
     private static void spawnBoss(int choice) {
-        enemies.add(new Boss(120, 0, 256, 256, 3, 3, 1000, 0, 300, 2000));
-        b = 1;
+            boss = new Boss(250, 0, 72, 72, 0, 3, 1000, 0, 300, 2000);
+            enemies.add(boss);
+            b = 1;
+            System.out.println("Y Position: " + boss.getYPos());
+            System.out.println("X Position: " + boss.getXPos());
+            System.out.println("-----------------------");
+    }
+    
+    private static void e() {
+        
+            if (bossTimer >= 300) {
+                switch (1) {
+                    case 1: // Move down
+                        for (int i = 0; i <= 250; i += 50) {
+                            boss.setXPos(250);
+                            boss.setYPos(-150 - i); // doesnt seem to move past 150??
+                            enemies.add(boss);
+                        }
+                        System.out.println("Y Position: " + boss.getYPos());
+                        System.out.println("X Position: " + boss.getXPos());
+                        break;
+                    case 2: // Move left
+                        boss.setYPos(-150);
+                        for (int i = 0; i <= 100; i += 50) {
+                            boss.setXPos(250 - i * 2);
+                            System.out.println("Y Position: " + boss.getYPos());
+                            System.out.println("X Position: " + boss.getXPos());
+                        }
+                        break;
+                    case 3: // Move right
+                        boss.setYPos(-150);
+                        for (int i = 0; i <= 100; i += 50) {
+                            boss.setXPos(250 + i * 2);
+                            System.out.println("Y Position: " + boss.getYPos());
+                            System.out.println("X Position: " + boss.getXPos());
+                        }
+                        break;
+                }
+                bossTimer = 150;
+            }
+            try {
+                Thread.sleep(50);
+                bossTimer += 50;
+            } catch (InterruptedException e) {
+                System.out.println("ERROR: Thread.sleep(15) has been interrupted.");
+            }
+        
     }
 
     private static void spawnBossEnemies(int choice) {

@@ -63,9 +63,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	BufferedReader inputStream = null;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
+	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/love maze.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
+            clip.loop(10);
 	    volume = Float.parseFloat(inputStream.readLine());
 	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    float range = audioControl.getMaximum() - audioControl.getMinimum();
@@ -73,7 +74,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    audioControl.setValue(gain);
 	    clip.start();
 	} catch (Exception e) {
-	    System.out.println("ERROR: myjam.wav cannot be played.");
+	    System.out.println("ERROR: love maze.wav cannot be played.");
 	} finally {
 	    try {
 		inputStream.close();
@@ -107,9 +108,9 @@ public class WorldWarK extends JPanel implements Runnable {
     public void start() {
 	Thread thread = new Thread(this);
 	if (gamePaused == false) {
-	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
+	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 10000, 1, 3);
 	    objects.add(player);
-	    score = 0;
+	    score = 11000;
 	    shootTimer = player.getWeaponCooldown();
 	}
 	run = true;
