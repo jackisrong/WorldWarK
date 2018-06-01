@@ -61,7 +61,7 @@ public class EnemyBullet extends GameObject {
 	// Draw image
 	BufferedImage bulletImage;
 	try {
-	    bulletImage = ImageIO.read(new File("assets/img/bomb.png"));
+	    bulletImage = ImageIO.read(new File("assets/img/enemybullet.png"));
 	    g2.setClip(rectangle);
 	    g2.drawImage(bulletImage, xPos, yPos, null);
 	} catch (IOException e) {

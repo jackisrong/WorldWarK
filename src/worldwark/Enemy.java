@@ -217,17 +217,17 @@ public class Enemy extends GameObject {
         String fileName = null;
         switch (typeOfEnemy) {
             case 0:
-                fileName = "helicopterLow";
+                fileName = "helicopterLow1";
                 break;
             case 1:
             case 6: {
-                fileName = "helicopterMed";
+                fileName = "helicopterMed1";
                 break;
             }
             case 2:
             case 7:
             case 10: {
-                fileName = "helicopterHard";
+                fileName = "helicopterHard1";
                 break;
             }
             case 3:
