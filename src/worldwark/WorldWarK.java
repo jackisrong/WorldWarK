@@ -121,6 +121,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	    System.out.println("ERROR: background.png cannot be read.");
 	    backgroundImage = null;
 	}
+
+	// Get background image
+	try {
+	    backgroundImage = ImageIO.read(new File("assets/img/background.png"));
+	} catch (IOException e) {
+	    System.out.println("ERROR: background.png cannot be read.");
+	    backgroundImage = null;
+	}
     }
 
     public void deleteObject(GameObject gameObject) {
