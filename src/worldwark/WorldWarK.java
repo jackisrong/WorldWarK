@@ -138,9 +138,9 @@ public class WorldWarK extends JPanel implements Runnable {
     public void start() {
 	Thread thread = new Thread(this);
 	if (gamePaused == false) {
-	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 10000, 1, 3);
+	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
 	    objects.add(player);
-	    score = 11000;
+            score = 0;
 	    shootTimer = player.getWeaponCooldown();
 	}
 	run = true;
@@ -730,8 +730,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 0;
-	EnemyFactory ef = new EnemyFactory();
-	objects.addAll(ef.makeEnemies(score));
+	objects.addAll(EnemyFactory.makeEnemies(score));
     }
 
     public void shootBullet() {
