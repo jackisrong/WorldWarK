@@ -93,13 +93,13 @@ public class Bomb extends GameObject {
 	    BufferedImage explosionImage = null;
 	    try {
 		if ((explosionTimer >= 0 && explosionTimer < 3) || (explosionTimer >= 24 && explosionTimer < 27)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion_1.png"));
+		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
 		} else if ((explosionTimer >= 3 && explosionTimer < 6) || (explosionTimer >= 21 && explosionTimer < 24)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion_2.png"));
+		    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
 		} else if ((explosionTimer >= 6 && explosionTimer < 9) || (explosionTimer >= 18 && explosionTimer < 21)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion_3.png"));
+		    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
 		} else if (explosionTimer >= 9 && explosionTimer < 18) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion_4.png"));
+		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
 		}
 		g2.setClip(explosion);
 		g2.drawImage(explosionImage, xPos - 150, yPos - 150, null);
