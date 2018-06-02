@@ -510,7 +510,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		drawMusic(g2);
 		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = audioControl.getMaximum() - audioControl.getMinimum();
-		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
+		//volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
 		if (clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
 		    volume -= 0.1;
 		    volume = Math.max(Math.round(volume * 10) / (float) 10.0, 0);
