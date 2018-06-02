@@ -67,9 +67,26 @@ public class WorldWarK extends JPanel implements Runnable {
 	BufferedReader inputStream = null;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
+	    volume = Float.parseFloat(inputStream.readLine());
+	} catch (Exception e) {
+	    System.out.println("ERROR: Cannot read volume.txt");
+	} finally {
+	    try {
+		inputStream.close();
+	    } catch (IOException e) {
+		System.out.println("ERROR: Cannot close inputStream");
+	    } catch (NullPointerException e) {
+		System.out.println("ERROR: volume.txt doesn't exist, setting volume to default value of 0.5");
+		volume = (float) 0.5;
+	    }
+	}
+
+	// Play music
+	try {
 	    AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/myjam.wav"));
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
+            clip.loop(10);
 	    volume = Float.parseFloat(inputStream.readLine());
 	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    float range = audioControl.getMaximum() - audioControl.getMinimum();
@@ -78,12 +95,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    clip.start();
 	} catch (Exception e) {
 	    System.out.println("ERROR: myjam.wav cannot be played.");
-	} finally {
-	    try {
-		inputStream.close();
-	    } catch (IOException e) {
-		System.out.println("ERROR: Cannot close inputStream");
-	    }
 	}
 
 	// Get previous high score
@@ -110,6 +121,14 @@ public class WorldWarK extends JPanel implements Runnable {
 	    System.out.println("ERROR: background.png cannot be read.");
 	    backgroundImage = null;
 	}
+
+	// Get background image
+	try {
+	    backgroundImage = ImageIO.read(new File("assets/img/background.png"));
+	} catch (IOException e) {
+	    System.out.println("ERROR: background.png cannot be read.");
+	    backgroundImage = null;
+	}
     }
 
     public void deleteObject(GameObject gameObject) {
@@ -121,7 +140,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (gamePaused == false) {
 	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
 	    objects.add(player);
-	    score = 0;
+            score = 0;
 	    shootTimer = player.getWeaponCooldown();
 	}
 	run = true;
@@ -191,27 +210,22 @@ public class WorldWarK extends JPanel implements Runnable {
 	    Random rand = new Random();
 	    int dX = boss.getXPos() - player.getXPos();
 	    int dY = boss.getYPos() - player.getYPos();
-	    EnemyBullet bullet = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, dX / 67, dY / 67, 10);
-	    objects.add(bullet);
-	    playSound(0);
+	    objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
+	    playSound(5);
 	    if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
 		boss.setFiringRate(750);
 		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		// position of boss fire is off due to size of boss; change position
-		EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 15);
-		EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 15);
-		objects.add(bullet2);
-		objects.add(bullet3);
+		objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
+		objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
 	    } else if (boss.getHealth() <= 100) {
 		boss.setFiringRate(500);
 		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		// position of boss fire is off due to size of boss; change position
-		EnemyBullet bullet2 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, randomDX / 67, dY / 67, 20);
-		EnemyBullet bullet3 = new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 10, 10, nextRandomDX / 67, dY / 67, 20);
-		objects.add(bullet2);
-		objects.add(bullet3);
+		objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
+		objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
 	    }
 	}
 
@@ -244,8 +258,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		    bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
 		}
 		if (dY <= -100) {
-		    EnemyBullet bullet = new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 10, 10, bulletXSpeed, bulletYSpeed, 10);
-		    objects.add(bullet);
+		    objects.add(new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 3, 8, bulletXSpeed, bulletYSpeed, 10));
 		    playSound(0);
 		}
 	    }
@@ -500,12 +513,10 @@ public class WorldWarK extends JPanel implements Runnable {
 		volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
 		if (clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
 		    volume -= 0.1;
-		    volume = Math.max(volume, 0);
-		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(215, 278, 100, 30))) {
-		    volume = (float) 0.9;
+		    volume = Math.max(Math.round(volume * 10) / (float) 10.0, 0);
 		} else if (clickedStartScreenButton.equals(new Rectangle2D.Double(330, 278, 100, 30))) {
 		    volume += 0.1;
-		    volume = Math.min(volume, 1);
+		    volume = Math.min(Math.round(volume * 10) / (float) 10.0, 1);
 		}
 		clickedStartScreenButton = new Rectangle2D.Double(30, 750, 100, 40);
 		float gain = (range * volume) + audioControl.getMinimum();
@@ -525,6 +536,7 @@ public class WorldWarK extends JPanel implements Runnable {
 			    outputStream.close();
 			}
 		    }
+		    repaint();
 		} catch (IOException e) {
 		    System.out.println("ERROR: IOException when saving volume setting to file");
 		}
@@ -540,15 +552,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(lowButton);
 	startScreenButtons.add(lowButton);
 	//g2.setColor(Color.BLACK);
-	g2.drawString("LOW", 130, 300);
+	g2.drawString("LOWER", 115, 300);
 
-	// Draw normal volume button
-	g2.setColor(Color.WHITE);
-	Rectangle2D medButton = new Rectangle2D.Double(215, 278, 100, 30);
-	g2.draw(medButton);
-	startScreenButtons.add(medButton);
-	//g2.setColor(Color.BLACK);
-	g2.drawString("NORMAL", 225, 300);
+	// Draw current volume
+	g2.drawString(Float.toString(volume), 245, 300);
 
 	// Draw high volume button
 	g2.setColor(Color.WHITE);
@@ -556,7 +563,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	g2.draw(highButton);
 	startScreenButtons.add(highButton);
 	//g2.setColor(Color.BLACK);
-	g2.drawString("HIGH", 355, 300);
+	g2.drawString("HIGHER", 345, 300);
 
 	// Print heading
 	Font titleFont = null;
@@ -686,6 +693,21 @@ public class WorldWarK extends JPanel implements Runnable {
 	    case 3:
 		file = "powerUpPickUp";
 		break;
+	    case 4:
+		file = "ow";
+		break;
+	    case 5:
+		file = "enemyShoot";
+		break;
+	    case 6:
+		file = "beatHighScore";
+		break;
+	    case 7:
+		file = "bombThrown";
+		break;
+	    case 8:
+		file = "laser";
+		break;
 	    default:
 		file = null;
 		break;
@@ -708,30 +730,29 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 0;
-	EnemyFactory ef = new EnemyFactory();
-	objects.addAll(ef.makeEnemies(score));
+	objects.addAll(EnemyFactory.makeEnemies(score));
     }
 
     public void shootBullet() {
 	switch (player.getWeaponLevel()) {
 	    case 1:
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
 		break;
 	    case 2:
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
 		break;
 	    case 3:
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 5, 10));
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, -5, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 5, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, -5, 10));
 		break;
 	    case 4:
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 3, 10));
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, -3, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 3, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, -3, 10));
 		break;
 	    case 5:
-		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 10, 10, 0, 10));
+		objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
 		break;
 	    default:
 		break;
@@ -745,23 +766,34 @@ public class WorldWarK extends JPanel implements Runnable {
 	    Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 10, 10);
 	    objects.add(bomb);
 	    player.useBomb();
+	    playSound(7);
 	}
     }
 
     public void dropPowerUp(GameObject enemy) {
 	Random rng = new Random();
+	int choosePowerUp = rng.nextInt(3);
 
 	// Chance for a power up to drop
 	if (rng.nextInt(50) == 0) {
 	    // Choose which power up to drop
-	    if (rng.nextInt(2) == 0) {
-		// Drop bomb power up
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0);
-		objects.add(powerUp);
-	    } else {
-		// Drop weapon upgrade
-		PowerUp powerUp = new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1);
-		objects.add(powerUp);
+	    switch (choosePowerUp) {
+		case 0:
+		    // Drop bomb power up
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 0));
+		    break;
+		case 1:
+		    // Drop weapon upgrade
+		    if (player.getWeaponLevel() <= 4) {
+			objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 1));
+		    }
+		    break;
+		case 2:
+		    // Drop health pack
+		    objects.add(new PowerUp(enemy.getXPos(), enemy.getYPos(), 32, 32, 2));
+		    break;
+		default:
+		    break;
 	    }
 	}
     }
@@ -777,6 +809,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (score > highScore) {
 	    previousHighScore = highScore;
 	    highScore = score;
+	    playSound(6);
 	}
 
 	FileWriter outputStream = null;

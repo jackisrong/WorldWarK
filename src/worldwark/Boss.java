@@ -10,27 +10,72 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Boss extends Enemy {
+    private int updateCounter;
+    private boolean horizontalMove;
+    private int moveSpeed;
+    private boolean firstStop;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+        updateCounter = 0;
+        horizontalMove = false;
+        moveSpeed = 0;
+        firstStop = false;
     }
-
+    
     @Override
     public void update(WorldWarK panel) {
-	if (yPos < 100) {
-	    yPos += ySpeed;
-	}
+        if (updateCounter == 0) {
+            Random rand = new Random();
+            int direction = rand.nextInt(3);
+            switch(direction) {
+                // Case 0 is left
+                // Case 1 is right
+                // Case 2 is down
+                case 0: 
+                    horizontalMove = true;
+                    moveSpeed = 2;
+                    break;
+                case 1:
+                    horizontalMove = true;
+                    moveSpeed = -2;
+                    break;
+                case 2:
+                    horizontalMove = false;
+                    moveSpeed = 2;
+                    break;
+                default: 
+                    moveSpeed = 0;
+                    break;
+            }
+        }
+        updateCounter++;
+        if (updateCounter == 200) {
+            xSpeed = horizontalMove? moveSpeed : xSpeed;
+            ySpeed = !horizontalMove? moveSpeed : ySpeed;
+        } else if (updateCounter == 267) {
+            xSpeed = horizontalMove? 0 : xSpeed;
+            ySpeed = !horizontalMove? 0 : ySpeed;
+        } else if (updateCounter == 467) {
+            xSpeed = horizontalMove? -moveSpeed : xSpeed;
+            ySpeed = !horizontalMove? -moveSpeed : ySpeed;
+        } else if (updateCounter == 534) {
+            xSpeed = horizontalMove? 0 : xSpeed;
+            ySpeed = !horizontalMove? 0 : ySpeed;
+            updateCounter = 0;
+        }
+        
+        if (yPos > 100 && !firstStop) {
+            firstStop = true;
+            ySpeed = 0;
+        }
+        
+        yPos += ySpeed;
 
 	if (xPos > 0 && xPos < xPos + width) {
-	    Random rng = new Random();
-	    int number = rng.nextInt(20);
-	    if (number == 0) {
-		xPos -= xSpeed;
-	    } else if (number == 1) {
-		xPos += xSpeed;
-	    }
-	}
+	    xPos += xSpeed;
+	}  
     }
 
     public void setFiringRate(int rate) {

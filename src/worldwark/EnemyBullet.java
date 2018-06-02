@@ -31,6 +31,7 @@ public class EnemyBullet extends GameObject {
 	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
 	    panel.deleteObject(this);
 	    panel.player.loseHealth(10);
+	    panel.playSound(4);
 	    if (panel.player.getHealth() <= 0) {
 		try {
 		    panel.gameOver();
@@ -61,7 +62,7 @@ public class EnemyBullet extends GameObject {
 	// Draw image
 	BufferedImage bulletImage;
 	try {
-	    bulletImage = ImageIO.read(new File("assets/img/bomb.png"));
+	    bulletImage = ImageIO.read(new File("assets/img/enemybullet.png"));
 	    g2.setClip(rectangle);
 	    g2.drawImage(bulletImage, xPos, yPos, null);
 	} catch (IOException e) {
