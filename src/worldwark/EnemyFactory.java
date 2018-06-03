@@ -35,7 +35,7 @@ public class EnemyFactory {
         } else if (score >= 10000) {
             return rand.nextInt(3) + 1;
         } else {
-            return rand.nextInt(1) + 1;
+            return rand.nextInt(6) + 1;
         }
     }
 
@@ -44,8 +44,8 @@ public class EnemyFactory {
         switch (choice) {
             case 1:
                 for (int i = 0; i < 150; i += 50) {
-                    enemies.add(new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 10000, 1000 + i * 2));
-                    enemies.add(new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2));
+                    enemies.add(new Enemy(50 + i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 1000 + i * 2));
+                    enemies.add(new Enemy(385 - i, 0 - i, 64, 64, 0, 5, 50, 3, 50, 50 + i * 2));
                 }
                 break;
             case 2:
