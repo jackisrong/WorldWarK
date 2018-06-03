@@ -28,9 +28,10 @@ public class Bullet extends GameObject {
 		if (this.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    panel.deleteObject(this);
 		    Enemy q = (Enemy) i;
+		    q.miniExplosion(true);
 		    q.loseHealth(panel.player.getWeaponDamage());
 		    if (q.getHealth() <= 0) {
-			panel.deleteObject(i);
+			//panel.deleteObject(i);
 			panel.score += q.getPoints();
 		    }
 
