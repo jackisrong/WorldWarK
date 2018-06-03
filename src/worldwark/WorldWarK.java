@@ -87,7 +87,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	    clip = AudioSystem.getClip();
 	    clip.open(audioIn);
             clip.loop(10);
-	    volume = Float.parseFloat(inputStream.readLine());
 	    audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    float range = audioControl.getMaximum() - audioControl.getMinimum();
 	    float gain = (range * volume) + audioControl.getMinimum();
@@ -112,14 +111,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		    System.out.println("ERROR: Cannot close inputStream");
 		}
 	    }
-	}
-
-	// Get background image
-	try {
-	    backgroundImage = ImageIO.read(new File("assets/img/background.png"));
-	} catch (IOException e) {
-	    System.out.println("ERROR: background.png cannot be read.");
-	    backgroundImage = null;
 	}
 
 	// Get background image
