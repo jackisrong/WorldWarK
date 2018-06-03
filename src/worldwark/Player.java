@@ -122,6 +122,15 @@ public class Player extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
+	// Check health
+	if (health <= 0) {
+	    try {
+		panel.gameOver();
+	    } catch (IOException e) {
+		System.out.println("ERROR: IOException when updating EnemyBullet");
+	    }
+	}
+
 	// Increase image animation timer
 	if (imageTimer == 8) {
 	    imageTimer = 0;
@@ -149,7 +158,7 @@ public class Player extends GameObject {
 	// Draw image
 	String fileName = "";
 	try {
-	    
+
 	    if (imageTimer >= 0 && imageTimer < 3) {
 		fileName = "player1";
 	    } else if (imageTimer >= 3 && imageTimer < 6) {

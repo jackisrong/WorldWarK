@@ -111,17 +111,12 @@ public class Enemy extends GameObject {
     @Override
     public void update(WorldWarK panel) {
 	// Check enemy collision
-	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
-	    panel.deleteObject(this);
+	if (miniExplosionState == false && this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	    //panel.deleteObject(this);
+	    this.health = 0;
+	    miniExplosionState = true;
 	    panel.player.loseHealth(10);
 	    panel.playSound(4);
-	    if (panel.player.getHealth() <= 0) {
-		try {
-		    panel.gameOver();
-		} catch (IOException e) {
-		    System.out.println("ERROR: IOException when updating EnemyBullet");
-		}
-	    }
 	}
 
 	// Update explosion timer

@@ -32,13 +32,6 @@ public class EnemyBullet extends GameObject {
 	    panel.deleteObject(this);
 	    panel.player.loseHealth(10);
 	    panel.playSound(4);
-	    if (panel.player.getHealth() <= 0) {
-		try {
-		    panel.gameOver();
-		} catch (IOException e) {
-		    System.out.println("ERROR: IOException when updating EnemyBullet");
-		}
-	    }
 	}
 
 	// Update bullet location
