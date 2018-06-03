@@ -16,6 +16,8 @@ public class Player extends GameObject {
     private int numberOfBombs;
     private int initialHealth;
     private int imageTimer;
+    private boolean miniExplosionState = false;
+    private int explosionTimer = 0;
 
     public Player(int xPos, int yPos, int width, int height, int xSpeed, int health, int weapon, int numberOfBombs) {
 	super(xPos, yPos, width, height);
@@ -120,22 +122,35 @@ public class Player extends GameObject {
 	health -= healthLost;
     }
 
+    public void miniExplosion(boolean state) {
+	miniExplosionState = state;
+    }
+
     @Override
     public void update(WorldWarK panel) {
-	// Check health
-	if (health <= 0) {
-	    try {
-		panel.gameOver();
-	    } catch (IOException e) {
-		System.out.println("ERROR: IOException when updating EnemyBullet");
-	    }
-	}
-
 	// Increase image animation timer
 	if (imageTimer == 8) {
 	    imageTimer = 0;
 	} else {
 	    imageTimer++;
+	}
+
+	// Update explosion timer
+	if (miniExplosionState == true) {
+	    if (explosionTimer < 9) {
+		explosionTimer++;
+	    } else {
+		if (health <= 0) {
+		    try {
+			panel.gameOver();
+		    } catch (IOException e) {
+			System.out.println("ERROR: IOException when updating EnemyBullet");
+		    }
+		} else {
+		    miniExplosionState = false;
+		    explosionTimer = 0;
+		}
+	    }
 	}
     }
 
@@ -155,21 +170,37 @@ public class Player extends GameObject {
 	g2.setColor(Color.GREEN);
 	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 100.0), 3);
 
-	// Draw image
-	String fileName = "";
-	try {
+	    // Draw image
+	    String fileName = "";
+	    try {
 
-	    if (imageTimer >= 0 && imageTimer < 3) {
-		fileName = "player1";
-	    } else if (imageTimer >= 3 && imageTimer < 6) {
-		fileName = "player2";
-	    } else {
-		fileName = "player3";
+		if (imageTimer >= 0 && imageTimer < 3) {
+		    fileName = "player1";
+		} else if (imageTimer >= 3 && imageTimer < 6) {
+		    fileName = "player2";
+		} else {
+		    fileName = "player3";
+		}
+		g2.setClip(rectangle);
+		g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
+	    } catch (IOException e) {
+		System.out.println("ERROR: " + fileName + ".png cannot be read.");
 	    }
-	    g2.setClip(rectangle);
-	    g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
-	} catch (IOException e) {
-	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	    
+	if (miniExplosionState == true) {
+	    // Draw image
+	    BufferedImage explosionImage = null;
+	    try {
+		if ((explosionTimer >= 0 && explosionTimer < 3) || (explosionTimer >= 6 && explosionTimer < 9)) {
+		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion1.png"));
+		} else if ((explosionTimer >= 3 && explosionTimer < 6)) {
+		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion2.png"));
+		}
+		g2.setClip(rectangle);
+		g2.drawImage(explosionImage, xPos, yPos, null);
+	    } catch (IOException e) {
+		System.out.println("ERROR: miniExplosion.png cannot be read.");
+	    }
 	}
     }
 }

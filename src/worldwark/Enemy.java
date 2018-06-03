@@ -242,62 +242,62 @@ public class Enemy extends GameObject {
 	g2.setColor(Color.GREEN);
 	g2.fillRect(xPos - 8, yPos + height, (int) ((double) health / (double) initialHealth * 70.0), 3);
 
-	if (miniExplosionState == false) {
-	    // Draw appropriate enemy image on the enemy
-	    BufferedImage enemyImage;
-	    String fileName = null;
-	    switch (typeOfEnemy) {
-		case 0:
-		    if (imageTimer >= 0 && imageTimer < 3) {
-			fileName = "helicopterLow1";
-		    } else {
-			fileName = "helicopterLow2";
-		    }
-		    break;
-		case 1:
-		case 6: {
-		    if (imageTimer >= 0 && imageTimer < 3) {
-			fileName = "helicopterMed1";
-		    } else {
-			fileName = "helicopterMed2";
-		    }
-		    break;
+	// Draw appropriate enemy image on the enemy
+	BufferedImage enemyImage;
+	String fileName = null;
+	switch (typeOfEnemy) {
+	    case 0:
+		if (imageTimer >= 0 && imageTimer < 3) {
+		    fileName = "helicopterLow1";
+		} else {
+		    fileName = "helicopterLow2";
 		}
-		case 2:
-		case 7:
-		case 10: {
-		    if (imageTimer >= 0 && imageTimer < 3) {
-			fileName = "helicopterHard1";
-		    } else {
-			fileName = "helicopterHard2";
-		    }
-		    break;
+		break;
+	    case 1:
+	    case 6: {
+		if (imageTimer >= 0 && imageTimer < 3) {
+		    fileName = "helicopterMed1";
+		} else {
+		    fileName = "helicopterMed2";
 		}
-		case 3:
-		    fileName = "fighterPlaneLow";
-		    break;
-		case 4:
-		case 8: {
-		    fileName = "fighterPlaneMed";
-		    break;
-		}
-		case 5:
-		case 9: {
-		    fileName = "fighterPlaneHard";
-		    break;
-		}
-		default:
-		    break;
+		break;
 	    }
+	    case 2:
+	    case 7:
+	    case 10: {
+		if (imageTimer >= 0 && imageTimer < 3) {
+		    fileName = "helicopterHard1";
+		} else {
+		    fileName = "helicopterHard2";
+		}
+		break;
+	    }
+	    case 3:
+		fileName = "fighterPlaneLow";
+		break;
+	    case 4:
+	    case 8: {
+		fileName = "fighterPlaneMed";
+		break;
+	    }
+	    case 5:
+	    case 9: {
+		fileName = "fighterPlaneHard";
+		break;
+	    }
+	    default:
+		break;
+	}
 
-	    try {
-		enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
-		g2.setClip(rectangle);
-		g2.drawImage(enemyImage, xPos, yPos, null);
-	    } catch (IOException e) {
-		System.out.println("ERROR: " + fileName + ".png cannot be read.");
-	    }
-	} else {
+	try {
+	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+	    g2.setClip(rectangle);
+	    g2.drawImage(enemyImage, xPos, yPos, null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	}
+
+	if (miniExplosionState == true) {
 	    // Draw image
 	    BufferedImage explosionImage = null;
 	    try {

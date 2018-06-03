@@ -30,6 +30,7 @@ public class EnemyBullet extends GameObject {
     public void update(WorldWarK panel) {
 	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
 	    panel.deleteObject(this);
+	    panel.player.miniExplosion(true);
 	    panel.player.loseHealth(10);
 	    panel.playSound(4);
 	}
