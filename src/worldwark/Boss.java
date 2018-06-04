@@ -16,6 +16,7 @@ public class Boss extends Enemy {
     private int moveSpeed;
     private boolean firstStop;
     private int imageTimer = 0;
+    private int deadTimer = 0;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
@@ -27,12 +28,23 @@ public class Boss extends Enemy {
 	firstStop = false;
     }
 
+    public void setFiringRate(int rate) {
+	firingRate = rate;
+    }
+
     @Override
     public void update(WorldWarK panel) {
 	if (imageTimer == 79) {
 	    imageTimer = 0;
 	} else {
 	    imageTimer++;
+	}
+
+	if (health <= 0 && deadTimer < 26) {
+	    deadTimer++;
+	} else if (deadTimer == 26) {
+	    panel.deleteObject(this);
+	    panel.score += points;
 	}
 
 	if (updateCounter == 0) {
@@ -87,10 +99,6 @@ public class Boss extends Enemy {
 	}
     }
 
-    public void setFiringRate(int rate) {
-	firingRate = rate;
-    }
-
     @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
@@ -111,6 +119,7 @@ public class Boss extends Enemy {
 	// Draw appropriate enemy image on the enemy
 	BufferedImage enemyImage;
 	String fileName = null;
+	BufferedImage explosionImage = null;
 	try {
 	    if (health >= initialHealth / 2) {
 		if (imageTimer >= 0 && imageTimer < 20) {
@@ -135,10 +144,23 @@ public class Boss extends Enemy {
 	    } else if (health <= 0) {
 		fileName = "bossdead";
 	    }
-
 	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+
+	    if (health <= 0) {
+		if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
+		} else if ((deadTimer >= 3 && deadTimer < 6) || (deadTimer >= 21 && deadTimer < 24)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
+		} else if ((deadTimer >= 6 && deadTimer < 9) || (deadTimer >= 18 && deadTimer < 21)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
+		} else if (deadTimer >= 9 && deadTimer < 18) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
+		}
+	    }
+
 	    g2.setClip(rectangle);
 	    g2.drawImage(enemyImage, xPos, yPos, null);
+	    g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
 	}
