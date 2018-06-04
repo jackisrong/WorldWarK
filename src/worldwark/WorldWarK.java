@@ -865,21 +865,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	    playSound(6);
 	}
 
-	FileWriter outputStream = null;
-	try {
-	    outputStream = new FileWriter("assets/data/volume.txt");
-	    outputStream.write("" + volume);
-	    outputStream = new FileWriter("assets/data/fxVolume.txt");
-	    outputStream.write("" + fxVolume);
-	} catch (FileNotFoundException exception) {
-	    System.out.println("Error opening file");
-	} finally {
-	    if (outputStream != null) {
-		outputStream.close();
-	    }
-	}
-
 	// Save high score to file
+	FileWriter outputStream = null;
 	try {
 	    outputStream = new FileWriter("assets/data/highScore.txt");
 	    outputStream.write(highScore + "\r\n");
