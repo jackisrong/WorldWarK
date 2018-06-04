@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 public class WorldWarK extends JPanel implements Runnable {
 
     public static WorldWarK panel;
-    private static int spawnTimer = 0;
+    private static int spawnTimer;
     private static int fireTimer = 0;
     int shootTimer;
     Player player;
@@ -151,6 +151,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
 	    objects.add(player);
 	    score = 90000;
+	    spawnTimer = 0;
 	    shootTimer = player.getWeaponCooldown();
 	}
 	run = true;
@@ -360,24 +361,25 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (gamePaused == true) {
 	    drawPausedScreen(g2);
 	}
+
 	if (run == true && gamePaused == false) {
 	    g2.setClip(null);
 	    Font scoreHeading = null;
 	    try {
-		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(70f);
+		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(200f);
 	    } catch (Exception e) {
-		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+		System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	    }
 	    g2.setFont(scoreHeading);
 	    g2.setColor(Color.WHITE);
 	    if (spawnTimer < 1000) {
-		g2.drawString("3", 250, 400);
+		g2.drawString("3", 210, 400);
 	    } else if (spawnTimer > 1000 && spawnTimer < 2000) {
-		g2.drawString("2", 250, 400);
+		g2.drawString("2", 210, 400);
 	    } else if (spawnTimer > 2000 && spawnTimer < 3000) {
-		g2.drawString("1", 250, 400);
+		g2.drawString("1", 220, 400);
 	    } else if (spawnTimer > 3000 & spawnTimer < 4000) {
-		g2.drawString("GO!", 220, 400);
+		g2.drawString("GO!", 85, 400);
 	    }
 	}
     }
@@ -422,43 +424,19 @@ public class WorldWarK extends JPanel implements Runnable {
 	// Paint start screen background
 	BufferedImage image;
 	try {
-	    image = ImageIO.read(new File("assets/img/startScreenBackground.jpg"));
+	    image = ImageIO.read(new File("assets/img/startScreenBackground.png"));
 	} catch (IOException e) {
-	    System.out.println("ERROR: startScreenBackground.jpg cannot be read.");
+	    System.out.println("ERROR: startScreenBackground.png cannot be read.");
 	    image = null;
 	}
 	g2.drawImage(image, 0, 0, null);
 
 	// Paint start screen content
-	Font gameTitleFont = null;
+	Font buttonFont = null;
 	try {
-	    gameTitleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
-	} catch (Exception e) {
-	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
-	}
-	g2.setColor(new Color(255, 215, 0));
-	g2.setFont(gameTitleFont);
-	g2.drawString("World", 25, 100);
-	g2.drawString("War", 50, 200);
-	if (gameTitleFont != null) {
-	    gameTitleFont = gameTitleFont.deriveFont(120f);
-	}
-	g2.setFont(gameTitleFont);
-	g2.drawString("K", 280, 240);
-
-	Font spaceToStartFont = null;
-	try {
-	    spaceToStartFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(40f);
+	    buttonFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
-	}
-	g2.setColor(new Color(255, 215, 0));
-	g2.setFont(spaceToStartFont);
-	g2.drawString("Press SPACEBAR to play", 40, 525);
-
-	Font buttonFont = null;
-	if (spaceToStartFont != null) {
-	    buttonFont = spaceToStartFont.deriveFont(20f);
 	}
 	g2.setFont(buttonFont);
 
