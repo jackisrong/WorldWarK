@@ -336,7 +336,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
 	    }
 	    g2.setFont(scoreHeading);
-	    g2.setColor(Color.PINK);
+	    g2.setColor(Color.BLACK);
 	    g2.drawString("SCORE: " + Integer.toString(score), 10, 25);
 	    g2.drawString("HIGH SCORE: " + highScore, 180, 25);
 
@@ -345,10 +345,10 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.drawString("WEAPON: LEVEL " + player.getWeaponLevel() + "/5", 300, 790);
 
 	    // Draw pause button
-	    g2.setColor(Color.RED);
+	    g2.setColor(Color.BLACK);
 	    g2.fillRect(420, 0, 80, 30);
 	    g2.setColor(Color.WHITE);
-	    g2.drawString("PAUSE", 427, 22);
+	    g2.drawString("PAUSE", 430, 22);
 
 	    // Paint GameObjects
 	    for (GameObject i : objects) {
