@@ -202,22 +202,22 @@ public class WorldWarK extends JPanel implements Runnable {
             Random rand = new Random();
             int dX = boss.getXPos() - player.getXPos();
             int dY = boss.getYPos() - player.getYPos();
-            objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
+            objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
             playSound(5);
             if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
                 boss.setFiringRate(750);
                 int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
                 int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
                 // position of boss fire is off due to size of boss; change position
-                objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
-                objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
+                objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
+                objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
             } else if (boss.getHealth() <= 100) {
                 boss.setFiringRate(500);
                 int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
                 int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
                 // position of boss fire is off due to size of boss; change position
-                objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
-                objects.add(new EnemyBullet(boss.getXPos() + 24, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
+                objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
+                objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
             }
         }
 
@@ -250,7 +250,7 @@ public class WorldWarK extends JPanel implements Runnable {
                     bulletYSpeed *= Math.pow(bulletSpeedMultiplier, 2);
                 }
                 if (dY <= -100) {
-                    objects.add(new EnemyBullet(selectedEnemy.getXPos() + 24, selectedEnemy.getYPos(), 3, 8, bulletXSpeed, bulletYSpeed, 10));
+                    objects.add(new EnemyBullet(selectedEnemy.getXPos() + 30, selectedEnemy.getYPos(), 3, 8, bulletXSpeed, bulletYSpeed, 10));
                     playSound(0);
                 }
             }
@@ -748,23 +748,23 @@ public class WorldWarK extends JPanel implements Runnable {
     public void shootBullet() {
         switch (player.getWeaponLevel()) {
             case 1:
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
                 break;
             case 2:
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
                 break;
             case 3:
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 5, 10));
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, -5, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 5, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, -5, 10));
                 break;
             case 4:
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 3, 10));
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, -3, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 3, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, -3, 10));
                 break;
             case 5:
-                objects.add(new Bullet(player.getXPos() + 24, player.getYPos(), 3, 8, 0, 10));
+                objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
                 break;
             default:
                 break;
