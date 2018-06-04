@@ -14,6 +14,7 @@ public class Bomb extends GameObject {
     private Ellipse2D explosion;
     private boolean armed = false;
     private int explosionTimer = 0;
+    private int imageTimer = 0;
 
     public Bomb(int xPos, int yPos, int width, int height) {
 	super(xPos, yPos, width, height);
@@ -26,6 +27,15 @@ public class Bomb extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
+	// Update image animation timer
+	if (armed == false) {
+	    if (imageTimer == 17) {
+		imageTimer = 0;
+	    } else {
+		imageTimer++;
+	    }
+	}
+
 	if (armed == false && yPos > panel.getHeight() / 2) {
 	    yPos -= 2;
 	    // Check bomb collision
@@ -76,9 +86,17 @@ public class Bomb extends GameObject {
 	    g2.draw(rectangle);
 
 	    // Draw image
-	    BufferedImage bombImage;
+	    BufferedImage bombImage = null;
 	    try {
-		bombImage = ImageIO.read(new File("assets/img/bomb.png"));
+		if ((imageTimer >= 0 && imageTimer < 3)) {
+		    bombImage = ImageIO.read(new File("assets/img/bomb1.png"));
+		} else if ((imageTimer >= 3 && imageTimer < 6)) {
+		    bombImage = ImageIO.read(new File("assets/img/bomb2.png"));
+		} else if ((imageTimer >= 6 && imageTimer < 9)) {
+		    bombImage = ImageIO.read(new File("assets/img/bomb3.png"));
+		} else if (imageTimer >= 9 && imageTimer < 18) {
+		    bombImage = ImageIO.read(new File("assets/img/bomb4.png"));
+		}
 		g2.setClip(rectangle);
 		g2.drawImage(bombImage, xPos, yPos, null);
 	    } catch (IOException e) {
