@@ -27,13 +27,13 @@ public class BossLaser extends GameObject {
 	}
 
 	// Update laser motion
-	if (laserTimer < 500) {
+	if (laserTimer < 100) {
 	    laserTimer++;
-	    if (height < 800) {
-		height += 10;
+	    if (height < 500) {
+		height += 100;
 	    }
 	} else {
-	    height -= 10;
+	    height -= 100;
 	    if (height <= 0) {
 		panel.deleteObject(this);
 	    }
