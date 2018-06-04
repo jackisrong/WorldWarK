@@ -438,46 +438,40 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 	g2.setFont(buttonFont);
 
-	// Paint how to play button
-	g2.setColor(Color.RED);
+	// Paint button rectangles
+	g2.setColor(Color.BLACK);
 	Rectangle2D instructionsButton = new Rectangle2D.Double(80, 550, 145, 40);
 	startScreenButtons.add(instructionsButton);
+	g2.fill(instructionsButton);
 	g2.draw(instructionsButton);
-	g2.drawString("HOW TO PLAY", 86, 578);
-
-	// Paint controls button
-	g2.setColor(Color.RED);
-	Rectangle2D controlsButton = new Rectangle2D.Double(280, 550, 116, 40);
+	Rectangle2D controlsButton = new Rectangle2D.Double(280, 550, 145, 40);
 	startScreenButtons.add(controlsButton);
+	g2.fill(controlsButton);
 	g2.draw(controlsButton);
-	g2.drawString("CONTROLS", 286, 578);
-
-	// Paint power ups button
-	g2.setColor(Color.RED);
 	Rectangle2D powerUpsButton = new Rectangle2D.Double(80, 600, 145, 40);
 	startScreenButtons.add(powerUpsButton);
+	g2.fill(powerUpsButton);
 	g2.draw(powerUpsButton);
-	g2.drawString("POWER UPS", 96, 628);
-
-	// Paint enemies button
-	g2.setColor(Color.RED);
-	Rectangle2D enemiesButton = new Rectangle2D.Double(280, 600, 116, 40);
+	Rectangle2D enemiesButton = new Rectangle2D.Double(280, 600, 145, 40);
 	startScreenButtons.add(enemiesButton);
+	g2.fill(enemiesButton);
 	g2.draw(enemiesButton);
-	g2.drawString("ENEMIES", 296, 628);
-
-	// Paint credits button
-	g2.setColor(Color.RED);
 	Rectangle2D creditsButton = new Rectangle2D.Double(380, 750, 92, 40);
 	startScreenButtons.add(creditsButton);
+	g2.fill(creditsButton);
 	g2.draw(creditsButton);
-	g2.drawString("CREDITS", 386, 778);
-
-	// Paint settings button
-	g2.setColor(Color.RED);
 	Rectangle2D settingsButton = new Rectangle2D.Double(30, 750, 100, 40);
 	startScreenButtons.add(settingsButton);
+	g2.fill(settingsButton);
 	g2.draw(settingsButton);
+
+	// Paint button text
+	g2.setColor(Color.WHITE);
+	g2.drawString("HOW TO PLAY", 86, 578);
+	g2.drawString("CONTROLS", 300, 578);
+	g2.drawString("POWER UPS", 96, 628);
+	g2.drawString("ENEMIES", 312, 628);
+	g2.drawString("CREDITS", 386, 778);
 	g2.drawString("SETTINGS", 35, 778);
 
 	// Check if a start screen button has been clicked
