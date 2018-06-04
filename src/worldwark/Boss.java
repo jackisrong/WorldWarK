@@ -112,9 +112,9 @@ public class Boss extends Enemy {
 
 	// Draw player health bar
 	g2.setColor(Color.RED);
-	g2.fillRect(xPos - 16, yPos + height, 200, 3);
+	g2.fillRect(xPos - 16, yPos + height, 245, 3);
 	g2.setColor(Color.GREEN);
-	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 200.0), 3);
+	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 245.0), 3);
 
 	// Draw appropriate enemy image on the enemy
 	BufferedImage enemyImage;
