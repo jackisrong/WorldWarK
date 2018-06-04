@@ -131,7 +131,7 @@ public class WorldWarK extends JPanel implements Runnable {
         if (gamePaused == false) {
             player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
             objects.add(player);
-            score = 0;
+            score = 90000;
             shootTimer = player.getWeaponCooldown();
         }
         run = true;
@@ -202,8 +202,9 @@ public class WorldWarK extends JPanel implements Runnable {
             Random rand = new Random();
             int dX = boss.getXPos() - player.getXPos();
             int dY = boss.getYPos() - player.getYPos();
-            objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
-            playSound(5);
+            //objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
+	    objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15));
+            playSound(8);
             if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
                 boss.setFiringRate(750);
                 int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
