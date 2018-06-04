@@ -25,7 +25,7 @@ public class Bullet extends GameObject {
 	// Check bullet hit
 	for (GameObject i : panel.objects) {
 	    if (i instanceof Enemy) {
-		if (this.getRectangle().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
+		if (rectangle.intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 		    panel.deleteObject(this);
 		    Enemy q = (Enemy) i;
 		    q.miniExplosion(true);

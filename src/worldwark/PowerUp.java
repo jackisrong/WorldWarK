@@ -22,7 +22,7 @@ public class PowerUp extends GameObject {
     @Override
     public void update(WorldWarK panel) {
 	// Check power up pick up
-	if (this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	if (rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
 	    switch (powerUpType) {
 		case 0:
 		    panel.player.pickUpBomb();

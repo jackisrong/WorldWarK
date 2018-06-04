@@ -111,7 +111,7 @@ public class Enemy extends GameObject {
     @Override
     public void update(WorldWarK panel) {
 	// Check enemy collision
-	if (miniExplosionState == false && this.getRectangle().intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	if (miniExplosionState == false && rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
 	    //panel.deleteObject(this);
 	    this.health = 0;
 	    miniExplosionState = true;
