@@ -285,17 +285,15 @@ public class WorldWarK extends JPanel implements Runnable {
 
 	if (run == false && gamePaused == false) {
 	    if (gameOver == true) {
-		// Paint game over text
-		Font gameOverFont = null;
+		// Paint game over background
+		BufferedImage image;
 		try {
-		    gameOverFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf")).deriveFont(70f);
-		} catch (Exception e) {
-		    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+		    image = ImageIO.read(new File("assets/img/gameOverScreenBackground.png"));
+		} catch (IOException e) {
+		    System.out.println("ERROR: gameOverScreenBackground.png cannot be read.");
+		    image = null;
 		}
-		g2.setColor(Color.RED);
-		g2.setFont(gameOverFont);
-		g2.drawString("GAME", 100, 270);
-		g2.drawString("OVER", 100, 350);
+		g2.drawImage(image, 0, 0, null);
 
 		// Paint final score
 		Font finalScoreFont = null;
