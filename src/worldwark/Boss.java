@@ -10,72 +10,81 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Boss extends Enemy {
+
     private int updateCounter;
     private boolean horizontalMove;
     private int moveSpeed;
     private boolean firstStop;
+    private int imageTimer = 0;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
-        updateCounter = 0;
-        horizontalMove = false;
-        moveSpeed = 0;
-        firstStop = false;
+	initialHealth = health;
+	updateCounter = 0;
+	horizontalMove = false;
+	moveSpeed = 0;
+	firstStop = false;
     }
-    
+
     @Override
     public void update(WorldWarK panel) {
-        if (updateCounter == 0) {
-            Random rand = new Random();
-            int direction = rand.nextInt(3);
-            switch(direction) {
-                // Case 0 is left
-                // Case 1 is right
-                // Case 2 is down
-                case 0: 
-                    horizontalMove = true;
-                    moveSpeed = 2;
-                    break;
-                case 1:
-                    horizontalMove = true;
-                    moveSpeed = -2;
-                    break;
-                case 2:
-                    horizontalMove = false;
-                    moveSpeed = 2;
-                    break;
-                default: 
-                    moveSpeed = 0;
-                    break;
-            }
-        }
-        updateCounter++;
-        if (updateCounter == 200) {
-            xSpeed = horizontalMove? moveSpeed : xSpeed;
-            ySpeed = !horizontalMove? moveSpeed : ySpeed;
-        } else if (updateCounter == 267) {
-            xSpeed = horizontalMove? 0 : xSpeed;
-            ySpeed = !horizontalMove? 0 : ySpeed;
-        } else if (updateCounter == 467) {
-            xSpeed = horizontalMove? -moveSpeed : xSpeed;
-            ySpeed = !horizontalMove? -moveSpeed : ySpeed;
-        } else if (updateCounter == 534) {
-            xSpeed = horizontalMove? 0 : xSpeed;
-            ySpeed = !horizontalMove? 0 : ySpeed;
-            updateCounter = 0;
-        }
-        
-        if (yPos > 100 && !firstStop) {
-            firstStop = true;
-            ySpeed = 0;
-        }
-        
-        yPos += ySpeed;
+	if (imageTimer == 79) {
+	    imageTimer = 0;
+	} else {
+	    imageTimer++;
+	}
+
+	if (updateCounter == 0) {
+	    Random rand = new Random();
+	    int direction = rand.nextInt(3);
+	    switch (direction) {
+		// Case 0 is left
+		// Case 1 is right
+		// Case 2 is down
+		case 0:
+		    horizontalMove = true;
+		    moveSpeed = 2;
+		    break;
+		case 1:
+		    horizontalMove = true;
+		    moveSpeed = -2;
+		    break;
+		case 2:
+		    horizontalMove = false;
+		    moveSpeed = 2;
+		    break;
+		default:
+		    moveSpeed = 0;
+		    break;
+	    }
+	}
+	updateCounter++;
+	if (updateCounter == 200) {
+	    xSpeed = horizontalMove ? moveSpeed : xSpeed;
+	    ySpeed = !horizontalMove ? moveSpeed : ySpeed;
+	} else if (updateCounter == 267) {
+	    xSpeed = horizontalMove ? 0 : xSpeed;
+	    ySpeed = !horizontalMove ? 0 : ySpeed;
+	} else if (updateCounter == 467) {
+	    xSpeed = horizontalMove ? -moveSpeed : xSpeed;
+	    ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
+	} else if (updateCounter == 534) {
+	    xSpeed = horizontalMove ? 0 : xSpeed;
+	    ySpeed = !horizontalMove ? 0 : ySpeed;
+	    updateCounter = 0;
+	}
+
+	if (yPos > 100 && !firstStop) {
+	    firstStop = true;
+	    ySpeed = 0;
+	}
+
+	yPos += ySpeed;
 
 	if (xPos > 0 && xPos < xPos + width) {
 	    xPos += xSpeed;
-	}  
+	}
     }
 
     public void setFiringRate(int rate) {
@@ -102,30 +111,31 @@ public class Boss extends Enemy {
 	// Draw appropriate enemy image on the enemy
 	BufferedImage enemyImage;
 	String fileName = null;
-	switch (typeOfEnemy) {
-	    case 0:
-		fileName = "boss1";
-		break;
-	    case 1:
-		fileName = "boss2";
-		break;
-	    case 2:
-		fileName = "boss3";
-		break;
-	    case 3:
-		fileName = "boss4";
-		break;
-	    case 4:
-		fileName = "boss5";
-		break;
-	    case 5:
-		fileName = "boss6";
-		break;
-	    default:
-		break;
-	}
-
 	try {
+	    if (health >= initialHealth / 2) {
+		if (imageTimer >= 0 && imageTimer < 20) {
+		    fileName = "boss1";
+		} else if (imageTimer >= 20 && imageTimer < 40) {
+		    fileName = "boss2";
+		} else if (imageTimer >= 40 && imageTimer < 60) {
+		    fileName = "boss3";
+		} else if (imageTimer >= 60 && imageTimer < 80) {
+		    fileName = "boss4";
+		}
+	    } else if (health < initialHealth / 2 && health > 0) {
+		if (imageTimer >= 0 && imageTimer < 20) {
+		    fileName = "halfboss1";
+		} else if (imageTimer >= 20 && imageTimer < 40) {
+		    fileName = "halfboss2";
+		} else if (imageTimer >= 40 && imageTimer < 60) {
+		    fileName = "halfboss3";
+		} else if (imageTimer >= 60 && imageTimer < 80) {
+		    fileName = "halfboss4";
+		}
+	    } else if (health <= 0) {
+		fileName = "bossdead";
+	    }
+
 	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
 	    g2.setClip(rectangle);
 	    g2.drawImage(enemyImage, xPos, yPos, null);

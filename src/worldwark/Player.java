@@ -170,23 +170,22 @@ public class Player extends GameObject {
 	g2.setColor(Color.GREEN);
 	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 100.0), 3);
 
-	    // Draw image
-	    String fileName = "";
-	    try {
-
-		if (imageTimer >= 0 && imageTimer < 3) {
-		    fileName = "player1";
-		} else if (imageTimer >= 3 && imageTimer < 6) {
-		    fileName = "player2";
-		} else {
-		    fileName = "player3";
-		}
-		g2.setClip(rectangle);
-		g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
-	    } catch (IOException e) {
-		System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	// Draw image
+	String fileName = "";
+	try {
+	    if (imageTimer >= 0 && imageTimer < 3) {
+		fileName = "player1";
+	    } else if (imageTimer >= 3 && imageTimer < 6) {
+		fileName = "player2";
+	    } else {
+		fileName = "player3";
 	    }
-	    
+	    g2.setClip(rectangle);
+	    g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	}
+
 	if (miniExplosionState == true) {
 	    // Draw image
 	    BufferedImage explosionImage = null;
