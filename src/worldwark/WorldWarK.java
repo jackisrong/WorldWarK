@@ -27,17 +27,17 @@ import javax.swing.JPanel;
 public class WorldWarK extends JPanel implements Runnable {
 
     public static WorldWarK panel;
-    private static int spawnTimer;
-    private static int fireTimer = 0;
-    int shootTimer;
-    Player player;
-    ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
-    CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
-    Rectangle2D clickedStartScreenButton;
-    boolean run = false;
-    boolean gamePaused = false;
-    boolean gameOver = false;
-    int score;
+    public int shootTimer;
+    public Player player;
+    public ArrayList<Rectangle2D> startScreenButtons = new ArrayList<>();
+    public CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
+    public Rectangle2D clickedStartScreenButton;
+    public boolean run = false;
+    public boolean gamePaused = false;
+    public boolean gameOver = false;
+    public int score;
+    private int spawnTimer;
+    private int fireTimer = 0;
     private Clip clip;
     private float volume;
     private float fxVolume;
