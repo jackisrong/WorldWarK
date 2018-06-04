@@ -284,7 +284,7 @@ public class EnemyFactory {
     }
 
     private static void spawnBoss(int choice) {
-            boss = new Boss(150, 0, 219, 196, 0, 3, 10000, 0, 300, 2000);
+            boss = new Boss(150, 0, 219, 196, 0, 3, 1000, 0, 300, 2000);
             enemies.add(boss);
             b = 1;
             System.out.println("Y Position: " + boss.getYPos());
