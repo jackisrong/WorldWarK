@@ -298,22 +298,30 @@ public class WorldWarK extends JPanel implements Runnable {
 		// Paint final score
 		Font finalScoreFont = null;
 		try {
-		    finalScoreFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(30f);
+		    finalScoreFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(40f);
 		} catch (Exception e) {
-		    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+		    System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 		}
 		g2.setFont(finalScoreFont);
-		g2.setColor(Color.PINK);
-		g2.drawString("YOUR SCORE: " + Integer.toString(score), 60, 430);
-		g2.drawString("HIGH SCORE: " + highScore, 60, 470);
+		g2.setColor(Color.WHITE);
+		g2.drawString("YOUR SCORE: " + Integer.toString(score), 55, 430);
+		g2.drawString("HIGH SCORE: " + highScore, 55, 480);
 		if (highScore > previousHighScore) {
-		    g2.drawString("NEW HIGH SCORE!", 80, 180);
+		    g2.setColor(Color.CYAN);
+		    g2.drawString("NEW HIGH SCORE!", 75, 350);
 		}
 
 		// Paint play again info
-		g2.setFont(finalScoreFont.deriveFont(20f));
-		g2.drawString("Press R to play again", 60, 580);
-		g2.drawString("Press T to return to title screen", 60, 610);
+		Font playAgainFont = null;
+		try {
+		    playAgainFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinRegular.ttf")).deriveFont(20f);
+		} catch (Exception e) {
+		    System.out.println("ERROR: Font file CabinRegular.ttf cannot be opened.");
+		}
+		g2.setFont(playAgainFont);
+		g2.setColor(Color.WHITE);
+		g2.drawString("Press R to play again", 220, 650);
+		g2.drawString("Press T to return to title screen", 220, 680);
 	    } else {
 		drawStartScreen(g2);
 	    }
@@ -369,7 +377,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		System.out.println("ERROR: Font file CabinBold.ttf cannot be opened.");
 	    }
 	    g2.setFont(scoreHeading);
-	    g2.setColor(Color.WHITE);
+	    g2.setColor(Color.BLACK);
 	    if (spawnTimer < 1000) {
 		g2.drawString("3", 210, 400);
 	    } else if (spawnTimer > 1000 && spawnTimer < 2000) {
