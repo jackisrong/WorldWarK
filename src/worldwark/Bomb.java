@@ -62,7 +62,7 @@ public class Bomb extends GameObject {
 		if (i instanceof Enemy) {
 		    if (this.getExplosionEllipse().intersects(i.getXPos(), i.getYPos(), i.getWidth(), i.getHeight())) {
 			Enemy q = (Enemy) i;
-			panel.deleteObject(i);
+			q.loseHealth(200);
 			panel.score += q.getPoints();
 			panel.dropPowerUp(i);
 		    }
