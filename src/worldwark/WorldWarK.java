@@ -233,7 +233,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		// position of boss fire is off due to size of boss; change position
 		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
 		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
-		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15, boss));
+		objects.add(new BossLaser(boss.getXPos() + 180, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15, boss));
 	    } else if (boss.getHealth() <= 100) {
 		//boss.setFiringRate(500);
 		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
