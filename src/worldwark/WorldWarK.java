@@ -46,6 +46,7 @@ public class WorldWarK extends JPanel implements Runnable {
     private int highScore = 0;
     private int backgroundYScroll = 0;
     private BufferedImage backgroundImage;
+    private EnemyFactory e;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
@@ -153,6 +154,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    score = 90000;
 	    spawnTimer = 0;
 	    shootTimer = player.getWeaponCooldown();
+	    e = new EnemyFactory();
 	}
 	run = true;
 	thread.start();
@@ -218,27 +220,31 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 
 	if (boss != null && fireTimer % boss.getFiringRate() == 0) {
-	    Random rand = new Random();
-	    int dX = boss.getXPos() - player.getXPos();
-	    int dY = boss.getYPos() - player.getYPos();
-	    //objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
-	    objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15));
-	    playSound(8);
-	    if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
-		boss.setFiringRate(750);
-		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+	    if (boss.getHealth() > 500) {
+		//Random rand = new Random();
+		//int dX = boss.getXPos() - player.getXPos();
+		//int dY = boss.getYPos() - player.getYPos();
+		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
+		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
+	    } else if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
+		//boss.setFiringRate(750);
+		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		// position of boss fire is off due to size of boss; change position
-		objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
-		objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
+		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
+		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
+		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15, boss));
 	    } else if (boss.getHealth() <= 100) {
-		boss.setFiringRate(500);
-		int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		//boss.setFiringRate(500);
+		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
+		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		// position of boss fire is off due to size of boss; change position
-		objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
-		objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
+		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
+		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
+		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
+		objects.add(new BossLaser(boss.getXPos() + 180, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
 	    }
+	    playSound(8);
 	}
 
 	if (enemies.size() > 0 && fireTimer % (enemies.get(0).getFiringRate()) == 0) {
@@ -785,7 +791,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 4000;
-	objects.addAll(EnemyFactory.makeEnemies(score));
+	objects.addAll(e.makeEnemies(score));
     }
 
     public void shootBullet() {

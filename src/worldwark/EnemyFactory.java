@@ -5,12 +5,12 @@ import java.util.Random;
 
 public class EnemyFactory {
 
-    private static Random rand = new Random();
-    private static ArrayList<Enemy> enemies = new ArrayList<>();
-    private static int b = 0;
-    private static Boss boss;
+    private Random rand = new Random();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private int b = 0;
+    private Boss boss;
     
-    public static ArrayList<Enemy> makeEnemies(int score) {
+    public ArrayList<Enemy> makeEnemies(int score) {
         int choice = getChoice(score);
         enemies.clear();
         if (score <= 2500) {
@@ -27,7 +27,7 @@ public class EnemyFactory {
         return enemies;
     }
 
-    private static int getChoice(int score) {
+    private int getChoice(int score) {
         if (score > 2500 && score <= 5000) {
             return rand.nextInt(8) + 1;
         } else if (score > 5000 && score <= 7500) {
@@ -39,7 +39,7 @@ public class EnemyFactory {
         }
     }
 
-    private static void spawnEnemiesUnder2500(int choice) { // adding this way saves a few more lines
+    private void spawnEnemiesUnder2500(int choice) { // adding this way saves a few more lines
         System.out.println(choice);
         switch (choice) {
             case 1:
@@ -87,7 +87,7 @@ public class EnemyFactory {
         }
     }
 
-    private static void spawnEnemiesUnder5000(int choice) { // uses more lines but idk
+    private void spawnEnemiesUnder5000(int choice) { // uses more lines but idk
         Enemy enemyLeft = null;
         Enemy enemyRight = null;
         switch (choice) {
@@ -176,7 +176,7 @@ public class EnemyFactory {
         }
     }
 
-    private static void spawnEnemiesUnder10000(int choice) {
+    private void spawnEnemiesUnder10000(int choice) {
         Enemy enemyLeft = null;
         Enemy enemyRight = null;
         switch (choice) {
@@ -283,7 +283,7 @@ public class EnemyFactory {
         }
     }
 
-    private static void spawnBoss(int choice) {
+    private void spawnBoss(int choice) {
             boss = new Boss(150, 0, 219, 196, 0, 3, 1000, 0, 300, 2000);
             enemies.add(boss);
             b = 1;
@@ -292,7 +292,7 @@ public class EnemyFactory {
             System.out.println("-----------------------");
     }
     
-    private static void spawnBossEnemies(int choice) {
+    private void spawnBossEnemies(int choice) {
         Enemy enemyLeft = null;
         Enemy enemyRight = null;
         switch (choice) {

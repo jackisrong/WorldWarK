@@ -8,15 +8,21 @@ public class BossLaser extends GameObject {
 
     private int damage;
     private int laserTimer = 0;
+    private Boss boss;
 
-    public BossLaser(int xPos, int yPos, int width, int height, int damage) {
+    public BossLaser(int xPos, int yPos, int width, int height, int damage, Boss boss) {
 	super(xPos, yPos, width, height);
 	this.damage = damage;
+	this.boss = boss;
 	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
     }
 
     @Override
     public void update(WorldWarK panel) {
+	if (boss.getHealth() <= 0 || boss.getHealth() == 500 || boss.getHealth() == 100) {
+	    panel.deleteObject(this);
+	}
+	
 	// Have laser do damage every 40 ticks on laserTimer
 	if (laserTimer % 40 == 0) {
 	    if (rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {

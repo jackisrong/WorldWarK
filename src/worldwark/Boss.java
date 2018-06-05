@@ -121,7 +121,7 @@ public class Boss extends Enemy {
 	String fileName = null;
 	BufferedImage explosionImage = null;
 	try {
-	    if (health >= initialHealth / 2) {
+	    if (health > initialHealth / 2) {
 		if (imageTimer >= 0 && imageTimer < 20) {
 		    fileName = "boss1";
 		} else if (imageTimer >= 20 && imageTimer < 40) {
@@ -131,7 +131,7 @@ public class Boss extends Enemy {
 		} else if (imageTimer >= 60 && imageTimer < 80) {
 		    fileName = "boss4";
 		}
-	    } else if (health < initialHealth / 2 && health > 0) {
+	    } else if (health <= initialHealth / 2 && health > 100) {
 		if (imageTimer >= 0 && imageTimer < 20) {
 		    fileName = "halfboss1";
 		} else if (imageTimer >= 20 && imageTimer < 40) {
@@ -141,7 +141,7 @@ public class Boss extends Enemy {
 		} else if (imageTimer >= 60 && imageTimer < 80) {
 		    fileName = "halfboss4";
 		}
-	    } else if (health <= 0) {
+	    } else if (health <= 100) {
 		fileName = "bossdead";
 	    }
 	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
