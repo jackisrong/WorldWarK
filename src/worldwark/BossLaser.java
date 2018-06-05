@@ -19,10 +19,10 @@ public class BossLaser extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-	if (boss.getHealth() <= 0 || boss.getHealth() == 500 || boss.getHealth() == 100) {
+	if (boss.getHealth() <= 0 || boss.getHealth() == boss.getInitialHealth() / 2 || boss.getHealth() == boss.getInitialHealth() / 10) {
 	    panel.deleteObject(this);
 	}
-	
+
 	// Have laser do damage every 40 ticks on laserTimer
 	if (laserTimer % 40 == 0) {
 	    if (rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {

@@ -68,6 +68,10 @@ public class Enemy extends GameObject {
 	return health;
     }
 
+    public int getInitialHealth() {
+	return initialHealth;
+    }
+
     public int getType() {
 	return typeOfEnemy;
     }

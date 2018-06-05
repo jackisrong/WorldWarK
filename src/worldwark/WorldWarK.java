@@ -220,13 +220,13 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 
 	if (boss != null && fireTimer % boss.getFiringRate() == 0) {
-	    if (boss.getHealth() > 500) {
+	    if (boss.getHealth() > boss.getInitialHealth() / 2) {
 		//Random rand = new Random();
 		//int dX = boss.getXPos() - player.getXPos();
 		//int dY = boss.getYPos() - player.getYPos();
 		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
 		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
-	    } else if (boss.getHealth() <= 500 && boss.getHealth() > 100) {
+	    } else if (boss.getHealth() <= boss.getInitialHealth() / 2 && boss.getHealth() > boss.getInitialHealth() / 10) {
 		//boss.setFiringRate(750);
 		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
@@ -234,7 +234,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
 		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
 		objects.add(new BossLaser(boss.getXPos() + 180, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15, boss));
-	    } else if (boss.getHealth() <= 100) {
+	    } else if (boss.getHealth() <= boss.getInitialHealth() / 10) {
 		//boss.setFiringRate(500);
 		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
 		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
