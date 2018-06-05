@@ -115,6 +115,7 @@ public class Enemy extends GameObject {
 	    //panel.deleteObject(this);
 	    this.health = 0;
 	    miniExplosionState = true;
+	    panel.player.miniExplosion(true);
 	    panel.player.loseHealth(10);
 	    panel.playSound(4);
 	}
