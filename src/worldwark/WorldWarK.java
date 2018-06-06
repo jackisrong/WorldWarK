@@ -37,6 +37,9 @@ public class WorldWarK extends JPanel implements Runnable {
     public boolean gamePaused = false;
     public boolean gameOver = false;
     public int score;
+    public int snapShot = 0;
+    public int difficulty = 1;
+    public int b = 0;
     private int spawnTimer;
     private int fireTimer = 0;
     private Clip clip;
@@ -49,7 +52,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private BufferedImage backgroundImage;
     private EnemyFactory e;
     private KeyboardControls keyboardControls = new KeyboardControls(this);
-
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
 	setBackground(Color.black);
@@ -153,8 +155,11 @@ public class WorldWarK extends JPanel implements Runnable {
 	if (gamePaused == false) {
 	    player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
 	    objects.add(player);
-	    score = 90000;
+	    score = 10001;
 	    spawnTimer = 0;
+            snapShot = 0;
+            b = 0;
+            System.out.println("B is a" + b);
 	    shootTimer = player.getWeaponCooldown();
 	    e = new EnemyFactory();
 	}
@@ -784,7 +789,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void spawnEnemy(WorldWarK panel) {
 	spawnTimer = 4000;
-	objects.addAll(e.makeEnemies(score));
+	objects.addAll(e.makeEnemies(score, panel));
     }
 
     public void shootBullet() {

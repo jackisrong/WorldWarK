@@ -17,6 +17,7 @@ public class Boss extends Enemy {
     private boolean firstStop;
     private int imageTimer = 0;
     private int deadTimer = 0;
+    private int r = 0;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
 	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
@@ -44,7 +45,6 @@ public class Boss extends Enemy {
 	    deadTimer++;
 	} else if (deadTimer == 26) {
 	    panel.deleteObject(this);
-	    panel.score += points;
 	}
 
 	if (updateCounter == 0) {
@@ -97,6 +97,16 @@ public class Boss extends Enemy {
 	if (xPos > 0 && xPos < xPos + width) {
 	    xPos += xSpeed;
 	}
+
+        if (health <= 0 && r == 0) {
+            panel.score += points;
+            panel.difficulty += 1;
+            panel.snapShot = panel.score;
+            r = 1;
+            panel.b = 0;
+            System.out.println(panel.snapShot);
+            System.out.println(panel.difficulty);
+        }
     }
 
     @Override
