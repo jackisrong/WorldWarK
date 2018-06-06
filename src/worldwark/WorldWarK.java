@@ -48,17 +48,17 @@ public class WorldWarK extends JPanel implements Runnable {
     private int backgroundYScroll = 0;
     private BufferedImage backgroundImage;
     private EnemyFactory e;
-    private KeyboardControls temp = new KeyboardControls(this);
+    private KeyboardControls keyboardControls = new KeyboardControls(this);
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
 	setBackground(Color.black);
 	setPreferredSize(new Dimension(500, 800));
-	addKeyListener(temp);
+	addKeyListener(keyboardControls);
 	addMouseListener(new MouseControls(this));
 	addMouseMotionListener(new MouseControls(this));
 	setFocusable(true);
-	frame.addKeyListener(temp);
+	frame.addKeyListener(keyboardControls);
 	frame.addMouseListener(new MouseControls(this));
 	frame.setSize(500, 800);
 	frame.setResizable(false);
@@ -170,11 +170,11 @@ public class WorldWarK extends JPanel implements Runnable {
     public void run() {
 	while (run) {
 	    // Keys that require holding without delay
-	    if (temp.isKey(KeyEvent.VK_LEFT)) {
+	    if (keyboardControls.isKey(KeyEvent.VK_LEFT)) {
 		player.keyboardMoveLeft();
-	    } else if (temp.isKey(KeyEvent.VK_RIGHT)) {
+	    } else if (keyboardControls.isKey(KeyEvent.VK_RIGHT)) {
 		player.keyboardMoveRight();
-	    } else if (temp.isKey(KeyEvent.VK_SPACE)) {
+	    } else if (keyboardControls.isKey(KeyEvent.VK_SPACE)) {
 		if (gameOver == false && gamePaused == false) {
 		    if (shootTimer >= player.getWeaponCooldown()) {
 			shootBullet();
@@ -227,36 +227,19 @@ public class WorldWarK extends JPanel implements Runnable {
 	ArrayList<Enemy> enemies = new ArrayList<>();
 	Boss boss = null;
 	for (GameObject i : objects) {
-	    if (i instanceof Enemy && !i.isOutsideScreen()) {
+	    if (i instanceof Enemy && !i.isOutsideScreen() && !(i instanceof Boss)) {
 		enemies.add((Enemy) i);
-	    }
-	    if (i instanceof Boss) {
+	    } else if (i instanceof Boss) {
 		boss = (Boss) i;
 	    }
 	}
 
 	if (boss != null && fireTimer % boss.getFiringRate() == 0) {
 	    if (boss.getHealth() > boss.getInitialHealth() / 2) {
-		//Random rand = new Random();
-		//int dX = boss.getXPos() - player.getXPos();
-		//int dY = boss.getYPos() - player.getYPos();
-		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, dX / 67, dY / 67, 10));
 		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
 	    } else if (boss.getHealth() <= boss.getInitialHealth() / 2 && boss.getHealth() > boss.getInitialHealth() / 10) {
-		//boss.setFiringRate(750);
-		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		// position of boss fire is off due to size of boss; change position
-		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 15));
-		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 15));
 		objects.add(new BossLaser(boss.getXPos() + 180, boss.getYPos() + boss.getHeight() + 3, 5, 0, 15, boss));
 	    } else if (boss.getHealth() <= boss.getInitialHealth() / 10) {
-		//boss.setFiringRate(500);
-		//int randomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		//int nextRandomDX = boss.getXPos() - rand.nextInt(panel.getWidth() - 5) + 5;
-		// position of boss fire is off due to size of boss; change position
-		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, randomDX / 67, dY / 67, 20));
-		//objects.add(new EnemyBullet(boss.getXPos() + 30, boss.getYPos(), 3, 8, nextRandomDX / 67, dY / 67, 20));
 		objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
 		objects.add(new BossLaser(boss.getXPos() + 180, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
 	    }
@@ -535,8 +518,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		repaint();
 	    } else {
 		// Change volume based on volume button pressed
-		System.out.println("VOLUME BEFORE: " + volume);
-		System.out.println("FX VOLUME BEFORE: " + fxVolume);
 		drawMusic(g2);
 		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = audioControl.getMaximum() - audioControl.getMinimum();
@@ -592,8 +573,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
 		repaint();
 	    }
-	    System.out.println("VOLUME AFTER: " + volume);
-	    System.out.println("FX VOLUME AFTER: " + fxVolume);
 	}
     }
 
