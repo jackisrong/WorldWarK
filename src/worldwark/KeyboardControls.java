@@ -29,6 +29,9 @@ public class KeyboardControls implements KeyListener {
 		    w.start();
 		}
 		break;
+	    case KeyEvent.VK_B:
+		w.launchBomb();
+		break;
 	    case KeyEvent.VK_R:
 		if (w.run == false && w.gameOver == true) {
 		    w.gameOver = false;

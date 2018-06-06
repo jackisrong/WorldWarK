@@ -65,6 +65,9 @@ public class Bomb extends GameObject {
 			q.loseHealth(200);
 			panel.score += q.getPoints();
 			panel.dropPowerUp(i);
+			if (q.getHealth() <= 0) {
+			    panel.deleteObject(i);
+			}
 		    }
 		}
 	    }

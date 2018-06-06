@@ -49,10 +49,11 @@ public class WorldWarK extends JPanel implements Runnable {
     private BufferedImage backgroundImage;
     private EnemyFactory e;
     private KeyboardControls keyboardControls = new KeyboardControls(this);
+    private int bombCooldown;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
-	setBackground(Color.black);
+	setBackground(Color.BLACK);
 	setPreferredSize(new Dimension(500, 800));
 	addKeyListener(keyboardControls);
 	addMouseListener(new MouseControls(this));
@@ -155,6 +156,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    objects.add(player);
 	    score = 90000;
 	    spawnTimer = 0;
+	    bombCooldown = 5000;
 	    shootTimer = player.getWeaponCooldown();
 	    e = new EnemyFactory();
 	}
@@ -181,8 +183,6 @@ public class WorldWarK extends JPanel implements Runnable {
 			shootTimer = 0;
 		    }
 		}
-	    } else if (keyboardControls.isKey(KeyEvent.VK_B)) {
-		launchBomb();
 	    }
 
 	    // Update high score
@@ -216,6 +216,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		Thread.sleep(15);
 		spawnTimer += 20;
 		fireTimer += 15;
+		bombCooldown += 15;
 		if (shootTimer <= player.getWeaponCooldown()) {
 		    shootTimer += 15;
 		}
@@ -356,6 +357,21 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.drawString("HIGH SCORE: " + highScore, 180, 25);
 
 	    // Paint number of bombs and weapon level
+	    String bombCountdown = "";
+	    if (bombCooldown < 1000) {
+		bombCountdown = "5";
+	    } else if (bombCooldown >= 1000 && bombCooldown < 2000) {
+		bombCountdown = "4";
+	    } else if (bombCooldown >= 2000 && bombCooldown < 3000) {
+		bombCountdown = "3";
+	    } else if (bombCooldown >= 3000 && bombCooldown < 4000) {
+		bombCountdown = "2";
+	    } else if (bombCooldown >= 4000 && bombCooldown < 5000) {
+		bombCountdown = "1";
+	    } else if (bombCooldown >= 5000) {
+		bombCountdown = "READY!";
+	    }
+	    g2.drawString("BOMB COOLDOWN: " + bombCountdown, 10, 760);
 	    g2.drawString("BOMBS: " + player.getNumberOfBombs(), 10, 790);
 	    g2.drawString("WEAPON: LEVEL " + player.getWeaponLevel() + "/5", 300, 790);
 
@@ -818,10 +834,11 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void launchBomb() {
-	if (player.getNumberOfBombs() > 0) {
+	if (player.getNumberOfBombs() > 0 && bombCooldown >= 5000) {
 	    Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 8, 16);
 	    objects.add(bomb);
 	    player.useBomb();
+	    bombCooldown = 0;
 	    playSound(7);
 	}
     }
