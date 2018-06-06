@@ -65,6 +65,9 @@ public class Bomb extends GameObject {
 			q.loseHealth(200);
 			panel.score += q.getPoints();
 			panel.dropPowerUp(i);
+			if (q.getHealth() <= 0) {
+			    panel.deleteObject(i);
+			}
 		    }
 		}
 	    }
@@ -78,11 +81,9 @@ public class Bomb extends GameObject {
 	rectangle.setFrame(xPos, yPos, width, height);
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.setClip(null);
 
 	if (armed == false) {
 	    // Draw hitbox
-	    g2.fill(rectangle);
 	    g2.draw(rectangle);
 
 	    // Draw image
@@ -97,14 +98,12 @@ public class Bomb extends GameObject {
 		} else if (imageTimer >= 9 && imageTimer < 18) {
 		    bombImage = ImageIO.read(new File("assets/img/bomb4.png"));
 		}
-		g2.setClip(rectangle);
 		g2.drawImage(bombImage, xPos, yPos, null);
 	    } catch (IOException e) {
 		System.out.println("ERROR: bomb.png cannot be read.");
 	    }
 	} else {
 	    // Draw explosion radius
-	    g2.fill(explosion);
 	    g2.draw(explosion);
 
 	    // Draw image
@@ -119,7 +118,6 @@ public class Bomb extends GameObject {
 		} else if (explosionTimer >= 9 && explosionTimer < 18) {
 		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
 		}
-		g2.setClip(explosion);
 		g2.drawImage(explosionImage, xPos - 150, yPos - 150, null);
 	    } catch (IOException e) {
 		System.out.println("ERROR: explosion.png cannot be read.");

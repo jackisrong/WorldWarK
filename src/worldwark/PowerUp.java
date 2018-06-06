@@ -55,7 +55,6 @@ public class PowerUp extends GameObject {
 	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
 	g2.draw(rectangle);
 
 	// Draw image
@@ -77,7 +76,6 @@ public class PowerUp extends GameObject {
 
 	try {
 	    powerUpImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
-	    g2.setClip(rectangle);
 	    g2.drawImage(powerUpImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");

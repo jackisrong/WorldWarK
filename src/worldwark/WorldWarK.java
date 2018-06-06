@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -47,16 +48,18 @@ public class WorldWarK extends JPanel implements Runnable {
     private int backgroundYScroll = 0;
     private BufferedImage backgroundImage;
     private EnemyFactory e;
+    private KeyboardControls keyboardControls = new KeyboardControls(this);
+    private int bombCooldown;
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
-	setBackground(Color.black);
+	setBackground(Color.BLACK);
 	setPreferredSize(new Dimension(500, 800));
-	addKeyListener(new KeyboardControls(this));
+	addKeyListener(keyboardControls);
 	addMouseListener(new MouseControls(this));
 	addMouseMotionListener(new MouseControls(this));
 	setFocusable(true);
-	frame.addKeyListener(new KeyboardControls(this));
+	frame.addKeyListener(keyboardControls);
 	frame.addMouseListener(new MouseControls(this));
 	frame.setSize(500, 800);
 	frame.setResizable(false);
@@ -153,6 +156,7 @@ public class WorldWarK extends JPanel implements Runnable {
 	    objects.add(player);
 	    score = 90000;
 	    spawnTimer = 0;
+	    bombCooldown = 5000;
 	    shootTimer = player.getWeaponCooldown();
 	    e = new EnemyFactory();
 	}
@@ -167,6 +171,20 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
+	    // Keys that require holding without delay
+	    if (keyboardControls.isKey(KeyEvent.VK_LEFT)) {
+		player.keyboardMoveLeft();
+	    } else if (keyboardControls.isKey(KeyEvent.VK_RIGHT)) {
+		player.keyboardMoveRight();
+	    } else if (keyboardControls.isKey(KeyEvent.VK_SPACE)) {
+		if (gameOver == false && gamePaused == false) {
+		    if (shootTimer >= player.getWeaponCooldown()) {
+			shootBullet();
+			shootTimer = 0;
+		    }
+		}
+	    }
+
 	    // Update high score
 	    if (score > highScore) {
 		highScore = score;
@@ -198,6 +216,7 @@ public class WorldWarK extends JPanel implements Runnable {
 		Thread.sleep(15);
 		spawnTimer += 20;
 		fireTimer += 15;
+		bombCooldown += 15;
 		if (shootTimer <= player.getWeaponCooldown()) {
 		    shootTimer += 15;
 		}
@@ -211,10 +230,9 @@ public class WorldWarK extends JPanel implements Runnable {
 	ArrayList<Enemy> enemies = new ArrayList<>();
 	Boss boss = null;
 	for (GameObject i : objects) {
-	    if (i instanceof Enemy && !i.isOutsideScreen()) {
+	    if (i instanceof Enemy && !i.isOutsideScreen() && !(i instanceof Boss)) {
 		enemies.add((Enemy) i);
-	    }
-	    if (i instanceof Boss) {
+	    } else if (i instanceof Boss) {
 		boss = (Boss) i;
 	    }
 	}
@@ -338,6 +356,21 @@ public class WorldWarK extends JPanel implements Runnable {
 	    g2.drawString("HIGH SCORE: " + highScore, 180, 25);
 
 	    // Paint number of bombs and weapon level
+	    String bombCountdown = "";
+	    if (bombCooldown < 1000) {
+		bombCountdown = "5";
+	    } else if (bombCooldown >= 1000 && bombCooldown < 2000) {
+		bombCountdown = "4";
+	    } else if (bombCooldown >= 2000 && bombCooldown < 3000) {
+		bombCountdown = "3";
+	    } else if (bombCooldown >= 3000 && bombCooldown < 4000) {
+		bombCountdown = "2";
+	    } else if (bombCooldown >= 4000 && bombCooldown < 5000) {
+		bombCountdown = "1";
+	    } else if (bombCooldown >= 5000) {
+		bombCountdown = "READY!";
+	    }
+	    g2.drawString("BOMB COOLDOWN: " + bombCountdown, 10, 760);
 	    g2.drawString("BOMBS: " + player.getNumberOfBombs(), 10, 790);
 	    g2.drawString("WEAPON: LEVEL " + player.getWeaponLevel() + "/5", 300, 790);
 
@@ -358,7 +391,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 
 	if (run == true && gamePaused == false) {
-	    g2.setClip(null);
 	    Font scoreHeading = null;
 	    try {
 		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(200f);
@@ -382,7 +414,6 @@ public class WorldWarK extends JPanel implements Runnable {
     public void drawPausedScreen(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
-	g2.setClip(new Rectangle2D.Double(50, 80, 400, 700));
 	g2.fillRect(50, 80, 400, 700);
 
 	// Draw close button
@@ -504,8 +535,6 @@ public class WorldWarK extends JPanel implements Runnable {
 		repaint();
 	    } else {
 		// Change volume based on volume button pressed
-		System.out.println("VOLUME BEFORE: " + volume);
-		System.out.println("FX VOLUME BEFORE: " + fxVolume);
 		drawMusic(g2);
 		audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = audioControl.getMaximum() - audioControl.getMinimum();
@@ -561,8 +590,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
 		repaint();
 	    }
-	    System.out.println("VOLUME AFTER: " + volume);
-	    System.out.println("FX VOLUME AFTER: " + fxVolume);
 	}
     }
 
@@ -806,10 +833,11 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void launchBomb() {
-	if (player.getNumberOfBombs() > 0) {
+	if (player.getNumberOfBombs() > 0 && bombCooldown >= 5000) {
 	    Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 8, 16);
 	    objects.add(bomb);
 	    player.useBomb();
+	    bombCooldown = 0;
 	    playSound(7);
 	}
     }

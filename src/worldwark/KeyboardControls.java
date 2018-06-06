@@ -7,35 +7,30 @@ import java.awt.geom.Rectangle2D;
 public class KeyboardControls implements KeyListener {
 
     private final WorldWarK w;
+    private boolean[] keys = new boolean[256];
 
     public KeyboardControls(WorldWarK w) {
 	this.w = w;
     }
 
+    public boolean isKey(int keyCode) {
+	return keys[keyCode];
+    }
+
     @Override
-    public void keyPressed(KeyEvent event) {
+    public void keyPressed(KeyEvent e) {
+	keys[e.getKeyCode()] = true;
+
 	// Keyboard controls
-	switch (event.getKeyCode()) {
-	    case KeyEvent.VK_LEFT:
-		w.player.keyboardMoveLeft();
-		break;
-	    case KeyEvent.VK_RIGHT:
-		w.player.keyboardMoveRight();
-		break;
+	switch (e.getKeyCode()) {
 	    case KeyEvent.VK_SPACE:
 		if (w.run == false && w.clickedStartScreenButton == null && w.gameOver == false && w.gamePaused == false) {
+		    keys[e.getKeyCode()] = false;
 		    w.start();
-		} else if (w.run == true && w.gameOver == false && w.gamePaused == false) {
-		    if (w.shootTimer >= w.player.getWeaponCooldown()) {
-			w.shootBullet();
-			w.shootTimer = 0;
-		    }
 		}
 		break;
 	    case KeyEvent.VK_B:
-		if (w.run == true) {
-		    w.launchBomb();
-		}
+		w.launchBomb();
 		break;
 	    case KeyEvent.VK_R:
 		if (w.run == false && w.gameOver == true) {
@@ -69,10 +64,12 @@ public class KeyboardControls implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent event) {
+    public void keyReleased(KeyEvent e) {
+	keys[e.getKeyCode()] = false;
+
     }
 
     @Override
-    public void keyTyped(KeyEvent event) {
+    public void keyTyped(KeyEvent e) {
     }
 }

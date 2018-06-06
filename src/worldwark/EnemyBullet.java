@@ -50,14 +50,12 @@ public class EnemyBullet extends GameObject {
 	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
 	g2.draw(rectangle);
 
 	// Draw image
 	BufferedImage bulletImage;
 	try {
 	    bulletImage = ImageIO.read(new File("assets/img/enemybullet.png"));
-	    g2.setClip(rectangle);
 	    g2.drawImage(bulletImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: bomb.png cannot be read.");
