@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -47,16 +48,17 @@ public class WorldWarK extends JPanel implements Runnable {
     private int backgroundYScroll = 0;
     private BufferedImage backgroundImage;
     private EnemyFactory e;
+    private KeyboardControls temp = new KeyboardControls(this);
 
     public WorldWarK() {
 	JFrame frame = new JFrame("World War K");
 	setBackground(Color.black);
 	setPreferredSize(new Dimension(500, 800));
-	addKeyListener(new KeyboardControls(this));
+	addKeyListener(temp);
 	addMouseListener(new MouseControls(this));
 	addMouseMotionListener(new MouseControls(this));
 	setFocusable(true);
-	frame.addKeyListener(new KeyboardControls(this));
+	frame.addKeyListener(temp);
 	frame.addMouseListener(new MouseControls(this));
 	frame.setSize(500, 800);
 	frame.setResizable(false);
@@ -167,6 +169,20 @@ public class WorldWarK extends JPanel implements Runnable {
     @Override
     public void run() {
 	while (run) {
+	    // Keys that require holding without delay
+	    if (temp.isKey(KeyEvent.VK_LEFT)) {
+		player.keyboardMoveLeft();
+	    } else if (temp.isKey(KeyEvent.VK_RIGHT)) {
+		player.keyboardMoveRight();
+	    } else if (temp.isKey(KeyEvent.VK_SPACE)) {
+		if (gameOver == false && gamePaused == false) {
+		    if (shootTimer >= player.getWeaponCooldown()) {
+			shootBullet();
+			shootTimer = 0;
+		    }
+		}
+	    }
+
 	    // Update high score
 	    if (score > highScore) {
 		highScore = score;
