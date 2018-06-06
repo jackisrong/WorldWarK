@@ -161,7 +161,6 @@ public class Player extends GameObject {
 	// Draw player hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
 	g2.draw(rectangle);
 
 	// Draw player health bar
@@ -180,7 +179,6 @@ public class Player extends GameObject {
 	    } else {
 		fileName = "player3";
 	    }
-	    g2.setClip(rectangle);
 	    g2.drawImage(ImageIO.read(new File("assets/img/" + fileName + ".png")), xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
@@ -195,7 +193,6 @@ public class Player extends GameObject {
 		} else if ((explosionTimer >= 3 && explosionTimer < 6)) {
 		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion2.png"));
 		}
-		g2.setClip(rectangle);
 		g2.drawImage(explosionImage, xPos, yPos, null);
 	    } catch (IOException e) {
 		System.out.println("ERROR: miniExplosion.png cannot be read.");

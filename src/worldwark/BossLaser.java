@@ -50,8 +50,7 @@ public class BossLaser extends GameObject {
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw hitbox
-	g2.setClip(null);
+	// Draw laser
 	g2.setColor(Color.RED);
 	g2.fill(rectangle);
 	g2.draw(rectangle);

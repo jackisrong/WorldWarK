@@ -102,12 +102,10 @@ public class Boss extends Enemy {
     @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
-	g2.setClip(null);
 
 	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
 	g2.draw(rectangle);
 
 	// Draw player health bar
@@ -157,8 +155,6 @@ public class Boss extends Enemy {
 		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
 		}
 	    }
-
-	    g2.setClip(rectangle);
 	    g2.drawImage(enemyImage, xPos, yPos, null);
 	    g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
 	} catch (IOException e) {

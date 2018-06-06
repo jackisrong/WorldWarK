@@ -233,12 +233,10 @@ public class Enemy extends GameObject {
     @Override
     public void paintComponent(Graphics2D g2) {
 	rectangle.setFrame(xPos, yPos, width, height);
-	g2.setClip(null);
 
 	// Draw hitbox
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
-	g2.fill(rectangle);
 	g2.draw(rectangle);
 
 	// Draw player health bar
@@ -296,7 +294,6 @@ public class Enemy extends GameObject {
 
 	try {
 	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
-	    g2.setClip(rectangle);
 	    g2.drawImage(enemyImage, xPos, yPos, null);
 	} catch (IOException e) {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
@@ -311,7 +308,6 @@ public class Enemy extends GameObject {
 		} else if ((explosionTimer >= 3 && explosionTimer < 6)) {
 		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion2.png"));
 		}
-		g2.setClip(rectangle);
 		g2.drawImage(explosionImage, xPos, yPos, null);
 	    } catch (IOException e) {
 		System.out.println("ERROR: miniExplosion.png cannot be read.");
