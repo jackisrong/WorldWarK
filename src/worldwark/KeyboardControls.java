@@ -25,12 +25,8 @@ public class KeyboardControls implements KeyListener {
 	switch (e.getKeyCode()) {
 	    case KeyEvent.VK_SPACE:
 		if (w.run == false && w.clickedStartScreenButton == null && w.gameOver == false && w.gamePaused == false) {
+		    keys[e.getKeyCode()] = false;
 		    w.start();
-		}
-		break;
-	    case KeyEvent.VK_B:
-		if (w.run == true) {
-		    w.launchBomb();
 		}
 		break;
 	    case KeyEvent.VK_R:

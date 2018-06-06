@@ -181,6 +181,8 @@ public class WorldWarK extends JPanel implements Runnable {
 			shootTimer = 0;
 		    }
 		}
+	    } else if (keyboardControls.isKey(KeyEvent.VK_B)) {
+		launchBomb();
 	    }
 
 	    // Update high score
