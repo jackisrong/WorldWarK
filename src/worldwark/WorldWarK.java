@@ -391,7 +391,6 @@ public class WorldWarK extends JPanel implements Runnable {
 	}
 
 	if (run == true && gamePaused == false) {
-	    g2.setClip(null);
 	    Font scoreHeading = null;
 	    try {
 		scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(200f);
@@ -415,7 +414,6 @@ public class WorldWarK extends JPanel implements Runnable {
     public void drawPausedScreen(Graphics2D g2) {
 	// Draw window background rectangle
 	g2.setColor(new Color(0, 0, 0, 250));
-	g2.setClip(new Rectangle2D.Double(50, 80, 400, 700));
 	g2.fillRect(50, 80, 400, 700);
 
 	// Draw close button
