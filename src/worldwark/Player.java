@@ -188,19 +188,19 @@ public class Player extends GameObject {
             System.out.println("ERROR: " + fileName + ".png cannot be read.");
         }
 
-        if (miniExplosionState == true) {
-            // Draw image
-            BufferedImage explosionImage = null;
-            try {
-                if ((explosionTimer >= 0 && explosionTimer < 3) || (explosionTimer >= 6 && explosionTimer < 9)) {
-                    explosionImage = ImageIO.read(new File("assets/img/miniExplosion1.png"));
-                } else if ((explosionTimer >= 3 && explosionTimer < 6)) {
-                    explosionImage = ImageIO.read(new File("assets/img/miniExplosion2.png"));
-                }
-                g2.drawImage(explosionImage, xPos, yPos, null);
-            } catch (IOException e) {
-                System.out.println("ERROR: miniExplosion.png cannot be read.");
-            }
-        }
+	if (miniExplosionState == true) {
+	    // Draw image of explosion for player hit
+	    BufferedImage explosionImage = null;
+	    try {
+		if ((explosionTimer >= 0 && explosionTimer < 3) || (explosionTimer >= 6 && explosionTimer < 9)) {
+		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion1.png"));
+		} else if ((explosionTimer >= 3 && explosionTimer < 6)) {
+		    explosionImage = ImageIO.read(new File("assets/img/miniExplosion2.png"));
+		}
+		g2.drawImage(explosionImage, xPos, yPos, null);
+	    } catch (IOException e) {
+		System.out.println("ERROR: miniExplosion.png cannot be read.");
+	    }
+	}
     }
 }

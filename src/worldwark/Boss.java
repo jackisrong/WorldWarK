@@ -47,45 +47,45 @@ public class Boss extends Enemy {
             panel.deleteObject(this);
         }
 
-        if (updateCounter == 0) {
-            Random rand = new Random();
-            int direction = rand.nextInt(3);
-            switch (direction) {
-                // Case 0 is left
-                // Case 1 is right
-                // Case 2 is down
-                case 0:
-                    horizontalMove = true;
-                    moveSpeed = 2;
-                    break;
-                case 1:
-                    horizontalMove = true;
-                    moveSpeed = -2;
-                    break;
-                case 2:
-                    horizontalMove = false;
-                    moveSpeed = 2;
-                    break;
-                default:
-                    moveSpeed = 0;
-                    break;
-            }
-        }
-        updateCounter++;
-        if (updateCounter == 200) {
-            xSpeed = horizontalMove ? moveSpeed : xSpeed;
-            ySpeed = !horizontalMove ? moveSpeed : ySpeed;
-        } else if (updateCounter == 267) {
-            xSpeed = horizontalMove ? 0 : xSpeed;
-            ySpeed = !horizontalMove ? 0 : ySpeed;
-        } else if (updateCounter == 467) {
-            xSpeed = horizontalMove ? -moveSpeed : xSpeed;
-            ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
-        } else if (updateCounter == 534) {
-            xSpeed = horizontalMove ? 0 : xSpeed;
-            ySpeed = !horizontalMove ? 0 : ySpeed;
-            updateCounter = 0;
-        }
+        // Updates direction of boss
+	if (updateCounter == 0) {
+	    Random rand = new Random();
+	    int direction = rand.nextInt(3);
+	    switch (direction) {
+		case 0:
+		    horizontalMove = true;
+		    moveSpeed = 2;
+		    break;
+		case 1:
+		    horizontalMove = true;
+		    moveSpeed = -2;
+		    break;
+		case 2:
+		    horizontalMove = false;
+		    moveSpeed = 2;
+		    break;
+		default:
+		    moveSpeed = 0;
+		    break;
+	    }
+	}
+	updateCounter++;
+        
+        // Sets speeds for boss
+	if (updateCounter == 200) {
+	    xSpeed = horizontalMove ? moveSpeed : xSpeed;
+	    ySpeed = !horizontalMove ? moveSpeed : ySpeed;
+	} else if (updateCounter == 267) {
+	    xSpeed = horizontalMove ? 0 : xSpeed;
+	    ySpeed = !horizontalMove ? 0 : ySpeed;
+	} else if (updateCounter == 467) {
+	    xSpeed = horizontalMove ? -moveSpeed : xSpeed;
+	    ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
+	} else if (updateCounter == 534) {
+	    xSpeed = horizontalMove ? 0 : xSpeed;
+	    ySpeed = !horizontalMove ? 0 : ySpeed;
+	    updateCounter = 0;
+	}
 
         if (yPos > 100 && !firstStop) {
             firstStop = true;
@@ -94,10 +94,11 @@ public class Boss extends Enemy {
 
         yPos += ySpeed;
 
-        if (xPos > 0 && xPos < xPos + width) {
-            xPos += xSpeed;
-        }
-
+	if (xPos > 0 && xPos < xPos + width) {
+	    xPos += xSpeed;
+	}
+        
+        // Adds difficulty for boss
         if (health <= 0 && r == 0) {
             panel.score += points;
             panel.difficulty += 1;
@@ -152,21 +153,22 @@ public class Boss extends Enemy {
             }
             enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
 
-            if (health <= 0) {
-                if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
-                    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
-                } else if ((deadTimer >= 3 && deadTimer < 6) || (deadTimer >= 21 && deadTimer < 24)) {
-                    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
-                } else if ((deadTimer >= 6 && deadTimer < 9) || (deadTimer >= 18 && deadTimer < 21)) {
-                    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
-                } else if (deadTimer >= 9 && deadTimer < 18) {
-                    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
-                }
-            }
-            g2.drawImage(enemyImage, xPos, yPos, null);
-            g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
-        } catch (IOException e) {
-            System.out.println("ERROR: " + fileName + ".png cannot be read.");
-        }
+            // Adds animations for boss explosion 
+	    if (health <= 0) {
+		if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
+		} else if ((deadTimer >= 3 && deadTimer < 6) || (deadTimer >= 21 && deadTimer < 24)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
+		} else if ((deadTimer >= 6 && deadTimer < 9) || (deadTimer >= 18 && deadTimer < 21)) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
+		} else if (deadTimer >= 9 && deadTimer < 18) {
+		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
+		}
+	    }
+	    g2.drawImage(enemyImage, xPos, yPos, null);
+	    g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
+	}
     }
 }

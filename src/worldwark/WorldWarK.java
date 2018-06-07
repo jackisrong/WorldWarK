@@ -43,7 +43,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private int spawnTimer;
     private int fireTimer = 0;
     private Clip clip;
-    private Clip startClip;
     private float volume;
     private float fxVolume;
     private FloatControl audioControl;
@@ -91,19 +90,20 @@ public class WorldWarK extends JPanel implements Runnable {
             }
             inputStream = null;
         }
-
+        
+        //play audio file
         try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Ipsi.wav"));
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Defense Line.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
-            clip.loop(10);
+            clip.loop(10000);
             audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             float range = audioControl.getMaximum() - audioControl.getMinimum();
             float gain = (range * volume) + audioControl.getMinimum();
             audioControl.setValue(gain);
             clip.start();
         } catch (Exception e) {
-            System.out.println("ERROR: Ipsi.wav cannot be played.");
+            System.out.println("ERROR: Defense Line.wav cannot be played.");
         }
 
         // Get previous high score
@@ -137,58 +137,6 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void start() {
-
-        // Get saved volume
-        BufferedReader inputStream = null;
-        try {
-            inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-            volume = Float.parseFloat(inputStream.readLine());
-        } catch (Exception e) {
-            System.out.println("ERROR: Cannot read volume.txt");
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                System.out.println("ERROR: Cannot close inputStream");
-            } catch (NullPointerException e) {
-                System.out.println("ERROR: volume.txt doesn't exist, setting volume to default value of 0.5");
-                volume = (float) 0.5;
-            }
-            inputStream = null;
-        }
-
-        // Play music
-        try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Defense Line.wav"));
-            startClip = AudioSystem.getClip();
-            startClip.open(audioIn);
-            startClip.loop(10);
-            audioControl = (FloatControl) startClip.getControl(FloatControl.Type.MASTER_GAIN);
-            float range = audioControl.getMaximum() - audioControl.getMinimum();
-            float gain = (range * volume) + audioControl.getMinimum();
-            audioControl.setValue(gain);
-            startClip.start();
-            clip.stop();
-        } catch (Exception e) {
-            System.out.println("ERROR: Defense Line.wav cannot be played.");
-        }
-// Get saved fx volume
-        try {
-            inputStream = new BufferedReader(new FileReader("assets/data/fxVolume.txt"));
-            fxVolume = Float.parseFloat(inputStream.readLine());
-        } catch (Exception e) {
-            System.out.println("ERROR: Cannot read fxVolume.txt");
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                System.out.println("ERROR: Cannot close inputStream");
-            } catch (NullPointerException e) {
-                System.out.println("ERROR: fxVolume.txt doesn't exist, setting volume to default value of 0.5");
-                fxVolume = (float) 0.5;
-            }
-        }
-
         Thread thread = new Thread(this);
         if (gamePaused == false) {
             player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 500, 1, 3);
@@ -256,7 +204,7 @@ public class WorldWarK extends JPanel implements Runnable {
             // Sleep the thread
             try {
                 Thread.sleep(15);
-                spawnTimer += 20;
+                spawnTimer += 15;
                 fireTimer += 15;
                 bombCooldown += 15;
                 if (shootTimer <= player.getWeaponCooldown()) {
@@ -279,6 +227,7 @@ public class WorldWarK extends JPanel implements Runnable {
             }
         }
 
+        // adds boss lasers
         if (boss != null && fireTimer % boss.getFiringRate() == 0) {
             if (boss.getHealth() > boss.getInitialHealth() / 2) {
                 objects.add(new BossLaser(boss.getXPos() + 30, boss.getYPos() + boss.getHeight() + 3, 5, 0, 10, boss));
@@ -290,6 +239,7 @@ public class WorldWarK extends JPanel implements Runnable {
             playSound(8);
         }
 
+        // stores enemies added to game to arraylist 
         if (enemies.size() > 0 && fireTimer % (enemies.get(0).getFiringRate()) == 0) {
             int prevSelectedEnemy = -1;
             ArrayList<Integer> chosenEnemies = new ArrayList<>();
@@ -307,6 +257,8 @@ public class WorldWarK extends JPanel implements Runnable {
                     chosenEnemies.add(i);
                 }
             }
+            
+            // adds enemy bullets to shoot in direction of player
             for (int i = 0; i < chosenEnemies.size(); i++) {
                 Enemy selectedEnemy = enemies.get(chosenEnemies.get(i));
                 int dX = selectedEnemy.getXPos() - player.getXPos();
@@ -320,7 +272,7 @@ public class WorldWarK extends JPanel implements Runnable {
                 }
                 if (dY <= -100) {
                     objects.add(new EnemyBullet(selectedEnemy.getXPos() + 30, selectedEnemy.getYPos(), 3, 8, bulletXSpeed, bulletYSpeed, 10));
-                    playSound(0);
+                    playSound(5);
                 }
             }
             fireTimer = 0;
@@ -433,6 +385,7 @@ public class WorldWarK extends JPanel implements Runnable {
         }
 
         if (run == true && gamePaused == false) {
+            // prints score 
             Font scoreHeading = null;
             try {
                 scoreHeading = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(200f);
@@ -580,7 +533,6 @@ public class WorldWarK extends JPanel implements Runnable {
                 drawMusic(g2);
                 audioControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 float range = audioControl.getMaximum() - audioControl.getMinimum();
-                //volume = (audioControl.getValue() - audioControl.getMinimum()) / range;
                 if (clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
                     volume -= 0.1;
                     volume = Math.max(Math.round(volume * 10) / (float) 10.0, 0);
@@ -695,9 +647,7 @@ public class WorldWarK extends JPanel implements Runnable {
         g2.setFont(contentFont);
         g2.drawString("Your democratic freedom", 140, 210);
 
-        //final int headingXPos = 90;
-        //final int nameXPos = 130;
-        //int textYPos = 260; + 30 before headings, +10 after each line
+        // Print music heading font
         Font headingFont = null;
         try {
             headingFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/CabinBold.ttf")).deriveFont(20f);
@@ -711,6 +661,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void readDrawFile(Graphics2D g2, String file, int titleXPos, int subtitleXPos) {
+        
         // Read file
         ArrayList<String> content = new ArrayList<>();
         BufferedReader inputStream = null;
@@ -788,7 +739,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void playSound(int sound) {
-        // Choose sound to play based on parameter
+        // Choose sound effect to play based on parameter
         String file;
         switch (sound) {
             case 0:
@@ -847,6 +798,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void shootBullet() {
+        // Chooses bullet for player based on level
         switch (player.getWeaponLevel()) {
             case 1:
                 objects.add(new Bullet(player.getXPos() + 30, player.getYPos(), 3, 8, 0, 10));
@@ -875,6 +827,7 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void launchBomb() {
+        // Player bomb firing
         if (player.getNumberOfBombs() > 0 && bombCooldown >= 5000) {
             Bomb bomb = new Bomb(player.getXPos() + 32, player.getYPos(), 8, 16);
             objects.add(bomb);

@@ -155,7 +155,9 @@ public class Enemy extends GameObject {
                 reverseTimer = 0;
             }
         }
-        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) { // Horizontal Zig Zag
+        
+        // Horizontal Reverse
+        if (reverse && readyToTurnAtY(panel.getHeight() / 2) && this.getType() < 6) { 
             if (reverseTimer == 0) {
                 initialSpeed = this.getYSpeed();
             }
@@ -168,7 +170,8 @@ public class Enemy extends GameObject {
             }
         }
 
-        if (reverse && this.getYSpeed() != 0 && this.getType() == 6) { // Horizontal Zig Zag
+        // Horizontal Zig Zag
+        if (reverse && this.getYSpeed() != 0 && this.getType() == 6) { 
             reverseTimer += 20;
             if (reverseTimer == 500) {
                 ySpeed = -this.getYSpeed();
@@ -177,9 +180,9 @@ public class Enemy extends GameObject {
                 ySpeed = -this.getYSpeed();
                 reverseTimer = 0;
             }
-
         }
 
+        // Vertical zigzag
         if (reverse && this.getXSpeed() != 0 && this.getType() == 8) {
             reverseTimer += 20;
             if (reverseTimer == 500) {
@@ -190,6 +193,8 @@ public class Enemy extends GameObject {
                 reverseTimer = 0;
             }
         }
+        
+        // Vertical reverse
         if (reverse && readyToTurnAtX(panel.getWidth() / 2) && this.getType() == 10) {
             if (reverseTimer == 0) {
                 initialSpeed = this.getXSpeed();
@@ -203,14 +208,7 @@ public class Enemy extends GameObject {
                 reverseTimer = 0;
             }
         }
-        /* if (reverse && readyToTurnAtX(panel.getWidth() - 50) && this.getType() > 4) {
-	    reverseTimer += 15;
-	    if (reverseTimer >= 300) {
-		xSpeed = -this.getXSpeed();
-	    } else if (reverseTimer >= 300 && readyToTurnAtX(panel.getWidth() / 4)) {
-		xSpeed = -this.getXSpeed();
-	    }
-	} */
+
         if (shootTimer > this.getShoot()) {
 
         }

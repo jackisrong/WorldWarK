@@ -12,6 +12,7 @@ public class EnemyFactory {
     private int diff = 0;
     
     public ArrayList<Enemy> makeEnemies(int score, WorldWarK panel) {
+        // Spawns certain groups of enemies based on score
         int choice = getChoice(score, WorldWarK.panel);
         diff = panel.difficulty;
         enemies.clear();
@@ -30,7 +31,7 @@ public class EnemyFactory {
     }
 
     private int getChoice(int score, WorldWarK panel) {
-
+        // Generates random number based on score
         if (score >= 0 && score <= panel.snapShot + 3000) {
             return rand.nextInt(6) + 1;
         } else if (score > panel.snapShot + 3000 && score <= panel.snapShot + 7500) {
@@ -42,7 +43,18 @@ public class EnemyFactory {
         }
     }
 
-    private void spawnEnemiesUnder2500(int choice) { // adding this way saves a few more lines
+    /*
+    Case 1: Vertical straight
+    Case 2: Horizontal straight
+    Case 3: Vertical down and return
+    Case 4: Horizontal down and return
+    Case 5: Horizontal diagonal formation
+    Case 6: Diagonal cross
+    Case 7: Horizontal zigzag
+    Case 8: Vertical zigzag
+    Case 9: Stop and random dispersion 
+    */
+    private void spawnEnemiesUnder2500(int choice) {
         switch (choice) {
             case 1:
                 for (int i = 0; i < 150; i += 50) {
@@ -89,7 +101,7 @@ public class EnemyFactory {
         }
     }
 
-    private void spawnEnemiesUnder5000(int choice) { // uses more lines but idk
+    private void spawnEnemiesUnder5000(int choice) {
         Enemy enemyLeft = null;
         Enemy enemyRight = null;
         switch (choice) {
