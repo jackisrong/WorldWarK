@@ -104,8 +104,6 @@ public class Boss extends Enemy {
             panel.snapShot = panel.score;
             r = 1;
             panel.b = 0;
-            System.out.println(panel.snapShot);
-            System.out.println(panel.difficulty);
         }
     }
 

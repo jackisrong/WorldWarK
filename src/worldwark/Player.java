@@ -55,6 +55,10 @@ public class Player extends GameObject {
 	return weapon;
     }
 
+    public int getInitialHealth() {
+        return initialHealth;
+    }
+    
     public void upgradeWeapon() {
 	if (weapon < 5) {
 	    weapon++;
@@ -81,15 +85,15 @@ public class Player extends GameObject {
     public int getWeaponDamage() {
 	switch (weapon) {
 	    case 1:
-		return 50;
-	    case 2:
 		return 70;
+	    case 2:
+		return 90;
 	    case 3:
-		return 40;
+		return 70;
 	    case 4:
-		return 60;
+		return 90;
 	    case 5:
-		return 50;
+		return 100;
 	    default:
 		return 0;
 	}

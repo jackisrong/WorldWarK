@@ -191,13 +191,12 @@ public class WorldWarK extends JPanel implements Runnable {
 
         Thread thread = new Thread(this);
         if (gamePaused == false) {
-            player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
+            player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 500, 1, 3);
             objects.add(player);
-            score = 10001;
+            score = 0;
             spawnTimer = 0;
             snapShot = 0;
             b = 0;
-            System.out.println("B is a" + b);
             shootTimer = player.getWeaponCooldown();
             e = new EnemyFactory();
         }
@@ -215,9 +214,11 @@ public class WorldWarK extends JPanel implements Runnable {
             // Keys that require holding without delay
             if (keyboardControls.isKey(KeyEvent.VK_LEFT)) {
                 player.keyboardMoveLeft();
-            } else if (keyboardControls.isKey(KeyEvent.VK_RIGHT)) {
+            } 
+            if (keyboardControls.isKey(KeyEvent.VK_RIGHT)) {
                 player.keyboardMoveRight();
-            } else if (keyboardControls.isKey(KeyEvent.VK_SPACE)) {
+            } 
+            if (keyboardControls.isKey(KeyEvent.VK_SPACE)) {
                 if (gameOver == false && gamePaused == false) {
                     if (shootTimer >= player.getWeaponCooldown()) {
                         shootBullet();
@@ -234,9 +235,9 @@ public class WorldWarK extends JPanel implements Runnable {
             // Controls the spawn rates of the stages depending on the score
             if (spawnTimer >= 7000 && score <= 2500) {
                 spawnEnemy(this);
-            } else if (spawnTimer >= 6000 && score > 2500 && score <= 5000) {
+            } else if (spawnTimer >= 6000 && score > 2500 && score <= 7500) {
                 spawnEnemy(this);
-            } else if (spawnTimer >= 5500 && score > 5000 && score <= 7500) {
+            } else if (spawnTimer >= 5500 && score > 7500 && score <= 10000) {
                 spawnEnemy(this);
             } else if (spawnTimer >= 7000 && score >= 10000) {
                 spawnEnemy(this);

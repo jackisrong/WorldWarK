@@ -32,7 +32,7 @@ public class PowerUp extends GameObject {
 		    panel.shootTimer = panel.player.getWeaponCooldown();
 		    break;
 		case 2:
-		    panel.player.setHealth(100);
+		    panel.player.setHealth(panel.player.getInitialHealth());
 		    break;
 		default:
 		    break;
