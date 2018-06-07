@@ -40,7 +40,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private int spawnTimer;
     private int fireTimer = 0;
     private Clip clip;
-    private Clip startClip;
     private float volume;
     private float fxVolume;
     private FloatControl audioControl;
@@ -71,7 +70,6 @@ public class WorldWarK extends JPanel implements Runnable {
 
         BufferedReader inputStream = null;
 
-        // Play home screen music
         // Get saved volume
         try {
             inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
@@ -89,8 +87,9 @@ public class WorldWarK extends JPanel implements Runnable {
             }
             inputStream = null;
         }
+        
         try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Ipsi.wav"));
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Defense Line.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.loop(10);
@@ -100,7 +99,7 @@ public class WorldWarK extends JPanel implements Runnable {
             audioControl.setValue(gain);
             clip.start();
         } catch (Exception e) {
-            System.out.println("ERROR: Ipsi.wav cannot be played.");
+            System.out.println("ERROR: Defense Line.wav cannot be played.");
         }
 
         // Get previous high score
@@ -134,58 +133,6 @@ public class WorldWarK extends JPanel implements Runnable {
     }
 
     public void start() {
-        // Get saved volume
-        BufferedReader inputStream = null;
-        try {
-            inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
-            volume = Float.parseFloat(inputStream.readLine());
-        } catch (Exception e) {
-            System.out.println("ERROR: Cannot read volume.txt");
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                System.out.println("ERROR: Cannot close inputStream");
-            } catch (NullPointerException e) {
-                System.out.println("ERROR: volume.txt doesn't exist, setting volume to default value of 0.5");
-                volume = (float) 0.5;
-            }
-            inputStream = null;
-        }
-
-        // Play music
-        try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Defense Line.wav"));
-            startClip = AudioSystem.getClip();
-            startClip.open(audioIn);
-            startClip.loop(10);
-            audioControl = (FloatControl) startClip.getControl(FloatControl.Type.MASTER_GAIN);
-            float range = audioControl.getMaximum() - audioControl.getMinimum();
-            float gain = (range * volume) + audioControl.getMinimum();
-            audioControl.setValue(gain);
-            startClip.start();
-            clip.stop();
-        } catch (Exception e) {
-            System.out.println("ERROR: Defense Line.wav cannot be played.");
-        }
-
-        // Get saved fx volume
-        try {
-            inputStream = new BufferedReader(new FileReader("assets/data/fxVolume.txt"));
-            fxVolume = Float.parseFloat(inputStream.readLine());
-        } catch (Exception e) {
-            System.out.println("ERROR: Cannot read fxVolume.txt");
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                System.out.println("ERROR: Cannot close inputStream");
-            } catch (NullPointerException e) {
-                System.out.println("ERROR: fxVolume.txt doesn't exist, setting volume to default value of 0.5");
-                fxVolume = (float) 0.5;
-            }
-        }
-
         Thread thread = new Thread(this);
         if (gamePaused == false) {
             player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 10000, 1, 3);
@@ -250,7 +197,7 @@ public class WorldWarK extends JPanel implements Runnable {
             // Sleep the thread
             try {
                 Thread.sleep(15);
-                spawnTimer += 20;
+                spawnTimer += 15;
                 fireTimer += 15;
                 bombCooldown += 15;
                 if (shootTimer <= player.getWeaponCooldown()) {

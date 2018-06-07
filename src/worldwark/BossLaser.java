@@ -19,7 +19,7 @@ public class BossLaser extends GameObject {
 
     @Override
     public void update(WorldWarK panel) {
-        if (boss.getHealth() <= 0 || boss.getHealth() == boss.getInitialHealth() / 2 || boss.getHealth() == boss.getInitialHealth() / 10) {
+        if (boss.getHealth() <= 0) {
             panel.deleteObject(this);
         }
 
