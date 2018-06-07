@@ -20,83 +20,83 @@ public class Boss extends Enemy {
     private int r = 0;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
-	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
-	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
-	initialHealth = health;
-	updateCounter = 0;
-	horizontalMove = false;
-	moveSpeed = 0;
-	firstStop = false;
+        super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
+        rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+        initialHealth = health;
+        updateCounter = 0;
+        horizontalMove = false;
+        moveSpeed = 0;
+        firstStop = false;
     }
 
     public void setFiringRate(int rate) {
-	firingRate = rate;
+        firingRate = rate;
     }
 
     @Override
     public void update(WorldWarK panel) {
-	if (imageTimer == 79) {
-	    imageTimer = 0;
-	} else {
-	    imageTimer++;
-	}
+        if (imageTimer == 79) {
+            imageTimer = 0;
+        } else {
+            imageTimer++;
+        }
 
-	if (health <= 0 && deadTimer < 26) {
-	    deadTimer++;
-	} else if (deadTimer == 26) {
-	    panel.deleteObject(this);
-	}
+        if (health <= 0 && deadTimer < 26) {
+            deadTimer++;
+        } else if (deadTimer == 26) {
+            panel.deleteObject(this);
+        }
 
-	if (updateCounter == 0) {
-	    Random rand = new Random();
-	    int direction = rand.nextInt(3);
-	    switch (direction) {
-		// Case 0 is left
-		// Case 1 is right
-		// Case 2 is down
-		case 0:
-		    horizontalMove = true;
-		    moveSpeed = 2;
-		    break;
-		case 1:
-		    horizontalMove = true;
-		    moveSpeed = -2;
-		    break;
-		case 2:
-		    horizontalMove = false;
-		    moveSpeed = 2;
-		    break;
-		default:
-		    moveSpeed = 0;
-		    break;
-	    }
-	}
-	updateCounter++;
-	if (updateCounter == 200) {
-	    xSpeed = horizontalMove ? moveSpeed : xSpeed;
-	    ySpeed = !horizontalMove ? moveSpeed : ySpeed;
-	} else if (updateCounter == 267) {
-	    xSpeed = horizontalMove ? 0 : xSpeed;
-	    ySpeed = !horizontalMove ? 0 : ySpeed;
-	} else if (updateCounter == 467) {
-	    xSpeed = horizontalMove ? -moveSpeed : xSpeed;
-	    ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
-	} else if (updateCounter == 534) {
-	    xSpeed = horizontalMove ? 0 : xSpeed;
-	    ySpeed = !horizontalMove ? 0 : ySpeed;
-	    updateCounter = 0;
-	}
+        if (updateCounter == 0) {
+            Random rand = new Random();
+            int direction = rand.nextInt(3);
+            switch (direction) {
+                // Case 0 is left
+                // Case 1 is right
+                // Case 2 is down
+                case 0:
+                    horizontalMove = true;
+                    moveSpeed = 2;
+                    break;
+                case 1:
+                    horizontalMove = true;
+                    moveSpeed = -2;
+                    break;
+                case 2:
+                    horizontalMove = false;
+                    moveSpeed = 2;
+                    break;
+                default:
+                    moveSpeed = 0;
+                    break;
+            }
+        }
+        updateCounter++;
+        if (updateCounter == 200) {
+            xSpeed = horizontalMove ? moveSpeed : xSpeed;
+            ySpeed = !horizontalMove ? moveSpeed : ySpeed;
+        } else if (updateCounter == 267) {
+            xSpeed = horizontalMove ? 0 : xSpeed;
+            ySpeed = !horizontalMove ? 0 : ySpeed;
+        } else if (updateCounter == 467) {
+            xSpeed = horizontalMove ? -moveSpeed : xSpeed;
+            ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
+        } else if (updateCounter == 534) {
+            xSpeed = horizontalMove ? 0 : xSpeed;
+            ySpeed = !horizontalMove ? 0 : ySpeed;
+            updateCounter = 0;
+        }
 
-	if (yPos > 100 && !firstStop) {
-	    firstStop = true;
-	    ySpeed = 0;
-	}
+        if (yPos > 100 && !firstStop) {
+            firstStop = true;
+            ySpeed = 0;
+        }
 
-	yPos += ySpeed;
+        yPos += ySpeed;
 
-	if (xPos > 0 && xPos < xPos + width) {
-	    xPos += xSpeed;
-	}
+        if (xPos > 0 && xPos < xPos + width) {
+            xPos += xSpeed;
+        }
 
         if (health <= 0 && r == 0) {
             panel.score += points;
@@ -109,64 +109,64 @@ public class Boss extends Enemy {
 
     @Override
     public void paintComponent(Graphics2D g2) {
-	rectangle.setFrame(xPos, yPos, width, height);
+        rectangle.setFrame(xPos, yPos, width, height);
 
-	// Draw hitbox
-	Color transparentColor = new Color(0, 0, 0, 0);
-	g2.setColor(transparentColor);
-	g2.draw(rectangle);
+        // Draw hitbox
+        Color transparentColor = new Color(0, 0, 0, 0);
+        g2.setColor(transparentColor);
+        g2.draw(rectangle);
 
-	// Draw player health bar
-	g2.setColor(Color.RED);
-	g2.fillRect(xPos - 16, yPos + height, 245, 3);
-	g2.setColor(Color.GREEN);
-	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 245.0), 3);
+        // Draw player health bar
+        g2.setColor(Color.RED);
+        g2.fillRect(xPos - 16, yPos + height, 245, 3);
+        g2.setColor(Color.GREEN);
+        g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 245.0), 3);
 
-	// Draw appropriate enemy image on the enemy
-	BufferedImage enemyImage;
-	String fileName = null;
-	BufferedImage explosionImage = null;
-	try {
-	    if (health > initialHealth / 2) {
-		if (imageTimer >= 0 && imageTimer < 20) {
-		    fileName = "boss1";
-		} else if (imageTimer >= 20 && imageTimer < 40) {
-		    fileName = "boss2";
-		} else if (imageTimer >= 40 && imageTimer < 60) {
-		    fileName = "boss3";
-		} else if (imageTimer >= 60 && imageTimer < 80) {
-		    fileName = "boss4";
-		}
-	    } else if (health <= initialHealth / 2 && health > 100) {
-		if (imageTimer >= 0 && imageTimer < 20) {
-		    fileName = "halfboss1";
-		} else if (imageTimer >= 20 && imageTimer < 40) {
-		    fileName = "halfboss2";
-		} else if (imageTimer >= 40 && imageTimer < 60) {
-		    fileName = "halfboss3";
-		} else if (imageTimer >= 60 && imageTimer < 80) {
-		    fileName = "halfboss4";
-		}
-	    } else if (health <= 100) {
-		fileName = "bossdead";
-	    }
-	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+        // Draw appropriate enemy image on the enemy
+        BufferedImage enemyImage;
+        String fileName = null;
+        BufferedImage explosionImage = null;
+        try {
+            if (health > initialHealth / 2) {
+                if (imageTimer >= 0 && imageTimer < 20) {
+                    fileName = "boss1";
+                } else if (imageTimer >= 20 && imageTimer < 40) {
+                    fileName = "boss2";
+                } else if (imageTimer >= 40 && imageTimer < 60) {
+                    fileName = "boss3";
+                } else if (imageTimer >= 60 && imageTimer < 80) {
+                    fileName = "boss4";
+                }
+            } else if (health <= initialHealth / 2 && health > 100) {
+                if (imageTimer >= 0 && imageTimer < 20) {
+                    fileName = "halfboss1";
+                } else if (imageTimer >= 20 && imageTimer < 40) {
+                    fileName = "halfboss2";
+                } else if (imageTimer >= 40 && imageTimer < 60) {
+                    fileName = "halfboss3";
+                } else if (imageTimer >= 60 && imageTimer < 80) {
+                    fileName = "halfboss4";
+                }
+            } else if (health <= 100) {
+                fileName = "bossdead";
+            }
+            enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
 
-	    if (health <= 0) {
-		if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
-		} else if ((deadTimer >= 3 && deadTimer < 6) || (deadTimer >= 21 && deadTimer < 24)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
-		} else if ((deadTimer >= 6 && deadTimer < 9) || (deadTimer >= 18 && deadTimer < 21)) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
-		} else if (deadTimer >= 9 && deadTimer < 18) {
-		    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
-		}
-	    }
-	    g2.drawImage(enemyImage, xPos, yPos, null);
-	    g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
-	} catch (IOException e) {
-	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
-	}
+            if (health <= 0) {
+                if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
+                    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));
+                } else if ((deadTimer >= 3 && deadTimer < 6) || (deadTimer >= 21 && deadTimer < 24)) {
+                    explosionImage = ImageIO.read(new File("assets/img/explosion2.png"));
+                } else if ((deadTimer >= 6 && deadTimer < 9) || (deadTimer >= 18 && deadTimer < 21)) {
+                    explosionImage = ImageIO.read(new File("assets/img/explosion3.png"));
+                } else if (deadTimer >= 9 && deadTimer < 18) {
+                    explosionImage = ImageIO.read(new File("assets/img/explosion4.png"));
+                }
+            }
+            g2.drawImage(enemyImage, xPos, yPos, null);
+            g2.drawImage(explosionImage, xPos - 48, yPos - 16, null);
+        } catch (IOException e) {
+            System.out.println("ERROR: " + fileName + ".png cannot be read.");
+        }
     }
 }

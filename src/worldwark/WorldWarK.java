@@ -91,7 +91,7 @@ public class WorldWarK extends JPanel implements Runnable {
             }
             inputStream = null;
         }
-        
+
         try {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("assets/music/Ipsi.wav"));
             clip = AudioSystem.getClip();
@@ -193,7 +193,7 @@ public class WorldWarK extends JPanel implements Runnable {
         if (gamePaused == false) {
             player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 500, 1, 3);
             objects.add(player);
-            score = 0;
+            score = 2501;
             spawnTimer = 0;
             snapShot = 0;
             b = 0;
@@ -214,10 +214,10 @@ public class WorldWarK extends JPanel implements Runnable {
             // Keys that require holding without delay
             if (keyboardControls.isKey(KeyEvent.VK_LEFT)) {
                 player.keyboardMoveLeft();
-            } 
+            }
             if (keyboardControls.isKey(KeyEvent.VK_RIGHT)) {
                 player.keyboardMoveRight();
-            } 
+            }
             if (keyboardControls.isKey(KeyEvent.VK_SPACE)) {
                 if (gameOver == false && gamePaused == false) {
                     if (shootTimer >= player.getWeaponCooldown()) {
