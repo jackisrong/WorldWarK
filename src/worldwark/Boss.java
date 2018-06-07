@@ -47,13 +47,11 @@ public class Boss extends Enemy {
 	    panel.deleteObject(this);
 	}
 
+        // Updates direction of boss
 	if (updateCounter == 0) {
 	    Random rand = new Random();
 	    int direction = rand.nextInt(3);
 	    switch (direction) {
-		// Case 0 is left
-		// Case 1 is right
-		// Case 2 is down
 		case 0:
 		    horizontalMove = true;
 		    moveSpeed = 2;
@@ -72,6 +70,8 @@ public class Boss extends Enemy {
 	    }
 	}
 	updateCounter++;
+        
+        // Sets speeds for boss
 	if (updateCounter == 200) {
 	    xSpeed = horizontalMove ? moveSpeed : xSpeed;
 	    ySpeed = !horizontalMove ? moveSpeed : ySpeed;
@@ -97,7 +97,8 @@ public class Boss extends Enemy {
 	if (xPos > 0 && xPos < xPos + width) {
 	    xPos += xSpeed;
 	}
-
+        
+        // Adds difficulty for boss
         if (health <= 0 && r == 0) {
             panel.score += points;
             panel.difficulty += 1;
@@ -152,6 +153,7 @@ public class Boss extends Enemy {
 	    }
 	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
 
+            // Adds animations for boss explosion 
 	    if (health <= 0) {
 		if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
 		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));

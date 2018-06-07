@@ -189,7 +189,7 @@ public class Player extends GameObject {
 	}
 
 	if (miniExplosionState == true) {
-	    // Draw image
+	    // Draw image of explosion for player hit
 	    BufferedImage explosionImage = null;
 	    try {
 		if ((explosionTimer >= 0 && explosionTimer < 3) || (explosionTimer >= 6 && explosionTimer < 9)) {
