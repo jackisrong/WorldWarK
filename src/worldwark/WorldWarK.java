@@ -43,7 +43,6 @@ public class WorldWarK extends JPanel implements Runnable {
     private int spawnTimer;
     private int fireTimer = 0;
     private Clip clip;
-    private Clip startClip;
     private float volume;
     private float fxVolume;
     private FloatControl audioControl;
@@ -204,7 +203,7 @@ public class WorldWarK extends JPanel implements Runnable {
             // Sleep the thread
             try {
                 Thread.sleep(15);
-                spawnTimer += 20;
+                spawnTimer += 15;
                 fireTimer += 15;
                 bombCooldown += 15;
                 if (shootTimer <= player.getWeaponCooldown()) {
