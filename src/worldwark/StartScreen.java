@@ -214,17 +214,17 @@ public class StartScreen {
 	    g2.drawString("CLOSE", 377, 102);
 
 	    if (w.clickedStartScreenButton.equals(instructionsButton)) {
-		w.readDrawFile(g2, "instructions", 60, 70);
+		readDrawFile(g2, "instructions", 60, 70);
 	    } else if (w.clickedStartScreenButton.equals(controlsButton)) {
-		w.readDrawFile(g2, "controls", 60, 100);
+		readDrawFile(g2, "controls", 60, 100);
 	    } else if (w.clickedStartScreenButton.equals(powerUpsButton)) {
-		w.readDrawFile(g2, "powerUps", 45, 80);
+		readDrawFile(g2, "powerUps", 45, 80);
 	    } else if (w.clickedStartScreenButton.equals(enemiesButton)) {
-		w.readDrawFile(g2, "enemies", 100, 45);
+		readDrawFile(g2, "enemies", 100, 45);
 	    } else if (w.clickedStartScreenButton.equals(creditsButton)) {
-		w.readDrawFile(g2, "credits", 100, 140);
+		readDrawFile(g2, "credits", 100, 140);
 	    } else if (w.clickedStartScreenButton.equals(settingsButton)) {
-		w.drawMusic(g2);
+		drawMusic(g2);
 	    } else if (w.clickedStartScreenButton.equals(new Rectangle2D.Double(370, 80, 80, 30))) {
 		// Remove dialogue boxes if close button is pressed
 		w.clickedStartScreenButton = null;
@@ -232,7 +232,7 @@ public class StartScreen {
 		w.repaint();
 	    } else {
 		// Change volume based on volume button pressed
-		w.drawMusic(g2);
+		drawMusic(g2);
 		w.audioControl = (FloatControl) w.clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float range = w.audioControl.getMaximum() - w.audioControl.getMinimum();
 		if (w.clickedStartScreenButton.equals(new Rectangle2D.Double(100, 278, 100, 30))) {
