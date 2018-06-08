@@ -28,7 +28,7 @@ public class Bomb extends GameObject {
     @Override
     public void update(WorldWarK panel) {
 	// Update image animation timer
-	if (armed == false) {
+	if (!armed) {
 	    if (imageTimer == 17) {
 		imageTimer = 0;
 	    } else {
@@ -36,7 +36,7 @@ public class Bomb extends GameObject {
 	    }
 	}
 
-	if (armed == false && yPos > panel.getHeight() / 2) {
+	if (!armed && yPos > panel.getHeight() / 2) {
 	    yPos -= 2;
 	    // Check bomb collision
 	    for (GameObject i : panel.objects) {
@@ -50,7 +50,7 @@ public class Bomb extends GameObject {
 	    armed = true;
 	}
 
-	if (armed == true) {
+	if (armed) {
 	    explosionTimer++;
 	}
 
@@ -82,7 +82,7 @@ public class Bomb extends GameObject {
 	Color transparentColor = new Color(0, 0, 0, 0);
 	g2.setColor(transparentColor);
 
-	if (armed == false) {
+	if (!armed) {
 	    // Draw hitbox
 	    g2.draw(rectangle);
 

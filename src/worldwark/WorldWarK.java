@@ -142,7 +142,7 @@ public class WorldWarK extends JPanel implements Runnable {
 
     public void start() {
         Thread thread = new Thread(this);
-        if (gamePaused == false) {
+        if (!gamePaused) {
             player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 300, 1, 3);
             objects.add(player);
             score = 0;
@@ -289,8 +289,8 @@ public class WorldWarK extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (run == false && gamePaused == false) {
-            if (gameOver == true) {
+        if (!run && !gamePaused) {
+            if (gameOver) {
                 // Paint game over background
                 BufferedImage image;
                 try {
@@ -321,7 +321,7 @@ public class WorldWarK extends JPanel implements Runnable {
             }
         }
 
-        if (run == true || (run == false && gamePaused == true)) {
+        if (run || (!run && gamePaused)) {
             // Paint game background image
             g2.drawImage(backgroundImage, 0, -backgroundImage.getHeight() + 800 - backgroundYScroll, null);
             if (backgroundYScroll == -backgroundImage.getHeight() + 800) {
@@ -367,11 +367,11 @@ public class WorldWarK extends JPanel implements Runnable {
             }
         }
 
-        if (gamePaused == true) {
+        if (gamePaused) {
             drawPausedScreen(g2);
         }
 
-        if (run == true && gamePaused == false) {
+        if (run && !gamePaused) {
             // Paints game countdown 
             g2.setFont(cabinBold.deriveFont(200f));
             g2.setColor(Color.BLACK);

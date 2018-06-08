@@ -24,7 +24,7 @@ public class KeyboardControls implements KeyListener {
 	// Keyboard controls
 	switch (e.getKeyCode()) {
 	    case KeyEvent.VK_SPACE:
-		if (w.run == false && w.clickedStartScreenButton == null && w.gameOver == false && w.gamePaused == false) {
+		if (!w.run && w.clickedStartScreenButton == null && !w.gameOver && !w.gamePaused) {
 		    keys[e.getKeyCode()] = false;
 		    w.start();
 		}
@@ -33,27 +33,27 @@ public class KeyboardControls implements KeyListener {
 		w.launchBomb();
 		break;
 	    case KeyEvent.VK_R:
-		if (w.run == false && w.gameOver == true) {
+		if (!w.run && w.gameOver) {
 		    w.gameOver = false;
 		    w.start();
 		}
 		break;
 	    case KeyEvent.VK_T:
-		if (w.run == false && w.gameOver == true) {
+		if (!w.run && w.gameOver) {
 		    w.gameOver = false;
 		    w.repaint();
 		}
 		break;
 	    case KeyEvent.VK_ESCAPE:
-		if (w.run == true && w.gamePaused == false) {
+		if (w.run && !w.gamePaused) {
 		    w.gamePaused = true;
 		    w.run = false;
 		    w.repaint();
-		} else if (w.run == false && w.gamePaused == true) {
+		} else if (!w.run && w.gamePaused) {
 		    w.start();
 		    w.gamePaused = false;
 		    w.repaint();
-		} else if (w.run == false && w.gamePaused == false && w.clickedStartScreenButton != null) {
+		} else if (!w.run && !w.gamePaused && w.clickedStartScreenButton != null) {
 		    w.clickedStartScreenButton = new Rectangle2D.Double(370, 80, 80, 30);
 		    w.repaint();
 		}

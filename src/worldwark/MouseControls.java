@@ -17,8 +17,8 @@ public class MouseControls implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent event) {
 	// Mouse click controls
 	if (event.getButton() == MouseEvent.BUTTON1) {
-	    if (w.run == false) {
-		if (w.gamePaused == true) {
+	    if (!w.run) {
+		if (w.gamePaused) {
 		    if (new Rectangle2D.Double(370, 80, 80, 30).contains(event.getPoint())) {
 			// Resume game
 			w.start();
@@ -42,7 +42,7 @@ public class MouseControls implements MouseListener, MouseMotionListener {
 		    w.repaint();
 		}
 
-		if (w.gamePaused == false) {
+		if (!w.gamePaused) {
 		    if (w.shootTimer >= w.player.getWeaponCooldown()) {
 			w.shootBullet();
 			w.shootTimer = 0;
@@ -75,7 +75,7 @@ public class MouseControls implements MouseListener, MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent event) {
 	// Sets x position of player when mouse is moved
-	if (w.run == true && w.gamePaused == false) {
+	if (w.run && !w.gamePaused) {
 	    w.player.setXPosition(event.getX());
 	}
     }
@@ -83,7 +83,7 @@ public class MouseControls implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent event) {
 	// Sets x position of player when mouse is clicked and dragged
-	if (w.run == true && w.gamePaused == false) {
+	if (w.run && !w.gamePaused) {
 	    w.player.setXPosition(event.getX());
 	}
     }

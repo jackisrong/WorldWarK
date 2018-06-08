@@ -113,7 +113,7 @@ public class Enemy extends GameObject {
     @Override
     public void update(WorldWarK panel) {
 	// Check enemy collision
-	if (miniExplosionState == false && rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
+	if (!miniExplosionState && rectangle.intersects(panel.player.getXPos(), panel.player.getYPos(), panel.player.getWidth(), panel.player.getHeight())) {
 	    health = 0;
 	    miniExplosionState = true;
 	    panel.player.miniExplosion(true);
@@ -122,7 +122,7 @@ public class Enemy extends GameObject {
 	}
 
 	// Update explosion timer
-	if (miniExplosionState == true) {
+	if (miniExplosionState) {
 	    if (explosionTimer < 9) {
 		explosionTimer++;
 	    } else {
@@ -290,7 +290,7 @@ public class Enemy extends GameObject {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
 	}
 
-	if (miniExplosionState == true) {
+	if (miniExplosionState) {
 	    // Draw image
 	    BufferedImage explosionImage = null;
 	    try {

@@ -140,7 +140,7 @@ public class Player extends GameObject {
 	}
 
 	// Update explosion timer
-	if (miniExplosionState == true) {
+	if (miniExplosionState) {
 	    if (explosionTimer < 9) {
 		explosionTimer++;
 	    } else {
@@ -188,7 +188,7 @@ public class Player extends GameObject {
 	    System.out.println("ERROR: " + fileName + ".png cannot be read.");
 	}
 
-	if (miniExplosionState == true) {
+	if (miniExplosionState) {
 	    // Draw image of explosion for player hit
 	    BufferedImage explosionImage = null;
 	    try {
