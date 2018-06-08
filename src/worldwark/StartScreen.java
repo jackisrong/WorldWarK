@@ -5,9 +5,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.FloatControl;
 
@@ -33,6 +36,116 @@ public class StartScreen {
 	    w.wartorn = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Wartorn.ttf"));
 	} catch (Exception e) {
 	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
+	}
+    }
+    
+    public void drawMusic(Graphics2D g2) {
+	// Draw low volume button
+	g2.setColor(Color.WHITE);
+	Rectangle2D lowButton = new Rectangle2D.Double(100, 278, 100, 30);
+	g2.draw(lowButton);
+	w.startScreenButtons.add(lowButton);
+	g2.drawString("LOWER", 115, 300);
+
+	// Draw current volume
+	g2.drawString(Float.toString(w.volume), 245, 300);
+
+	// Draw high volume button
+	g2.setColor(Color.WHITE);
+	Rectangle2D highButton = new Rectangle2D.Double(330, 278, 100, 30);
+	g2.draw(highButton);
+	w.startScreenButtons.add(highButton);
+	g2.drawString("HIGHER", 345, 300);
+
+	// Draw low sound fx button
+	g2.setColor(Color.WHITE);
+	Rectangle2D lowFxButton = new Rectangle2D.Double(100, 378, 100, 30);
+	g2.draw(lowFxButton);
+	w.startScreenButtons.add(lowFxButton);
+	g2.drawString("LOWER", 115, 400);
+
+	// Draw current fx volume
+	g2.drawString(Float.toString(w.fxVolume), 245, 400);
+
+	// Draw high sound fx button
+	g2.setColor(Color.WHITE);
+	Rectangle2D highFxButton = new Rectangle2D.Double(330, 378, 100, 30);
+	g2.draw(highFxButton);
+	w.startScreenButtons.add(highFxButton);
+	g2.drawString("HIGHER", 345, 400);
+
+	// Print heading
+	g2.setColor(Color.WHITE);
+	g2.setFont(w.wartorn.deriveFont(50f));
+	g2.drawString("SETTINGS", 80, 170);
+
+	// Print subheading
+	g2.setFont(w.cabinRegular.deriveFont(20f));
+	g2.drawString("Your democratic freedom", 140, 210);
+
+	// Print music heading font
+	g2.setColor(Color.PINK);
+	g2.setFont(w.cabinBold.deriveFont(20f));
+	g2.drawString("Music Volume", 100, 260);
+	g2.drawString("Sound Effects Volume", 100, 360);
+    }
+
+    public void readDrawFile(Graphics2D g2, String file, int titleXPos, int subtitleXPos) {
+	// Read file
+	ArrayList<String> content = new ArrayList<>();
+	BufferedReader inputStream = null;
+	String line;
+	try {
+	    inputStream = new BufferedReader(new FileReader("assets/txt/" + file + ".txt"));
+	    do {
+		line = inputStream.readLine();
+		if (line != null) {
+		    content.add(line);
+		}
+	    } while (line != null);
+	} catch (IOException e) {
+	    System.out.println("ERROR: Cannot open " + file + ".txt.");
+	} finally {
+	    if (inputStream != null) {
+		try {
+		    inputStream.close();
+		} catch (IOException e) {
+		    System.out.println("ERROR: Cannot close inputStream.");
+		}
+	    }
+	}
+
+	// Print heading
+	g2.setColor(Color.WHITE);
+	g2.setFont(w.wartorn.deriveFont(50f));
+	if (content.get(0).charAt(0) == '^') {
+	    g2.drawString(content.get(0).substring(1), titleXPos, 170);
+	}
+
+	// Print subheading
+	g2.setFont(w.cabinRegular.deriveFont(20f));
+	if (content.get(1).charAt(0) == '*') {
+	    g2.drawString(content.get(1).substring(1), subtitleXPos, 210);
+	}
+
+	// Print content
+	final int headingXPos = 90;
+	final int nameXPos = 130;
+	int textYPos = 260;
+
+	g2.setColor(Color.PINK);
+	for (int i = 2; i < content.size(); i++) {
+	    if (content.get(i).charAt(0) == '$') {
+		g2.setFont(w.cabinBold.deriveFont(20f));
+		g2.drawString(content.get(i).substring(1), headingXPos, textYPos);
+	    } else if (content.get(i).charAt(0) == '%') {
+		g2.setFont(w.cabinRegular.deriveFont(20f));
+		g2.drawString(content.get(i).substring(1), nameXPos, textYPos);
+	    }
+	    if (i + 1 < content.size() && content.get(i + 1).charAt(0) == '$') {
+		textYPos += 10;
+	    }
+	    textYPos += 30;
 	}
     }
 
