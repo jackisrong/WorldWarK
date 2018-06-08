@@ -57,6 +57,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public Font cabinBold;
     public Font cabinRegular;
     public Font wartorn;
+    public BufferedImage bulletImage;
 
     public WorldWarK() {
         JFrame frame = new JFrame("World War K");
@@ -143,7 +144,7 @@ public class WorldWarK extends JPanel implements Runnable {
     public void start() {
         Thread thread = new Thread(this);
         if (!gamePaused) {
-            player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 300, 1, 3);
+            player = new Player(this.getWidth() / 2, this.getHeight() - 200, 64, 64, 5, 100, 1, 3);
             objects.add(player);
             score = 0;
             spawnTimer = 0;
