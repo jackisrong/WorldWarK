@@ -12,34 +12,34 @@ public abstract class GameObject {
     protected Rectangle2D rectangle;
 
     public GameObject(int xPos, int yPos, int width, int height) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+	this.xPos = xPos;
+	this.yPos = yPos;
+	this.width = width;
+	this.height = height;
     }
 
     public int getXPos() {
-        return xPos;
+	return xPos;
     }
 
     public int getYPos() {
-        return yPos;
+	return yPos;
     }
 
     public int getWidth() {
-        return width;
+	return width;
     }
 
     public int getHeight() {
-        return height;
+	return height;
     }
 
     public Rectangle2D getRectangle() {
-        return rectangle;
+	return rectangle;
     }
 
     protected boolean isOutsideScreen() {
-        return (xPos >= 500 || xPos + width <= 0 || yPos + height <= 0 || yPos >= 800);
+	return (xPos >= 500 || xPos + width <= 0 || yPos + height <= 0 || yPos >= 800);
     }
 
     public abstract void update(WorldWarK panel);

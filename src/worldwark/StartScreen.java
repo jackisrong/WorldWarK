@@ -38,7 +38,7 @@ public class StartScreen {
 	    System.out.println("ERROR: Font file Warton.ttf cannot be opened.");
 	}
     }
-    
+
     public void drawMusic(Graphics2D g2) {
 	// Draw low volume button
 	g2.setColor(Color.WHITE);

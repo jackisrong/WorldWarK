@@ -76,9 +76,8 @@ public class WorldWarK extends JPanel implements Runnable {
 	frame.add(this);
 	frame.pack();
 
-	BufferedReader inputStream = null;
-
 	// Get saved volume
+	BufferedReader inputStream = null;
 	try {
 	    inputStream = new BufferedReader(new FileReader("assets/data/volume.txt"));
 	    volume = Float.parseFloat(inputStream.readLine());
