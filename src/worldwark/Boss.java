@@ -20,34 +20,36 @@ public class Boss extends Enemy {
     private int r = 0;
 
     public Boss(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, int health, int typeOfEnemy, int points, int shoot) {
-        super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
-        rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
-        initialHealth = health;
-        updateCounter = 0;
-        horizontalMove = false;
-        moveSpeed = 0;
-        firstStop = false;
+	super(xPos, yPos, width, height, xSpeed, ySpeed, health, typeOfEnemy, points, shoot);
+	rectangle = new Rectangle2D.Double(xPos, yPos, width, height);
+	initialHealth = health;
+	updateCounter = 0;
+	horizontalMove = false;
+	moveSpeed = 0;
+	firstStop = false;
     }
 
     public void setFiringRate(int rate) {
-        firingRate = rate;
+	firingRate = rate;
     }
 
     @Override
     public void update(WorldWarK panel) {
-        if (imageTimer == 79) {
-            imageTimer = 0;
-        } else {
-            imageTimer++;
-        }
+	// Update image animation timer
+	if (imageTimer == 79) {
+	    imageTimer = 0;
+	} else {
+	    imageTimer++;
+	}
 
-        if (health <= 0 && deadTimer < 26) {
-            deadTimer++;
-        } else if (deadTimer == 26) {
-            panel.deleteObject(this);
-        }
+	// Update death timer
+	if (health <= 0 && deadTimer < 26) {
+	    deadTimer++;
+	} else if (deadTimer == 26) {
+	    panel.deleteObject(this);
+	}
 
-        // Updates direction of boss
+	// Updates direction of boss
 	if (updateCounter == 0) {
 	    Random rand = new Random();
 	    int direction = rand.nextInt(3);
@@ -70,90 +72,96 @@ public class Boss extends Enemy {
 	    }
 	}
 	updateCounter++;
-        
-        // Sets speeds for boss
-	if (updateCounter == 200) {
-	    xSpeed = horizontalMove ? moveSpeed : xSpeed;
-	    ySpeed = !horizontalMove ? moveSpeed : ySpeed;
-	} else if (updateCounter == 267) {
-	    xSpeed = horizontalMove ? 0 : xSpeed;
-	    ySpeed = !horizontalMove ? 0 : ySpeed;
-	} else if (updateCounter == 467) {
-	    xSpeed = horizontalMove ? -moveSpeed : xSpeed;
-	    ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
-	} else if (updateCounter == 534) {
-	    xSpeed = horizontalMove ? 0 : xSpeed;
-	    ySpeed = !horizontalMove ? 0 : ySpeed;
-	    updateCounter = 0;
+
+	// Set speeds for boss
+	switch (updateCounter) {
+	    case 200:
+		xSpeed = horizontalMove ? moveSpeed : xSpeed;
+		ySpeed = !horizontalMove ? moveSpeed : ySpeed;
+		break;
+	    case 267:
+		xSpeed = horizontalMove ? 0 : xSpeed;
+		ySpeed = !horizontalMove ? 0 : ySpeed;
+		break;
+	    case 467:
+		xSpeed = horizontalMove ? -moveSpeed : xSpeed;
+		ySpeed = !horizontalMove ? -moveSpeed : ySpeed;
+		break;
+	    case 534:
+		xSpeed = horizontalMove ? 0 : xSpeed;
+		ySpeed = !horizontalMove ? 0 : ySpeed;
+		updateCounter = 0;
+		break;
+	    default:
+		break;
 	}
 
-        if (yPos > 100 && !firstStop) {
-            firstStop = true;
-            ySpeed = 0;
-        }
-
-        yPos += ySpeed;
-
+	// Update boss motion
+	if (yPos > 100 && !firstStop) {
+	    firstStop = true;
+	    ySpeed = 0;
+	}
+	yPos += ySpeed;
 	if (xPos > 0 && xPos < xPos + width) {
 	    xPos += xSpeed;
 	}
-        
-        // Adds difficulty for boss
-        if (health <= 0 && r == 0) {
-            panel.score += points;
-            panel.difficulty += 1;
-            panel.snapShot = panel.score;
-            r = 1;
-            panel.b = 0;
-        }
+
+	// Adds difficulty for boss
+	if (health <= 0 && r == 0) {
+	    panel.score += points;
+	    panel.difficulty += 1;
+	    panel.snapShot = panel.score;
+	    r = 1;
+	    panel.b = 0;
+	}
     }
 
     @Override
     public void paintComponent(Graphics2D g2) {
-        rectangle.setFrame(xPos, yPos, width, height);
+	rectangle.setFrame(xPos, yPos, width, height);
 
-        // Draw hitbox
-        Color transparentColor = new Color(0, 0, 0, 0);
-        g2.setColor(transparentColor);
-        g2.draw(rectangle);
+	// Draw hitbox
+	Color transparentColor = new Color(0, 0, 0, 0);
+	g2.setColor(transparentColor);
+	g2.draw(rectangle);
 
-        // Draw player health bar
-        g2.setColor(Color.RED);
-        g2.fillRect(xPos - 16, yPos + height, 245, 3);
-        g2.setColor(Color.GREEN);
-        g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 245.0), 3);
+	// Draw health bar
+	g2.setColor(Color.RED);
+	g2.fillRect(xPos - 16, yPos + height, 245, 3);
+	g2.setColor(Color.GREEN);
+	g2.fillRect(xPos - 16, yPos + height, (int) ((double) health / (double) initialHealth * 245.0), 3);
 
-        // Draw appropriate enemy image on the enemy
-        BufferedImage enemyImage;
-        String fileName = null;
-        BufferedImage explosionImage = null;
-        try {
-            if (health > initialHealth / 2) {
-                if (imageTimer >= 0 && imageTimer < 20) {
-                    fileName = "boss1";
-                } else if (imageTimer >= 20 && imageTimer < 40) {
-                    fileName = "boss2";
-                } else if (imageTimer >= 40 && imageTimer < 60) {
-                    fileName = "boss3";
-                } else if (imageTimer >= 60 && imageTimer < 80) {
-                    fileName = "boss4";
-                }
-            } else if (health <= initialHealth / 2 && health > 100) {
-                if (imageTimer >= 0 && imageTimer < 20) {
-                    fileName = "halfboss1";
-                } else if (imageTimer >= 20 && imageTimer < 40) {
-                    fileName = "halfboss2";
-                } else if (imageTimer >= 40 && imageTimer < 60) {
-                    fileName = "halfboss3";
-                } else if (imageTimer >= 60 && imageTimer < 80) {
-                    fileName = "halfboss4";
-                }
-            } else if (health <= 100) {
-                fileName = "bossdead";
-            }
-            enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
+	// Draw appropriate image
+	BufferedImage enemyImage;
+	String fileName = null;
+	BufferedImage explosionImage = null;
+	try {
+	    if (health > initialHealth / 2) {
+		if (imageTimer >= 0 && imageTimer < 20) {
+		    fileName = "boss1";
+		} else if (imageTimer >= 20 && imageTimer < 40) {
+		    fileName = "boss2";
+		} else if (imageTimer >= 40 && imageTimer < 60) {
+		    fileName = "boss3";
+		} else if (imageTimer >= 60 && imageTimer < 80) {
+		    fileName = "boss4";
+		}
+	    } else if (health <= initialHealth / 2 && health > 100) {
+		if (imageTimer >= 0 && imageTimer < 20) {
+		    fileName = "halfboss1";
+		} else if (imageTimer >= 20 && imageTimer < 40) {
+		    fileName = "halfboss2";
+		} else if (imageTimer >= 40 && imageTimer < 60) {
+		    fileName = "halfboss3";
+		} else if (imageTimer >= 60 && imageTimer < 80) {
+		    fileName = "halfboss4";
+		}
+	    } else if (health <= 100) {
+		fileName = "bossdead";
+	    }
+	    enemyImage = ImageIO.read(new File("assets/img/" + fileName + ".png"));
 
-            // Adds animations for boss explosion 
+	    // Adds animations for boss explosion 
 	    if (health <= 0) {
 		if ((deadTimer >= 0 && deadTimer < 3) || (deadTimer >= 24 && deadTimer < 27)) {
 		    explosionImage = ImageIO.read(new File("assets/img/explosion1.png"));

@@ -38,7 +38,7 @@ public abstract class GameObject {
         return rectangle;
     }
 
-    public boolean isOutsideScreen() {
+    protected boolean isOutsideScreen() {
         return (xPos >= 500 || xPos + width <= 0 || yPos + height <= 0 || yPos >= 800);
     }
 

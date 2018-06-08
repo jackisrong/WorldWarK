@@ -7,9 +7,8 @@ $Programming Team
 $Original Artwork
 %Justin Tran
 $Music
-%TDB
+%"Defense Line" by Backgroundloop
 $Sound Effects
 %Brian Wu
 $Special Thanks
-%Everyone who helped test the game
-%Mr. Qayum
+%Everyone who helped test this
